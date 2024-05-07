@@ -1,22 +1,17 @@
 <h1>Home page</h1>
 
-<p>User</p>
+<br/>
+
 <% if current_user %>
-  <%= link_to "Logout", destroy_user_session_path, data: {
+  <%= link_to 'Logout', destroy_user_session_path, data: {
+    turbo_method: :delete
+  } %>
+<% elsif current_vendor %>
+  <%= link_to 'Logout', destroy_vendor_session_path, data: {
     turbo_method: :delete
   } %>
 <% else %>
   <%= link_to 'Login', new_user_session_path %>
-  <%= link_to 'Sign up', new_user_registration_path %>
-<% end %>
-<hr>
-
-<p>Vendor</p>
-<% if current_vendor %>
-  <%= link_to "Logout", destroy_vendor_session_path, data: {
-    turbo_method: :delete
-  } %>
-<% else %>
-  <%= link_to 'Login', new_vendor_session_path %>
-  <%= link_to 'Sign up', new_vendor_registration_path %>
+  <%= link_to 'Register', new_user_registration_path %>
+  <%= link_to "Are you a Vendor?", new_vendor_session_path %>
 <% end %>
