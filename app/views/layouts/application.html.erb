@@ -8,9 +8,14 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <meta name="turbo-refresh-scroll" content="preserve">
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
   </head>
 
   <body>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
     <%= yield %>
   </body>
 </html>
