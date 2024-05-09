@@ -6,3 +6,19 @@
   height: 5px;
   background-color: green;
 }
+
+[data-controller="dropdown"] {
+  @apply inline-block relative;
+}
+
+[data-controller="dropdown"] > [role="button"] {
+  @apply cursor-pointer list-none appearance-none;
+}
+
+[data-controller="dropdown"] > [role="menu"] {
+  @apply absolute right-0 origin-top-right z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none;
+}
+
+[data-controller="dropdown"]:not([open]) > *:not([role="button"]) {
+  display: none;
+}
