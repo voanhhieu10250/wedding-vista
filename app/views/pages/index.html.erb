@@ -1,5 +1,9 @@
 <h1>Home page</h1>
 
+<% if current_user %>
+  <h2>Admin: <%= admin? %></h2>
+<% end %>
+
 <br/>
 
 <% if current_user %>
