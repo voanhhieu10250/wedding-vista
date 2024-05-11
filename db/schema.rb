@@ -10,7 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_07_111931) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_11_095408) do
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
+    t.index ["slug"], name: "index_categories_on_slug", unique: true
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.decimal "pricing"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "vendor_id", null: false
+    t.integer "category_id"
+    t.string "slug"
+    t.index ["category_id"], name: "index_services_on_category_id"
+    t.index ["slug"], name: "index_services_on_slug", unique: true
+    t.index ["vendor_id"], name: "index_services_on_vendor_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "name", default: "", null: false
@@ -39,4 +62,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_07_111931) do
     t.index ["reset_password_token"], name: "index_vendors_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "services", "categories"
+  add_foreign_key "services", "vendors"
 end

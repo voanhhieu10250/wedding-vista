@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WeddingVista</title>
+    <title><%= content_for?(:title) ? yield(:title) : t(:app_name) %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -10,15 +10,13 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <meta name="turbo-refresh-scroll" content="preserve">
+    <%= yield(:head) %>
   </head>
   <body>
     <header>
-      <%= render 'shared/navbar' %>
       <%= render "shared/flash" %>
     </header>
 
-    <div class="container mx-auto max-w-screen-2xl">
-      <%= yield %>
-    </div>
+    <%= content_for?(:body) ? yield(:body) : yield %>
   </body>
 </html>

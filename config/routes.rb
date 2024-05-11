@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
-  devise_for :vendors, path: :vendor, path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" }
+  resources :categories
+  resources :services
+
   devise_for :users, path: "/", path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" }
+  devise_for :vendors,
+             path: :vendor,
+             path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" }
 
   namespace :vendors, as: :vendor, path: :vendor do
+    resources :services
     root "pages#index"
   end
 
