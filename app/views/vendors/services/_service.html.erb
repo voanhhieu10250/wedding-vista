@@ -4,14 +4,16 @@
     <%= service.name %>
   </p>
 
-  <p>
+  <div>
     <strong>Description:</strong>
-    <%= service.description %>
-  </p>
+    <div class="prose max-w-none">
+      <%= simple_format service.description  %>
+    </div>
+  </div>
 
   <p>
     <strong>Pricing:</strong>
-    <%= service.pricing %>
+    <%= number_to_currency service.pricing, unit: "đ", precision: 0, format: "%n %u" %>
   </p>
 
 </div>

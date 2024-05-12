@@ -15,6 +15,18 @@
 
   <div class="flex flex-col gap-2">
     <div>
+      <%= form.label :category_id, class: "font-semibold text-sm" do %>
+        Loại dịch vụ
+        <span class="text-red-500 font-bold text-sm">*</span>
+      <% end %>
+    </div>
+    <%= form.collection_select :category_id, Category.all, :id, :name, 
+                                              { :include_blank => "Chọn loại dịch vụ" },
+                                              { :class => 'border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400' } %>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <div>
       <%= form.label :name, class: "font-semibold text-sm" do %>
         Tên dịch vụ
         <span class="text-red-500 font-bold text-sm">*</span>
@@ -40,7 +52,8 @@
       <%= form.label :pricing, "Mức giá phổ biến", class: "font-semibold text-sm" %>
     </div>
     <%= form.text_field :pricing, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
-                         placeholder: "Nhập mức giá phổ biến của dịch vụ, VD: 12,000,000" %>
+                         placeholder: "Nhập mức giá phổ biến của dịch vụ, VD: 12,000,000",
+                         data: {controller: "price", action: "input->price#formatPriceWithCommas"} %>
   </div>
 
   <div>
