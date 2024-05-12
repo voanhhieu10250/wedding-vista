@@ -115,3 +115,7 @@ header>nav a, header>nav a:visited {
   animation-name: fadeOutUp;
   animation-duration: 0.25s;
 }
+
+.is-invalid:not(label) {
+  @apply border-red-500;
+}

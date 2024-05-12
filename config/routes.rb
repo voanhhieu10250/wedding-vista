@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   namespace :vendors, as: :vendor, path: :vendor do
     resources :services
-    root "pages#index"
+    root "services#index"
   end
 
   namespace :admin do

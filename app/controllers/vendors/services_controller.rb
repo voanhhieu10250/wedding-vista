@@ -1,6 +1,5 @@
 module Vendors
-  class ServicesController < ApplicationController
-    before_action :authenticate_vendor!
+  class ServicesController < Vendors::BaseController
     before_action :set_service, only: %i[ show edit update ]
 
     # GET /services or /services.json
@@ -24,10 +23,11 @@ module Vendors
 
       if @service.save
         flash[:notice] = "Service was successfully created."
+        redirect_to action: :index
       else
-        flash_errors_message(@service)
+        flash_errors_message(@service, now: true)
+        render :new, status: :unprocessable_entity
       end
-      redirect_to action: :index
     end
 
     # PATCH/PUT /services/1 or /services/1.json

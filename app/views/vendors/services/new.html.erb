@@ -1,9 +1,14 @@
-<h1>New service</h1>
-
-<%= render "form", service: @service %>
-
-<br>
-
-<div>
-  <%= link_to "Back to services", vendor_services_path %>
+<div class="flex justify-center md:pt-6">
+  <div class="w-full md:w-[696px] flex flex-col">
+    <div class="p-6 bg-white rounded shadow">
+      <h3 class="text-2xl font-semibold mb-4">Thông tin cơ bản</h3>
+      <%= render "form", service: @service %>
+      <div>
+        <%= link_to "Back to services", vendor_services_path %>
+      </div>
+    </div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </div>
