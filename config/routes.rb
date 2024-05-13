@@ -11,7 +11,9 @@ Rails.application.routes.draw do
              path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" }
 
   namespace :vendors, as: :vendor, path: :vendor do
-    resources :services
+    resources :services do
+      resources :addresses
+    end
     root "services#index"
   end
 

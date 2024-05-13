@@ -1,0 +1,42 @@
+<div>
+  <%= form_with(model: [ :vendor, service, address ], data: {controller: "goong-map"}) do |form| %>
+    <% if address.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(address.errors.count, "error") %> prohibited this address from being saved:</h2>
+
+        <ul>
+          <% address.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form.hidden_field :service_id, value: service.id %>
+    <%= form.hidden_field :full_address, data: {"goong-map-target": "fullAddress"} %>
+    <%= form.hidden_field :district, "data-goong-map-target": "district"%>
+    <%= form.hidden_field :province, data: {"goong-map-target": "province"} %>
+    <%= form.hidden_field :longitude, data: {"goong-map-target": "longitude"} %>
+    <%= form.hidden_field :latitude, data: {"goong-map-target": "latitude"} %>
+
+    <div class="flex flex-col gap-2">
+      <%= form.label "Địa chỉ", class: "font-semibold text-sm" %>
+      <div id="geocoder"></div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <%= form.label :phone, class: "font-semibold text-sm" %>
+      <%= form.text_field :phone, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                                  placeholder: "Số điện thoại liên lạc" %>
+    </div>
+
+    <div>
+      <%= form.submit %>
+    </div>
+  <% end %>
+</div>
+
+<%# <div data-controller="goong-map"> %>
+<%#   <div data-goong-map-target="map"></div> %>
+<%#   <pre data-goong-map-target="geocoderResult"></pre> %>
+<%# </div> %>

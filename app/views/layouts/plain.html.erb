@@ -6,11 +6,11 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%#     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css"> %>
+    <%= yield(:head) %>
+
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <meta name="turbo-refresh-scroll" content="preserve">
-    <%= yield(:head) %>
   </head>
   <body>
     <header>

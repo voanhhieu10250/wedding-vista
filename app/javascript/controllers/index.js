@@ -13,6 +13,9 @@ application.register("flash", FlashController)
 import FormController from "./form_controller"
 application.register("form", FormController)
 
+import GoongMapController from "./goong_map_controller"
+application.register("goong-map", GoongMapController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

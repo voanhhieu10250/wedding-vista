@@ -1,0 +1,10 @@
+<%= turbo_frame_tag "service_addresses_frame" do %>
+  <%= render @address %>
+
+  <div>
+    <%= link_to "Edit this address", edit_vendor_service_address_path(params[:service_id], @address) %> |
+    <%= link_to "Back to addresses", vendor_service_addresses_path %>
+
+    <%= button_to "Destroy this address", vendor_service_address_path(params[:service_id], @address), method: :delete %>
+  </div>
+<% end %>

@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "service_addresses_frame" do %>
+<h1>Editing address</h1>
+
+<%= render "form", address: @address, service: @address.service %>
+
+<br>
+
+<div>
+  <%= link_to "Show this address", vendor_service_addresses_path(params[:service_id], @address) %> |
+  <%= link_to "Back to addresses", vendor_service_addresses_path(params[:service_id]) %>
+</div>
+<% end %>
