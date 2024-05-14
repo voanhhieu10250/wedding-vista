@@ -1,4 +1,5 @@
 @import "actiontext.css";
+@import "direct_upload.css";
 
 @tailwind base;
 @tailwind components;

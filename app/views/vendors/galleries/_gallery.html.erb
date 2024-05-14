@@ -13,7 +13,7 @@
     <strong>Items:</strong>
     <% gallery.items.each do |item| %>
       <div>
-        <%= image_tag item.variant(resize_to_limit: [128, 128]) %>
+        <%= image_tag item.variant(:thumb) %>
         <%= link_to item.filename, item %>
         </div>
     <% end %>

@@ -1,4 +1,4 @@
-class Vendors::GalleriesController < ApplicationController
+class Vendors::GalleriesController < Vendors::BaseController
   before_action :set_gallery, only: %i[ show edit update destroy ]
 
   # GET /galleries or /galleries.json
@@ -21,7 +21,6 @@ class Vendors::GalleriesController < ApplicationController
 
   # POST /galleries or /galleries.json
   def create
-    
     @gallery = Service.find(params[:service_id]).galleries.create(gallery_params)
 
     respond_to do |format|
@@ -39,7 +38,7 @@ class Vendors::GalleriesController < ApplicationController
   def update
     respond_to do |format|
       if @gallery.update(gallery_params)
-        format.html { redirect_to gallery_url(@gallery), notice: "Gallery was successfully updated." }
+        format.html { redirect_to vendor_service_gallery_url(params[:service_id], @gallery), notice: "Gallery was successfully updated." }
         format.json { render :show, status: :ok, location: @gallery }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -53,7 +52,7 @@ class Vendors::GalleriesController < ApplicationController
     @gallery.destroy!
 
     respond_to do |format|
-      format.html { redirect_to galleries_url, notice: "Gallery was successfully destroyed." }
+      format.html { redirect_to vendor_service_galleries_url, notice: "Gallery was successfully destroyed." }
       format.json { head :no_content }
     end
   end

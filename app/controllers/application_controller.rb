@@ -1,6 +1,13 @@
 class ApplicationController < ActionController::Base
   helper_method :render_flash, :authenticate_admin!, :flash_errors_message
 
+  rescue_from ActiveRecord::RecordNotFound do |error|
+    respond_to do |format|
+      format.json { render_json_error(OpenStruct.new(type: "RecordNotFound", message: error.message), :not_found) }
+      format.html { render template: "errors/not_found", layout: "plain", status: :not_found }
+    end
+  end
+
   def after_sign_in_path_for(resource)
     if resource.is_a?(User) && resource.is_admin?
       admin_root_path

@@ -17,13 +17,13 @@
   </div>
 
   <div>
-    <% unless gallery.new_record? %>
+    <%# unless gallery.new_record? %>
       <% gallery.items.each do |item| %>
         <%= form.hidden_field :items, multiple: true, value: item.signed_id %>
       <% end %>
-    <% end %>
+    <%# end %>
     <%= form.label :items, style: "display: block" %>
-    <%= form.file_field :items, multiple: true %>
+    <%= form.file_field :items, multiple: true, direct_upload: true %>
   </div>
 
   <div>

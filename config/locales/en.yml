@@ -30,3 +30,9 @@
 en:
   hello: "Hello world"
   app_name: "Wedding Vista"
+  error:
+    login: 'Wrong email or password'
+    forbidden: "Sorry, you do not have permission to visit that"
+    not_found: "The page you were looking for doesn't exist"
+    unprocessable_entity: 'The change you wanted was rejected'
+    internal_server_error: "We're sorry, but something went wrong"
