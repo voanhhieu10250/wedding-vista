@@ -14,13 +14,13 @@
 
     <%= form.hidden_field :service_id, value: service.id %>
     <%= form.hidden_field :full_address, data: {"goong-map-target": "fullAddress"} %>
-    <%= form.hidden_field :district, "data-goong-map-target": "district"%>
+    <%= form.hidden_field :district, "data-goong-map-target": "district" %>
     <%= form.hidden_field :province, data: {"goong-map-target": "province"} %>
     <%= form.hidden_field :longitude, data: {"goong-map-target": "longitude"} %>
     <%= form.hidden_field :latitude, data: {"goong-map-target": "latitude"} %>
 
     <div class="flex flex-col gap-2">
-      <%= form.label "Địa chỉ", class: "font-semibold text-sm" %>
+      <%= form.label address.full_address? ? "Địa chỉ mới": "Địa chỉ", class: "font-semibold text-sm" %>
       <div id="geocoder"></div>
     </div>
 

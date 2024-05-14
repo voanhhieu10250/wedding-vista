@@ -1,0 +1,32 @@
+<%= form_with(model: [ :vendor, :service, gallery ]) do |form| %>
+  <% if gallery.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(gallery.errors.count, "error") %> prohibited this gallery from being saved:</h2>
+
+      <ul>
+        <% gallery.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <% unless gallery.new_record? %>
+      <% gallery.items.each do |item| %>
+        <%= form.hidden_field :items, multiple: true, value: item.signed_id %>
+      <% end %>
+    <% end %>
+    <%= form.label :items, style: "display: block" %>
+    <%= form.file_field :items, multiple: true %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

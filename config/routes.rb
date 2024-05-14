@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   namespace :vendors, as: :vendor, path: :vendor do
     resources :services do
       resources :addresses
+      resources :galleries
     end
     root "services#index"
   end

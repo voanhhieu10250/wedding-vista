@@ -2,10 +2,8 @@
 
 one:
   service: one
-  content_type: MyString
   name: MyString
 
 two:
   service: two
-  content_type: MyString
   name: MyString

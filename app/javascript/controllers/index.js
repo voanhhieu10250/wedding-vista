@@ -22,5 +22,8 @@ application.register("hello", HelloController)
 import NavbarController from "./navbar_controller"
 application.register("navbar", NavbarController)
 
+import NestedFormController from "./nested_form_controller"
+application.register("nested-form", NestedFormController)
+
 import PriceController from "./price_controller"
 application.register("price", PriceController)

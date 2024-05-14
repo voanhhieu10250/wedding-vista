@@ -67,5 +67,4 @@ class Vendors::AddressesController < Vendors::BaseController
   def address_params
     params.require(:address).permit(:service_id, :full_address, :district, :province, :phone, :longitude, :latitude)
   end
-
 end

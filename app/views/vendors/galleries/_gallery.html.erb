@@ -1,0 +1,22 @@
+<div id="<%= dom_id gallery %>">
+  <p>
+    <strong>Service:</strong>
+    <%= gallery.service_id %>
+  </p>
+
+  <p>
+    <strong>Name:</strong>
+    <%= gallery.name %>
+  </p>
+
+  <p>
+    <strong>Items:</strong>
+    <% gallery.items.each do |item| %>
+      <div>
+        <%= image_tag item.variant(resize_to_limit: [128, 128]) %>
+        <%= link_to item.filename, item %>
+        </div>
+    <% end %>
+  </p>
+
+</div>

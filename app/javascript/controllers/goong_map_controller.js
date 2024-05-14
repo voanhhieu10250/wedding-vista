@@ -4,6 +4,7 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = [
     "map",
+    "geocoder",
     "geocoderResult",
     "fullAddress",
     "district",
@@ -19,7 +20,10 @@ export default class extends Controller {
 
   connect() {
     if (this.hasMapTarget) this.#prepareMap();
-    if (document.getElementById("geocoder")) this.#prepareGeocoder();
+    if (this.hasGeocoderTarget)
+      this.#prepareGeocoder("#" + this.geocoderTarget.id);
+    else if (document.getElementById("geocoder"))
+      this.#prepareGeocoder("#geocoder");
   }
 
   disconnect() {
@@ -38,13 +42,15 @@ export default class extends Controller {
     this.map.addControl(new goongjs.NavigationControl());
   }
 
-  #prepareGeocoder() {
+  #prepareGeocoder(geocoderElId) {
     this.geocoder = new GoongGeocoder({
       accessToken: this.apiAccessToken,
       placeholder: "Nhập địa chỉ cần tìm kiếm...",
     });
 
-    this.geocoder.addTo("#geocoder");
+    this.geocoder.addTo(geocoderElId);
+    this.fullAddressTarget.value &&
+      this.geocoder.setInput(this.fullAddressTarget.value);
 
     // Add geocoder result to container.
     this.geocoder.on("result", (e) => {

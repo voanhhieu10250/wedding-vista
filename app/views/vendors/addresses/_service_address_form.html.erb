@@ -1,0 +1,20 @@
+<div class="nested-form-wrapper" data-new-record="<%= f.object.new_record? %>" data-controller="goong-map">
+  <%= f.hidden_field :full_address, data: {"goong-map-target": "fullAddress"} %>
+  <%= f.hidden_field :district, "data-goong-map-target": "district" %>
+  <%= f.hidden_field :province, data: {"goong-map-target": "province"} %>
+  <%= f.hidden_field :longitude, data: {"goong-map-target": "longitude"} %>
+  <%= f.hidden_field :latitude, data: {"goong-map-target": "latitude"} %>
+  <%= f.hidden_field :_destroy %>
+
+  <div class="flex flex-col gap-2">
+    <%= f.label "Địa chỉ", class: "font-semibold text-sm" %>
+    <div id="geocoder-<%= f.index %>" data-goong-map-target="geocoder"></div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <%= f.label :phone, class: "font-semibold text-sm" %>
+    <%= f.text_field :phone, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                                  placeholder: "Số điện thoại liên lạc" %>
+  </div>
+  <button type="button" data-action="nested-form#remove">Remove address</button>
+</div>

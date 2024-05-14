@@ -4,7 +4,7 @@ module Vendors
 
     # GET /services or /services.json
     def index
-      @services = Service.all
+      @services = current_vendor.services
     end
 
     # GET /services/1 or /services/1.json
@@ -46,7 +46,18 @@ module Vendors
     def service_params
       # Remove commas from the price string
       params[:service][:pricing] = params[:service][:pricing].gsub(",", "") if params[:service][:pricing].present?
-      params.require(:service).permit(:name, :description, :pricing, :category_id)
+
+      params.require(:service).permit(:name, :description, :pricing, :category_id,
+                                      addresses_attributes: %i[
+                                        id 
+                                        full_address
+                                        district
+                                        province
+                                        phone
+                                        longitude
+                                        latitude
+                                        _destroy
+                                      ])
     end
 
     # Use callbacks to share common setup or constraints between actions.
