@@ -1,32 +1,67 @@
-<%= form_with(model: [ :vendor, :service, gallery ]) do |form| %>
-  <% if gallery.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(gallery.errors.count, "error") %> prohibited this gallery from being saved:</h2>
-
-      <ul>
-        <% gallery.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+<div class="flex justify-center md:pt-6">
+  <%= form_with(model: [:vendor, :service, gallery], html: {class: "w-full md:w-[696px] flex flex-col gap-4"}) do |form| %>
+    <div class="p-6 bg-white rounded shadow">
+      <div class="space-y-4">
+        <h3 class="text-2xl font-semibold">Thông tin cơ bản</h3>
+        <% if gallery.errors.any? %>
+          <div style="color: red">
+            <h2><%= pluralize(gallery.errors.count, "error") %> prohibited this gallery from being saved:</h2>
+            <ul>
+              <% gallery.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
         <% end %>
-      </ul>
+
+        <div class="flex flex-col gap-2">
+          <div>
+            <%= form.label :name, class: "font-semibold text-sm" do %>
+              Tên bộ sưu tập
+              <span class="text-red-500 font-bold text-sm">*</span>
+            <% end %>
+          </div>
+          <%= form.text_field :name, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                         placeholder: "Nhập tên bộ sưu tập" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-6 bg-white rounded shadow">
+      <div class="space-y-4" data-controller="drop-zone" data-drop-zone-active-class-value="!bg-blue-100">
+        <h3 class="text-2xl font-semibold">Hình ảnh</h3>
+        <ul class="text-gray-500 text-sm">
+          <li>• Hãy dùng ảnh thật, không trùng, không chèn SĐT</li>
+          <li>• Mỗi ảnh kích thước tối thiểu 100x100 px, tối đa 15 MB</li>
+        </ul>
+
+        <div class="flex items-center justify-center w-full">
+          <%= form.label :items, class: "flex flex-col items-center justify-center w-full h-36 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50",
+                                  data: {"drop-zone-target": "dropZone"} do %>
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+              </svg>
+              <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+              <p class="text-xs text-gray-500">PNG, JPG or GIF (MAX. 15 MB each)</p>
+            </div>
+            <%= form.file_field :items, multiple: true, direct_upload: true, class: "hidden", data:{"drop-zone-target": :input} %>
+          <% end %>
+        </div>
+
+        <div class="mt-2 flex gap-2 flex-wrap" data-drop-zone-target="results">
+          <% gallery.items.each do |item| %>
+            <div class="drop-zone-preview">
+              <%= form.hidden_field :items, multiple: true, value: item.signed_id %>
+              <%= image_tag item.variant(:thumb), class: "w-[100px] h-[100px]" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <%= form.submit %>
     </div>
   <% end %>
-
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%# unless gallery.new_record? %>
-      <% gallery.items.each do |item| %>
-        <%= form.hidden_field :items, multiple: true, value: item.signed_id %>
-      <% end %>
-    <%# end %>
-    <%= form.label :items, style: "display: block" %>
-    <%= form.file_field :items, multiple: true, direct_upload: true %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

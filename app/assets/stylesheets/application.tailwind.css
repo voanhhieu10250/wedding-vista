@@ -66,7 +66,7 @@ header > nav a:visited {
   backface-visibility: hidden;
   filter: blur(0);
   max-width: 90%;
-  top: 10%;
+  top: 65px;
   left: 50%;
   width: 325px;
   transform: translate(calc(-50% - 0.5px)) translateZ(0) scale(1, 1);

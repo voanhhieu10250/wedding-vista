@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-import { installEventHandler } from "./mixins/event_handler"
 import { useClickOutside } from "stimulus-use"
 
 {/* 
@@ -18,10 +17,6 @@ import { useClickOutside } from "stimulus-use"
 
 export default class extends Controller {
   static targets = ['menu']
-
-  initialize () {
-    installEventHandler(this)
-  }
 
   connect () {
     useClickOutside(this)

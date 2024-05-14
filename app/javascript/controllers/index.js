@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import DropZoneController from "./drop_zone_controller"
+application.register("drop-zone", DropZoneController)
+
 import DropdownController from "./dropdown_controller"
 application.register("dropdown", DropdownController)
 

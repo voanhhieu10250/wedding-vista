@@ -5,6 +5,6 @@ import "trix"
 import "@rails/actiontext"
 
 import * as ActiveStorage from "@rails/activestorage"
-import "./direct_upload"
+// import "./direct_upload"
 
 ActiveStorage.start()
