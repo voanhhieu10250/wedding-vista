@@ -4,8 +4,12 @@ import { installEventHandler } from "./mixins/event_handler";
 
 // Connects to data-controller="drop-zone"
 export default class extends Controller {
-  static targets = ["input", "dropZone", "results"];
-  static values = { activeClass: String, progress: String };
+  static targets = ["input", "dropZone", "results", "template"];
+  static values = {
+    activeClass: String,
+    progress: String,
+    wrapperSelector: { type: String, default: ".drop-zone-item-wrapper" },
+  };
 
   initialize() {
     installEventHandler(this);
@@ -89,35 +93,43 @@ export default class extends Controller {
         // Handle the error
         console.error(error);
       } else {
-        // Add an appropriately-named hidden input to the form with a
-        //  value of blob.signed_id so that the blob ids will be
-        //  transmitted in the normal upload flow
-        const hiddenField = document.createElement("input");
-        hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("value", blob.signed_id);
-        hiddenField.name = this.inputTarget.name;
+        console.log("blob: ", blob);
 
-        // create image preview
-        const img = document.createElement("img");
-        img.src = URL.createObjectURL(file);
-        img.width = 100;
-        img.height = 100;
-        img.alt = file.name;
-        this.inputTarget.closest("form").appendChild(img);
+        let content;
 
-        // create a div to hold the image and hidden field. Which has the signed_id
-        const div = document.createElement("div");
-        div.classList.add("drop-zone-preview");
-        div.id = `drop-zone-${blob.signed_id}`;
-        div.appendChild(img);
-        div.appendChild(hiddenField);
+        if (this.hasTemplateTarget) {
+          // Add an appropriately-named hidden input to the form with a
+          //  value of blob.signed_id so that the blob ids will be
+          //  transmitted in the normal upload flow
+          content = this.templateTarget.innerHTML.replace(
+            /TEMPLATE/g,
+            blob.signed_id
+          );
+
+          // Find the img tag in the template and set its src to the
+          // temporary URL of the uploaded file for preview
+          // This regex pattern will effectively match both (src) and (src="anything")
+          content = content.replace(
+            /src(?:="[^"]*")?/g,
+            'src="' + URL.createObjectURL(file) + '"'
+          );
+
+          content = content.replace(
+            /data-new-item="false"/g,
+            "data-new-item='true'"
+          );
+        } else {
+          content = `<input type="hidden" name="${this.inputTarget.name}" value="${blob.signed_id}" />`;
+        }
 
         if (this.hasResultsTarget) {
-          // append these to a results div
-          this.resultsTarget.appendChild(div);
+          // prepend the content to a results div
+          this.resultsTarget.insertAdjacentHTML("afterbegin", content);
         } else {
-          // append the hidden field to the closest form
-          this.inputTarget.closest("form").appendChild(hiddenField);
+          // append the content field to the closest form
+          this.inputTarget
+            .closest("form")
+            .insertAdjacentHTML("beforeend", content);
         }
       }
     });
@@ -164,5 +176,18 @@ export default class extends Controller {
     // if you navigate away from the form, progress can still be displayed
     // with something like this:
     // document.querySelector("#global-progress").innerHTML = progress;
+  }
+
+  remove(e) {
+    e.preventDefault();
+
+    const wrapper = e.target.closest(this.wrapperSelectorValue);
+
+    wrapper.remove();
+
+    const event = new CustomEvent("drop-zone:remove", {
+      bubbles: true,
+    });
+    this.element.dispatchEvent(event);
   }
 }

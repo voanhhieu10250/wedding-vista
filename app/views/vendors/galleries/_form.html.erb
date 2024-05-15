@@ -1,5 +1,8 @@
 <div class="flex justify-center md:pt-6">
-  <%= form_with(model: [:vendor, :service, gallery], html: {class: "w-full md:w-[696px] flex flex-col gap-4"}) do |form| %>
+  <%= form_with(model: [:vendor, :service, gallery], 
+                html: {class: "w-full md:w-[696px] flex flex-col gap-4", 
+                        data: { controller: "drop-zone",
+                                "drop-zone-active-class-value": "!bg-blue-100" }}) do |form| %>
     <div class="p-6 bg-white rounded shadow">
       <div class="space-y-4">
         <h3 class="text-2xl font-semibold">Thông tin cơ bản</h3>
@@ -28,7 +31,7 @@
     </div>
 
     <div class="p-6 bg-white rounded shadow">
-      <div class="space-y-4" data-controller="drop-zone" data-drop-zone-active-class-value="!bg-blue-100">
+      <div class="space-y-4">
         <h3 class="text-2xl font-semibold">Hình ảnh</h3>
         <ul class="text-gray-500 text-sm">
           <li>• Hãy dùng ảnh thật, không trùng, không chèn SĐT</li>
@@ -51,14 +54,15 @@
 
         <div class="mt-2 flex gap-2 flex-wrap" data-drop-zone-target="results">
           <% gallery.items.each do |item| %>
-            <div class="drop-zone-preview">
-              <%= form.hidden_field :items, multiple: true, value: item.signed_id %>
-              <%= image_tag item.variant(:thumb), class: "w-[100px] h-[100px]" %>
-            </div>
+            <%= render "vendors/galleries/image_preview", item: item, f: form %>
           <% end %>
         </div>
       </div>
     </div>
+
+    <template data-drop-zone-target="template">
+      <%= render "vendors/galleries/image_preview", item: ActiveStorage::Blob.new, f: form %>
+    </template>
 
     <div>
       <%= form.submit %>

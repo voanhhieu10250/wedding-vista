@@ -62,21 +62,27 @@
         </div>
 
         <h3 class="text-2xl font-semibold">Địa điểm</h3>
+        <%= form.fields_for :addresses do |address_field| %>
+          <%= render "vendors/addresses/service_address_form", f: address_field %>
+        <% end %>
+
+        <%# Nested form %>
+        <!-- Inserted elements will be injected before that target. -->
+        <div data-nested-form-target="target"></div>
+        <button type="button" data-action="nested-form#add">Add more address</button>
+        <%# Nested form %>
+
+        <div>
+          <%= form.submit %>
+        </div>
+
+        <%# This one below is the template for nested form to perform add new record. Don't remove it. %>
         <template data-nested-form-target="template">
           <%= form.fields_for :addresses, Address.new, child_index: 'NEW_RECORD' do |address_field| %>
             <%= render "vendors/addresses/service_address_form", f: address_field %>
           <% end %>
         </template>
-        <%= form.fields_for :addresses do |address_field| %>
-          <%= render "vendors/addresses/service_address_form", f: address_field %>
-        <% end %>
-        <!-- Inserted elements will be injected before that target. -->
-        <div data-nested-form-target="target"></div>
-        <button type="button" data-action="nested-form#add">Add more address</button>
 
-        <div>
-          <%= form.submit %>
-        </div>
       <% end %>
     </div>
     <div></div>
