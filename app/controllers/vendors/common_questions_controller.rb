@@ -1,5 +1,6 @@
 class Vendors::CommonQuestionsController < Vendors::BaseController
   before_action :set_common_question, only: %i[ show edit update destroy ]
+  before_action :set_service
 
   def index
     @common_questions = CommonQuestion.all
@@ -11,7 +12,7 @@ class Vendors::CommonQuestionsController < Vendors::BaseController
   end
 
   def create
-    @common_question = Service.find(params[:service_id]).common_questions.create(common_question_params)
+    @common_question = @service.common_questions.create(common_question_params)
 
 
     respond_to do |format|
@@ -57,6 +58,10 @@ class Vendors::CommonQuestionsController < Vendors::BaseController
   # Use callbacks to share common setup or constraints between actions.
   def set_common_question
     @common_question = CommonQuestion.find(params[:id])
+  end
+
+  def set_service
+    @service = Service.find(params[:service_id])
   end
 
   # Only allow a list of trusted parameters through.

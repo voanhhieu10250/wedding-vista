@@ -1,5 +1,6 @@
 class Vendors::GalleriesController < Vendors::BaseController
   before_action :set_gallery, only: %i[ show edit update destroy ]
+  before_action :set_service
 
   # GET /galleries or /galleries.json
   def index
@@ -7,8 +8,7 @@ class Vendors::GalleriesController < Vendors::BaseController
   end
 
   # GET /galleries/1 or /galleries/1.json
-  def show
-  end
+  def show; end
 
   # GET /galleries/new
   def new
@@ -16,16 +16,18 @@ class Vendors::GalleriesController < Vendors::BaseController
   end
 
   # GET /galleries/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /galleries or /galleries.json
   def create
-    @gallery = Service.find(params[:service_id]).galleries.create(gallery_params)
+    @gallery = @service.galleries.create(gallery_params)
 
     respond_to do |format|
       if @gallery.save
-        format.html { redirect_to vendor_service_gallery_url(params[:service_id], @gallery), notice: "Gallery was successfully created." }
+        format.html do
+          redirect_to vendor_service_gallery_url(params[:service_id], @gallery),
+                      notice: "Gallery was successfully created."
+        end
         format.json { render :show, status: :created, location: @gallery }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +40,10 @@ class Vendors::GalleriesController < Vendors::BaseController
   def update
     respond_to do |format|
       if @gallery.update(gallery_params)
-        format.html { redirect_to vendor_service_gallery_url(params[:service_id], @gallery), notice: "Gallery was successfully updated." }
+        format.html do
+          redirect_to vendor_service_gallery_url(params[:service_id], @gallery),
+                      notice: "Gallery was successfully updated."
+        end
         format.json { render :show, status: :ok, location: @gallery }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -58,13 +63,18 @@ class Vendors::GalleriesController < Vendors::BaseController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_gallery
-      @gallery = Gallery.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def gallery_params
-      params.require(:gallery).permit(:name, items: [])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_gallery
+    @gallery = Gallery.find(params[:id])
+  end
+
+  def set_service
+    @service = Service.find(params[:service_id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def gallery_params
+    params.require(:gallery).permit(:name, items: [])
+  end
 end

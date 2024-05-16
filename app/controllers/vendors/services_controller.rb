@@ -47,7 +47,7 @@ module Vendors
       # Remove commas from the price string
       params[:service][:pricing] = params[:service][:pricing].gsub(",", "") if params[:service][:pricing].present?
 
-      params.require(:service).permit(:name, :description, :pricing, :category_id,
+      params.require(:service).permit(:name, :description, :pricing, :category_id, :published,
                                       addresses_attributes: %i[
                                         id 
                                         full_address

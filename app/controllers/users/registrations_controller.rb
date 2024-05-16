@@ -13,9 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     super do |user|
       # add avatar to user if avatar is present in params
-      return unless params[:user][:avatar].present?
-
-      user.avatar.attach(params[:user][:avatar])
+      user.avatar.attach(params[:user][:avatar]) if params[:user][:avatar].present?
     end
   end
 

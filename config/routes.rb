@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :categories
-  resources :services
+  resources :services, only: %i[index show]
 
   devise_for :users,
              path: "/",

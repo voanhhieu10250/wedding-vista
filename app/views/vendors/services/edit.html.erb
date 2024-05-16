@@ -60,6 +60,23 @@
                          data: {controller: "price", action: "input->price#formatPriceWithCommas"} %>
         </div>
 
+        <div class="flex flex-col gap-2">
+          <div>
+            <%= form.label :published, class: "font-semibold text-sm" do %>
+              Hiển thị
+              <span class="text-red-500 font-bold text-sm">*</span>
+            <% end %>
+          </div>
+          <div>
+            <%= form.radio_button :published, false %>
+            <%= form.label :published_false, "Ẩn" %>
+          </div>
+          <div>
+            <%= form.radio_button :published, true %>
+            <%= form.label :published_true, "Công khai" %>
+          </div>
+        </div>
+
         <div>
           <%= form.submit %>
         </div>
