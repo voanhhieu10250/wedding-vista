@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_14_045415) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_16_055910) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -73,6 +73,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_14_045415) do
     t.index ["slug"], name: "index_categories_on_slug", unique: true
   end
 
+  create_table "common_questions", force: :cascade do |t|
+    t.string "question"
+    t.text "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "service_id", null: false
+    t.index ["service_id"], name: "index_common_questions_on_service_id"
+  end
+
   create_table "galleries", force: :cascade do |t|
     t.integer "service_id", null: false
     t.string "name"
@@ -126,6 +135,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_14_045415) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "addresses", "services"
+  add_foreign_key "common_questions", "services"
   add_foreign_key "galleries", "services"
   add_foreign_key "services", "categories"
   add_foreign_key "services", "vendors"
