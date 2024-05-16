@@ -1,0 +1,14 @@
+<%#
+  This layout is used for rendering turbo-stream responses.
+  It will automatically be used when you render a turbo-stream response in your controller,
+  or with the action.turbo_stream.erb files views.
+
+  e.g.
+  flash.now[:notice] = "Item has been updated"
+  render turbo_stream: turbo_stream.replace("item_#{item.id}", partial: "items/item", locals: { item: item })
+%>
+<%= turbo_stream.update "turbo-flash" do %>
+  <%= render "shared/flash" %>
+<% end %>
+
+<%= yield %>
