@@ -1,0 +1,14 @@
+<%= turbo_frame_tag "service_addresses_frame" do %>
+<h1>Editing address</h1>
+
+<div>
+  <p>Địa chỉ hiện tại: <span class="font-bold"><%= @address.full_address %></span></p>
+</div>
+
+<%= render "form", address: @address, service: @address.service %>
+
+<div>
+  <%= link_to "Show this address", vendor_service_addresses_path(params[:service_id], @address) %> |
+  <%= link_to "Back to addresses", vendor_service_addresses_path(params[:service_id]) %>
+</div>
+<% end %>

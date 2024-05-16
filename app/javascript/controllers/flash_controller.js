@@ -5,7 +5,6 @@ export default class extends Controller {
   static values = { timeout: { type: Number, default: 4000 } };
 
   connect() {
-    console.log("flash connected");
     setTimeout(this.#removeFlash.bind(this), this.timeoutValue);
   }
 

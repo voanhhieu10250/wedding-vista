@@ -1,0 +1,10 @@
+<%= content_for :head do %>
+  <%= turbo_page_requires_reload %>
+<% end %>
+
+<%= content_for :body do %>
+  <div class='mt-[20%] flex flex-col justify-center items-center'>
+    <h1>404</h1>
+    <p class='text-sm'><%= t("error.not_found") %></p>
+  </div>
+<% end %>

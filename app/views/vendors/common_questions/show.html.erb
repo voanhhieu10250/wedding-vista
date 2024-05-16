@@ -1,0 +1,12 @@
+<%= turbo_frame_tag dom_id(@common_question) do %>
+
+  <%= render @common_question %>
+
+  <div>
+    <%= link_to "Edit this common question", edit_vendor_service_question_path(params[:service_id], @common_question) %> |
+    <%= button_to "Destroy this common question", 
+                      vendor_service_question_path(params[:service_id], @common_question),
+                      method: :delete,
+                      form: {data: {"turbo-frame": "_top"}} %>
+  </div>
+<% end %>

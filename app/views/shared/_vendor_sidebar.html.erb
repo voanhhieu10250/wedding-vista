@@ -1,0 +1,18 @@
+<div class="flex flex-1 items-center px-5 pt-6 mb-14">
+  <%= link_to vendor_root_path, class: "flex flex-shrink-0 items-center gap-1" do %>
+    <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+    <span class="font-medium text-lg">Wedding Vista</span>
+  <% end %>
+</div>
+<nav>
+  <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+  <%= link_to 'Quản lý dịch vụ', vendor_services_path, class: [ "block rounded-md px-3 py-2 text-base font-medium",
+                                              (is_active?(path: vendor_services_path) ? "bg-gray-900 text-white" : "hover:bg-gray-700 hover:text-white")
+                                            ] %>
+  <%#   <a href="#" class="hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Quản lý câu hỏi</a> %>
+  <%#   <a href="#" class="hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Quản lý yêu cầu tư vấn</a> %>
+
+  <a href="#" class="hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Quản lý bài đăng</a>
+  <a href="#" class="hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Quản lý tài khoản</a>
+  <a href="#" class="hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Lịch sử nạp tiền</a>
+</nav>

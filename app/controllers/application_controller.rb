@@ -1,5 +1,12 @@
 class ApplicationController < ActionController::Base
-  helper_method :render_flash, :authenticate_admin!
+  helper_method :render_flash, :authenticate_admin!, :flash_errors_message
+
+  rescue_from ActiveRecord::RecordNotFound do |error|
+    respond_to do |format|
+      format.json { render_json_error(OpenStruct.new(type: "RecordNotFound", message: error.message), :not_found) }
+      format.html { render template: "errors/not_found", layout: "application", status: :not_found }
+    end
+  end
 
   def after_sign_in_path_for(resource)
     if resource.is_a?(User) && resource.is_admin?
@@ -12,6 +19,16 @@ class ApplicationController < ActionController::Base
   def render_flash(type: :sucess, message: "")
     flash[type] = message unless message.blank?
     turbo_stream.update "turbo-flash", partial: "shared/flash"
+  end
+
+  def flash_errors_message(object, now: false)
+    errors_message = object.errors.full_messages.join(". ")
+
+    if now
+      flash.now[:error] = errors_message
+    else
+      flash[:error] = errors_message
+    end
   end
 
   def authenticate_admin!

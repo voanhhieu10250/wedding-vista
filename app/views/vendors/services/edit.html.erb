@@ -1,0 +1,100 @@
+<div class="flex justify-center md:pt-6">
+  <div class="w-full md:w-[696px] flex flex-col gap-4">
+    <div class="p-6 bg-white rounded shadow">
+      <%= form_with model: [ :vendor, @service ], html: {class: "space-y-4"} do |form| %>
+        <h3 class="text-2xl font-semibold">Thông tin cơ bản</h3>
+        <% if @service.errors.any? %>
+          <div style="color: red">
+            <h2><%= pluralize(service.errors.count, "error") %> prohibited this service from being saved:</h2>
+
+            <ul>
+              <% @service.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="flex flex-col gap-2">
+          <div>
+            <%= form.label :category_id, class: "font-semibold text-sm" do %>
+              Loại dịch vụ
+              <span class="text-red-500 font-bold text-sm">*</span>
+            <% end %>
+          </div>
+          <%= form.collection_select :category_id, Category.all, :id, :name,
+                                              { :include_blank => "Chọn loại dịch vụ" },
+                                              { :class => 'border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400' } %>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <div>
+            <%= form.label :name, class: "font-semibold text-sm" do %>
+              Tên dịch vụ
+              <span class="text-red-500 font-bold text-sm">*</span>
+            <% end %>
+          </div>
+          <%= form.text_field :name, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                         placeholder: "Tên nhà cung cấp hoặc dịch vụ" %>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <div>
+            <%= form.label :description, class: "font-semibold text-sm" do %>
+              Mô tả dịch vụ
+              <span class="text-red-500 font-bold text-sm">*</span>
+            <% end %>
+          </div>
+          <%= form.text_area :description, class: "min-h-40 border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                        placeholder: "Mô tả về dịch vụ" %>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <div>
+            <%= form.label :pricing, "Mức giá phổ biến", class: "font-semibold text-sm" %>
+          </div>
+          <%= form.text_field :pricing,
+                         value: number_with_delimiter(@service.pricing.to_i, delimiter: ",", precision: 0),
+                         class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                         placeholder: "Nhập mức giá phổ biến của dịch vụ, VD: 12,000,000",
+                         data: {controller: "price", action: "input->price#formatPriceWithCommas"} %>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <div>
+            <%= form.label :published, class: "font-semibold text-sm" do %>
+              Hiển thị
+              <span class="text-red-500 font-bold text-sm">*</span>
+            <% end %>
+          </div>
+          <div>
+            <%= form.radio_button :published, false %>
+            <%= form.label :published_false, "Ẩn" %>
+          </div>
+          <div>
+            <%= form.radio_button :published, true %>
+            <%= form.label :published_true, "Công khai" %>
+          </div>
+        </div>
+
+        <div>
+          <%= form.submit %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="p-6 bg-white rounded shadow">
+      <h3 class="text-2xl font-semibold mb-4">Địa điểm</h3>
+      <%= turbo_frame_tag "service_addresses_frame", src: vendor_service_addresses_path(@service) do %>
+        Loading...
+      <% end %>
+    </div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+
+<div>
+  <%= link_to "Show this service", vendor_service_path(@service) %> |
+  <%= link_to "Back to services", vendor_services_path %>
+</div>

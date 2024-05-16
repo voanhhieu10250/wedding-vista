@@ -1,5 +1,5 @@
 module Vendors
-  class PagesController < ApplicationController
+  class PagesController < Vendors::BaseController
     def index; end
   end
 end

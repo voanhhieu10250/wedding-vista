@@ -1,0 +1,9 @@
+<h1>Services</h1>
+<div id="services">
+  <% @services.each do |service| %>
+    <%= render service %>
+    <p>
+      <%= link_to "Show this service", service_path(service) %>
+    </p>
+  <% end %>
+</div>

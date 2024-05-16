@@ -1,0 +1,41 @@
+<% content_for :head do %>
+  <!-- Goong Map -->
+  <script src='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.9/dist/goong-js.js'></script>
+  <link href='https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.9/dist/goong-js.css' rel='stylesheet'>
+  <script src='https://cdn.jsdelivr.net/npm/@goongmaps/goong-geocoder/dist/goong-geocoder.min.js'></script>
+  <link href="https://cdn.jsdelivr.net/npm/@goongmaps/goong-geocoder/dist/goong-geocoder.css" rel="stylesheet" type="text/css">
+  <!-- Promise polyfill script is required -->
+  <!-- to use Goong Geocoder in IE 11. -->
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+  <style>
+    #geocoder {
+      z-index: 1;
+      margin-bottom: 20px;
+    }
+    .mapboxgl-ctrl-geocoder {
+      width: 100%;
+      max-width: none;
+      border-radius: 0.25rem;
+      border-width: 1px;
+      border-color: rgb(209 213 219 / 1);
+      padding-top: 0.375rem;
+      padding-bottom: 0.375rem;
+      padding-left: 0.875rem;
+      padding-right: 0.875rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      box-shadow: none;
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+    .mapboxgl-ctrl-geocoder:hover {
+      border-color: rgb(156 163 175 / 1);
+    }
+    .mapboxgl-ctrl-geocoder{
+      padding: 0;
+    }
+  </style>
+<% end %>
+
+<%= render template: "layouts/vendor_base" %>

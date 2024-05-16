@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : t(:app_name) %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield(:head) %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <meta name="turbo-refresh-scroll" content="preserve">
+  </head>
+  <body>
+    <header>
+      <%= render "shared/flash" %>
+    </header>
+
+    <%= content_for?(:body) ? yield(:body) : yield %>
+  </body>
+</html>

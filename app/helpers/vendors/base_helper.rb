@@ -1,0 +1,2 @@
+module Vendors::BaseHelper
+end

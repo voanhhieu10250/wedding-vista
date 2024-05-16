@@ -1,0 +1,23 @@
+<div id="<%= dom_id service %>">
+  <p>
+    <strong>Name:</strong>
+    <%= service.name %>
+  </p>
+
+  <div>
+    <strong>Description:</strong>
+    <div class="prose max-w-none">
+      <%= simple_format service.description  %>
+    </div>
+  </div>
+
+  <p>
+    <strong>Pricing:</strong>
+    <%= number_to_currency service.pricing, unit: "đ", precision: 0, format: "%n %u" %>
+  </p>
+
+  <p>
+    <strong>Published:</strong>
+    <%= service.published %>
+  </p>
+</div>

@@ -4,14 +4,26 @@
 
 import { application } from "./application"
 
+import DropZoneController from "./drop_zone_controller"
+application.register("drop-zone", DropZoneController)
+
 import DropdownController from "./dropdown_controller"
 application.register("dropdown", DropdownController)
 
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
+import FormController from "./form_controller"
+application.register("form", FormController)
+
+import GoongMapController from "./goong_map_controller"
+application.register("goong-map", GoongMapController)
 
 import NavbarController from "./navbar_controller"
 application.register("navbar", NavbarController)
+
+import NestedFormController from "./nested_form_controller"
+application.register("nested-form", NestedFormController)
+
+import PriceController from "./price_controller"
+application.register("price", PriceController)

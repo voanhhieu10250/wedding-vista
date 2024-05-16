@@ -6,7 +6,8 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-<%#     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css"> %>
+    <%= yield(:head) %>
+
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <meta name="turbo-refresh-scroll" content="preserve">
@@ -17,8 +18,8 @@
       <%= render "shared/flash" %>
     </header>
 
-<%#     <div class="container mx-auto max-w-screen-2xl"> %>
-      <%= yield %>
-<%#     </div> %>
+    <div class="container mx-auto max-w-screen-2xl">
+      <%= content_for?(:body) ? yield(:body) : yield %>
+    </div>
   </body>
 </html>

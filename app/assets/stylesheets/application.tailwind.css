@@ -1,35 +1,40 @@
+@import "actiontext.css";
+@import "direct_upload.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 /* default style */
-:root, ::backdrop{
-    --sans-font: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir, "Nimbus Sans L", Roboto, "Noto Sans", "Segoe UI", Arial, Helvetica, "Helvetica Neue", sans-serif;
-    --mono-font: Consolas, Menlo, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
-    --standard-border-radius: 5px;
-    --bg: #fff;
-    --accent-bg: #f5f7ff;
-    --text: #212121;
-    --text-light: #585858;
-    --border: #898ea4;
-    --accent: #0d47a1;
-    --accent-hover: #1266e2;
-    --accent-text: var(--bg);
-    --code: #d81b60;
-    --preformatted: #444;
-    --marked: #fd3;
-    --disabled: #efefef;
+:root,
+::backdrop {
+  --sans-font: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir,
+    "Nimbus Sans L", Roboto, "Noto Sans", "Segoe UI", Arial, Helvetica,
+    "Helvetica Neue", sans-serif;
+  --mono-font: Consolas, Menlo, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  --standard-border-radius: 5px;
+  --bg: #fff;
+  --accent-bg: #f5f7ff;
+  --text: #212121;
+  --text-light: #585858;
+  --border: #898ea4;
+  --accent: #0d47a1;
+  --accent-hover: #1266e2;
+  --accent-text: var(--bg);
+  --code: #d81b60;
+  --preformatted: #444;
+  --marked: #fd3;
+  --disabled: #efefef;
 }
 
-header>nav a, header>nav a:visited {
-    border: 1px solid var(--border);
-    border-radius: var(--standard-border-radius);
-    padding: .1rem 1rem;
-    text-decoration: none;
-    display: inline-block;
+header > nav a,
+header > nav a:visited {
+  border: 1px solid var(--border);
+  border-radius: var(--standard-border-radius);
+  padding: 0.1rem 1rem;
+  text-decoration: none;
+  display: inline-block;
 }
-
 
 /* custom style */
 .turbo-progress-bar {
@@ -61,7 +66,7 @@ header>nav a, header>nav a:visited {
   backface-visibility: hidden;
   filter: blur(0);
   max-width: 90%;
-  top: 10%;
+  top: 65px;
   left: 50%;
   width: 325px;
   transform: translate(calc(-50% - 0.5px)) translateZ(0) scale(1, 1);
@@ -73,12 +78,14 @@ header>nav a, header>nav a:visited {
   border-radius: 4px;
 }
 
-.flash__body--error, .flash__body--alert {
+.flash__body--error,
+.flash__body--alert {
   background-color: rgb(166, 22, 55);
   color: rgb(255, 255, 251);
 }
 
-.flash__body--success, .flash__body--notice {
+.flash__body--success,
+.flash__body--notice {
   background-color: rgb(35, 166, 80);
   color: rgb(255, 255, 251);
 }
@@ -114,4 +121,8 @@ header>nav a, header>nav a:visited {
 .animation-fadeOutUp {
   animation-name: fadeOutUp;
   animation-duration: 0.25s;
+}
+
+.is-invalid:not(label) {
+  @apply border-red-500;
 }
