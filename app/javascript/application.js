@@ -18,5 +18,5 @@ document.addEventListener("turbo:frame-missing", (event) => {
   // if the url of the response is /login, then it means the user is not
   // logged in when request was made, so we redirect to the login page
   if (event.detail.response.url.includes("/login"))
-    event.detail.visit("/login", { action: "replace" });
+    event.detail.visit(event.detail.response.url, { action: "replace" });
 });
