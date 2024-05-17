@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
+import { GOONG_MAP_ACCESS_TOKEN, GOONG_MAP_API_ACCESS_TOKEN } from "env";
 
 // Connects to data-controller="goong-map"
 export default class extends Controller {
@@ -14,8 +15,8 @@ export default class extends Controller {
   ];
 
   initialize() {
-    goongjs.accessToken = "xAfcPZT3MKK6dmlTxwKhK5EHJsG27SycdGQadfjy";
-    this.apiAccessToken = "MKzfeKtJNzoQQJ5oTEK3KOpCX9Lypbtsvhqx1gze";
+    goongjs.accessToken = GOONG_MAP_ACCESS_TOKEN;
+    this.apiAccessToken = GOONG_MAP_API_ACCESS_TOKEN;
   }
 
   connect() {

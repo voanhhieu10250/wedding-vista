@@ -15,4 +15,4 @@
 3. Set environment variables in production server. You can use the following command to set environment variables in production server (we don't use dotenv-rails in the production).
     - `export SECRET_KEY_BASE=your_secret_key_base`
     - also you should check the `RAILS_ENV` variable is set to `production` or not, by using the following command:
-      - `env`
+      - `env` or `echo $RAILS_ENV`
