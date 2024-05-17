@@ -10,4 +10,5 @@ class Service < ApplicationRecord
   has_one :main_address, dependent: :destroy
 
   validates :name, :description, :category_id, presence: true
+  validates :name, length: { maximum: 255 }
 end
