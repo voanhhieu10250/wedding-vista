@@ -5,6 +5,7 @@ class Gallery < ApplicationRecord
   end
 
   validates :name, presence: true
+  validates :items, content_type: %r{\Aimage/.*\z}
 
   to_param :name
 end
