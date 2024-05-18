@@ -5,4 +5,6 @@ class Gallery < ApplicationRecord
   end
 
   validates :name, presence: true
+
+  to_param :name
 end

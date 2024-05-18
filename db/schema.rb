@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_16_080454) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_18_173657) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -66,11 +66,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_16_080454) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
-    t.string "slug", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
-    t.index ["slug"], name: "index_categories_on_slug", unique: true
   end
 
   create_table "common_questions", force: :cascade do |t|
@@ -98,10 +96,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_16_080454) do
     t.datetime "updated_at", null: false
     t.integer "vendor_id", null: false
     t.integer "category_id"
-    t.string "slug"
     t.boolean "published", default: false
     t.index ["category_id"], name: "index_services_on_category_id"
-    t.index ["slug"], name: "index_services_on_slug", unique: true
     t.index ["vendor_id"], name: "index_services_on_vendor_id"
   end
 
