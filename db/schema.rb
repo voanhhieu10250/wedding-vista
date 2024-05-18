@@ -11,9 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_05_18_173657) do
-  create_table "action_text_rich_texts", force: :cascade do |t|
+  create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
-    t.text "body"
+    t.text "body", size: :long
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.datetime "created_at", null: false
@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_18_173657) do
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
-  create_table "active_storage_attachments", force: :cascade do |t|
+  create_table "active_storage_attachments", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
@@ -31,7 +31,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_18_173657) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", force: :cascade do |t|
+  create_table "active_storage_blobs", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -43,14 +43,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_18_173657) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", force: :cascade do |t|
+  create_table "active_storage_variant_records", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "addresses", force: :cascade do |t|
-    t.integer "service_id", null: false
+  create_table "addresses", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "service_id", null: false
     t.string "full_address"
     t.string "district"
     t.string "province"
@@ -64,44 +64,44 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_18_173657) do
     t.index ["service_id"], name: "index_addresses_on_service_id"
   end
 
-  create_table "categories", force: :cascade do |t|
+  create_table "categories", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
-  create_table "common_questions", force: :cascade do |t|
+  create_table "common_questions", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "question"
     t.text "answer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "service_id", null: false
+    t.bigint "service_id", null: false
     t.index ["service_id"], name: "index_common_questions_on_service_id"
   end
 
-  create_table "galleries", force: :cascade do |t|
-    t.integer "service_id", null: false
+  create_table "galleries", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "service_id", null: false
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["service_id"], name: "index_galleries_on_service_id"
   end
 
-  create_table "services", force: :cascade do |t|
+  create_table "services", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.decimal "pricing"
+    t.decimal "pricing", precision: 10
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "vendor_id", null: false
-    t.integer "category_id"
+    t.bigint "vendor_id", null: false
+    t.bigint "category_id"
     t.boolean "published", default: false
     t.index ["category_id"], name: "index_services_on_category_id"
     t.index ["vendor_id"], name: "index_services_on_vendor_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "name", default: "", null: false
     t.boolean "is_admin", default: false, null: false
@@ -115,7 +115,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_18_173657) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "vendors", force: :cascade do |t|
+  create_table "vendors", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "name", default: "", null: false
     t.text "description", default: "", null: false
