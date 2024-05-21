@@ -20,7 +20,7 @@ class Vendors::GalleriesController < Vendors::BaseController
 
   # POST /galleries or /galleries.json
   def create
-    @gallery = @service.galleries.create(gallery_params)
+    @gallery = @service.galleries.build(gallery_params)
 
     respond_to do |format|
       if @gallery.save

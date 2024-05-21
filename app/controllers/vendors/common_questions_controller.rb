@@ -12,7 +12,7 @@ class Vendors::CommonQuestionsController < Vendors::BaseController
   end
 
   def create
-    @common_question = @service.common_questions.create(common_question_params)
+    @common_question = @service.common_questions.build(common_question_params)
 
 
     respond_to do |format|
