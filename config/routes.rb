@@ -18,10 +18,25 @@ Rails.application.routes.draw do
       resources :galleries
       resources :common_questions, as: :questions, path: :questions
     end
+
+    resources :topic_categories, only: %i[index show]
+    resources :topics, only: %i[index show]
+    resources :ideas
+
     root "services#index"
   end
 
+  scope "/wedding-ideas" do
+    resources :topic_categories, only: %i[index show]
+    resources :topics, only: %i[index show]
+    resources :ideas, only: %i[index show]
+  end
+
   namespace :admin do
+    resources :topic_categories
+    resources :topics
+    resources :ideas
+
     root "pages#index"
   end
 

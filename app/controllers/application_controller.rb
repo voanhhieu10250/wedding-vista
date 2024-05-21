@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  helper_method :render_flash, :authenticate_admin!, :flash_errors_message
+  helper_method :authenticate_admin!, :flash_errors_message
 
   rescue_from ActiveRecord::RecordNotFound do |error|
     respond_to do |format|
@@ -14,11 +14,6 @@ class ApplicationController < ActionController::Base
     else
       super
     end
-  end
-
-  def render_flash(type: :sucess, message: "")
-    flash[type] = message unless message.blank?
-    turbo_stream.update "turbo-flash", partial: "shared/flash"
   end
 
   def flash_errors_message(object, now: false)

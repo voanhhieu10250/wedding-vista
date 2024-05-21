@@ -19,7 +19,7 @@ module Vendors
     def edit; end
 
     def create
-      @service = current_vendor.services.create(service_params)
+      @service = current_vendor.services.build(service_params)
 
       if @service.save
         flash[:notice] = "Service was successfully created."

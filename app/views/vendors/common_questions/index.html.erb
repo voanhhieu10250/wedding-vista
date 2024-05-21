@@ -1,5 +1,3 @@
-<p style="color: green"><%= notice %></p>
-
 <h1>Common questions</h1>
 
 <%= turbo_frame_tag "service_question_list" do %>
@@ -10,10 +8,10 @@
 
         <div>
           <%= link_to "Edit this common question", edit_vendor_service_question_path(params[:service_id], common_question) %> |
-          <%= button_to "Destroy this common question", 
+          <%= button_to "Destroy this common question",
                       vendor_service_question_path(params[:service_id], common_question),
                       method: :delete,
-                      form: {data: {"turbo-frame": "_top"}} %>
+                      form: {data: {"turbo-frame": "service_question_list"}} %>
         </div>
       <% end %>
     <% end %>

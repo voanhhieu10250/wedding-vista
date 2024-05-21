@@ -83,6 +83,10 @@ export default class extends Controller {
   };
 
   #uploadFile = (file) => {
+    if (!this.#validateFile(file)) {
+      return;
+    }
+
     // your form needs the file_field direct_upload: true, which
     //  provides data-direct-upload-url
     const url = this.inputTarget.dataset.directUploadUrl;
@@ -190,4 +194,15 @@ export default class extends Controller {
     });
     this.element.dispatchEvent(event);
   }
+
+  #validateFile = (file) => {
+    // console.log("file: ", file);
+    // Validate the file, only allow images
+    if (!file.type.startsWith("image/")) {
+      alert(`"${file.name}" is not an image file.
+      Only images are allowed.`);
+      return false;
+    }
+    return true;
+  };
 }

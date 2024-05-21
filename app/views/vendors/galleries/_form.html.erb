@@ -48,7 +48,8 @@
               <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
               <p class="text-xs text-gray-500">PNG, JPG or GIF (MAX. 15 MB each)</p>
             </div>
-            <%= form.file_field :items, multiple: true, direct_upload: true, class: "hidden", data:{"drop-zone-target": :input} %>
+            <%= form.file_field :items, multiple: true, direct_upload: true, accept: "image/*",
+                                class: "hidden", data:{"drop-zone-target": :input} %>
           <% end %>
         </div>
 
