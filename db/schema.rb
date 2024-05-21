@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_18_173657) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_21_060704) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -88,6 +88,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_18_173657) do
     t.index ["service_id"], name: "index_galleries_on_service_id"
   end
 
+  create_table "ideas", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.bigint "vendor_id", null: false
+    t.bigint "topic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["title"], name: "index_ideas_on_title"
+    t.index ["topic_id"], name: "index_ideas_on_topic_id"
+    t.index ["vendor_id"], name: "index_ideas_on_vendor_id"
+  end
+
   create_table "services", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -99,6 +111,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_18_173657) do
     t.boolean "published", default: false
     t.index ["category_id"], name: "index_services_on_category_id"
     t.index ["vendor_id"], name: "index_services_on_vendor_id"
+  end
+
+  create_table "topic_categories", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "topics", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.bigint "topic_category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["topic_category_id"], name: "index_topics_on_topic_category_id"
   end
 
   create_table "users", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
@@ -134,6 +162,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_18_173657) do
   add_foreign_key "addresses", "services"
   add_foreign_key "common_questions", "services"
   add_foreign_key "galleries", "services"
+  add_foreign_key "ideas", "topics"
+  add_foreign_key "ideas", "vendors"
   add_foreign_key "services", "categories"
   add_foreign_key "services", "vendors"
+  add_foreign_key "topics", "topic_categories"
 end

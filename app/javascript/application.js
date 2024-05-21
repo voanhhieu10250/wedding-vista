@@ -8,9 +8,11 @@ import * as ActiveStorage from "@rails/activestorage";
 
 ActiveStorage.start();
 
+// Set the delay for the progress bar to 200ms
 const delayInMilliseconds = 200;
 Turbo.setProgressBarDelay(delayInMilliseconds);
 
+// Fix for the issue where the user is redirected to the login page inside a turbo-frame
 document.addEventListener("turbo:frame-missing", (event) => {
   event.preventDefault();
   // console.log("Frame missing event", event);
