@@ -1,4 +1,4 @@
-<%= form_with(model: idea) do |form| %>
+<%= form_with(model: [ :vendor, idea ]) do |form| %>
   <% if idea.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(idea.errors.count, "error") %> prohibited this idea from being saved:</h2>
@@ -27,13 +27,12 @@
   </div>
 
   <div>
-    <%= form.label :vendor_id, style: "display: block" %>
-    <%= form.text_field :vendor_id %>
-  </div>
-
-  <div>
-    <%= form.label :topic_id, style: "display: block" %>
-    <%= form.text_field :topic_id %>
+    <%= form.label :topic_id, class: "block" do %>
+      Loại dịch vụ
+    <% end %>
+    <%= form.collection_select :topic_id, Topic.all, :id, :name,
+                                              { :include_blank => "Chọn chủ đề" },
+                                              { :class => '' } %>
   </div>
 
   <div>
