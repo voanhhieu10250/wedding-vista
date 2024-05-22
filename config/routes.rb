@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   resource :payment, only: %i[show create] do
     member do
-      get "hello"
+      get "success"
+      get "cancel"
     end
   end
 

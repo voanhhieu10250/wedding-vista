@@ -11,15 +11,31 @@ class PayOS
 
   attr_reader :client_id, :api_key, :checksum_key
 
-  def initialize(client_id, api_key, checksum_key)
-    @client_id = client_id
-    @api_key = api_key
-    @checksum_key = checksum_key
+  def initialize
+    @client_id = ENV.fetch("PAYOS_CLIENT_ID", nil)
+    @api_key = ENV.fetch("PAYOS_API_KEY", nil)
+    @checksum_key = ENV.fetch("PAYOS_CHECKSUM_KEY", nil)
   end
 
+
+  # {
+  #  :bin=>"970448",
+  #  :accountNumber=>"CAS0974155013",
+  #  :accountName=>"VO ANH HIEU",
+  #  :amount=>10000,
+  #  :description=>"CS0O5GCGTG0 Thanh Toan ABC",
+  #  :orderCode=>12,
+  #  :currency=>"VND",
+  #  :paymentLinkId=>"b8ba2924a4dc48aebba8506d65c25c05",
+  #  :status=>"PENDING",
+  #  :checkoutUrl=>"https://pay.payos.vn/web/b8ba2924a4dc48aebba8506d65c25c05",
+  #  :qrCode=>"00020101021238570010A000000727012700069704480113CAS09741550130208QRIBFTTA53037045405100005802VN62300826CS0O5GCGTG0 Thanh Toan ABC6304F4E5"
+  # }
   def create_payment_link(payment_data)
     required_keys = %i[orderCode amount returnUrl cancelUrl description]
-    missing_keys = required_keys.select { |key| payment_data[key].nil? || payment_data[key].empty? }
+    missing_keys = required_keys.select do |key|
+      payment_data[key].nil? || payment_data[key].blank?
+    end
 
     unless missing_keys.empty?
       msg_error = "#{ERROR_MESSAGE::INVALID_PARAMETER} #{missing_keys.join(', ')} must not be undefined or null."
