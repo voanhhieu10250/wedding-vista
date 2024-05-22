@@ -1,0 +1,14 @@
+<h1>Payment#index</h1>
+
+<p style="color: green;"><%= notice %></p>
+
+<%= form_with(scope: :payment, url: payment_path) do |form| %>
+  <div>
+    <%= form.label :amount, style: "display: block" %>
+    <%= form.text_field :amount %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

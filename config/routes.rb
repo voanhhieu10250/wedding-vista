@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resource :payment, only: %i[show create] do
+    member do
+      get "hello"
+    end
+  end
+
   resources :categories
   resources :services, only: %i[index show]
 
