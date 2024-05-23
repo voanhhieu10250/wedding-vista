@@ -23,12 +23,9 @@ Rails.application.routes.draw do
     resources :topics, only: %i[index show]
     resources :ideas
 
-    resources :transactions, only: %i[index show new create] do
-      member do
-        get "success"
-        get "cancel"
-      end
-    end
+    resources :transactions, only: %i[index show new create]
+    get "payment/success", to: "transactions#success", as: :payment_success
+    get "payment/cancel", to: "transactions#cancel", as: :payment_cancel
 
     root "services#index"
   end

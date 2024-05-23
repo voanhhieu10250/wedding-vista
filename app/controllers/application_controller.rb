@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from PayOSError do |error|
+    Rails.logger.error(error)
     respond_to do |format|
       if error.code == "101"
         format.json do

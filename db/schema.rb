@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_23_063651) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_23_150803) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -130,7 +130,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_23_063651) do
   end
 
   create_table "transactions", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
-    t.string "description"
     t.decimal "amount", precision: 10
     t.string "status", default: "PENDING"
     t.datetime "created_at", null: false
@@ -163,7 +162,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_23_063651) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "balance", precision: 10
+    t.decimal "balance", precision: 10, default: "0"
     t.index ["email"], name: "index_vendors_on_email", unique: true
     t.index ["reset_password_token"], name: "index_vendors_on_reset_password_token", unique: true
   end

@@ -6,6 +6,6 @@
   <div class='mt-[20%] flex flex-col justify-center items-center'>
     <h1 class="font-bold">500</h1>
     <p class='text-sm'><%= t("error.payment_service_error") %></p>
-    <%= link_to 'Retry', payment_path, class: "underline hover:italic" %>
+    <%= link_to 'Retry', new_vendor_transaction_path, class: "underline hover:italic" %>
   </div>
 <% end %>
