@@ -1,11 +1,4 @@
 Rails.application.routes.draw do
-  resource :payment, only: %i[show create] do
-    member do
-      get "success"
-      get "cancel"
-    end
-  end
-
   resources :categories
   resources :services, only: %i[index show]
 
@@ -30,7 +23,12 @@ Rails.application.routes.draw do
     resources :topics, only: %i[index show]
     resources :ideas
 
-    resources :transactions
+    resources :transactions, only: %i[index show new create] do
+      member do
+        get "success"
+        get "cancel"
+      end
+    end
 
     root "services#index"
   end

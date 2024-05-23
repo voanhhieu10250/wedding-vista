@@ -1,70 +1,70 @@
 class Vendors::TransactionsController < Vendors::BaseController
-  before_action :set_transaction, only: %i[ show edit update destroy ]
+  RETURN_URL = "http://localhost:3000/payment/success"
+  CANCEL_URL = "http://localhost:3000/payment/cancel"
 
-  # GET /transactions or /transactions.json
+  before_action :set_payos
+  before_action :callback_params, only: %i[success cancel]
+
   def index
-    @transactions = Transaction.all
+    @transactions = current_vendor.transactions
   end
 
-  # GET /transactions/1 or /transactions/1.json
-  def show
-  end
+  def show; end
 
-  # GET /transactions/new
-  def new
-    @transaction = Transaction.new
-  end
+  def new; end
 
-  # GET /transactions/1/edit
-  def edit
-  end
-
-  # POST /transactions or /transactions.json
   def create
-    @transaction = Transaction.new(transaction_params)
+    transaction_params[:description] = "Nap #{transaction_params[:amount]}VND Wedding Vista"
+    transaction = current_vendor.transactions.build(transaction_params)
 
-    respond_to do |format|
-      if @transaction.save
-        format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully created." }
-        format.json { render :show, status: :created, location: @transaction }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
-      end
+    if transaction.save
+      # Create payment link
+      response = @payos.create_payment_link(
+        amount: transaction.amount, # Amount is in VND
+        orderCode: transaction.id, # Order code used here is the transaction id
+        returnUrl: RETURN_URL,
+        cancelUrl: CANCEL_URL,
+        description: transaction.description
+      )
+
+      redirect_to response[:checkoutUrl], allow_other_host: true
+    else
+      flash_errors_message(transaction, now: true)
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /transactions/1 or /transactions/1.json
-  def update
-    respond_to do |format|
-      if @transaction.update(transaction_params)
-        format.html { redirect_to transaction_url(@transaction), notice: "Transaction was successfully updated." }
-        format.json { render :show, status: :ok, location: @transaction }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
-      end
-    end
+  def success
+    # /payment/success?code=00&id=aaec05a76b6a4fab8ba1a6da0d360a1a&cancel=false&status=PAID&orderCode=1234
+
+    # Get payment link information. To check if the payment is successful
+    response = @payos.get_payment_link_information(params[:id])
+
+    # If the payment is successful, update the transaction record in db to have the status PAID
+
+    # Else, update the transaction record in db to have the status CANCELLED
+
+    render "show"
   end
 
-  # DELETE /transactions/1 or /transactions/1.json
-  def destroy
-    @transaction.destroy!
+  def cancel
+    # /payment/cancel?code=00&id=b8ba2924a4dc48aebba8506d65c25c05&cancel=true&status=CANCELLED&orderCode=12
 
-    respond_to do |format|
-      format.html { redirect_to transactions_url, notice: "Transaction was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    render "show"
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_transaction
-      @transaction = Transaction.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def transaction_params
-      params.require(:transaction).permit(:vendor_id, :description, :amount, :status)
-    end
+  # Only allow a list of trusted parameters through.
+  def transaction_params
+    params.require(:transaction).permit(:amount)
+  end
+
+  def set_payos
+    @payos = PayOS.new
+  end
+
+  def callback_params
+    params.permit(:code, :id, :cancel, :status, :orderCode)
+  end
 end
