@@ -5,5 +5,6 @@ class Vendor < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :services, dependent: :destroy
   has_many :ideas, dependent: :nullify
+  has_many :transactions, dependent: :destroy
   has_one_attached :avatar
 end

@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     resources :topics, only: %i[index show]
     resources :ideas
 
+    resources :transactions
+
     root "services#index"
   end
 

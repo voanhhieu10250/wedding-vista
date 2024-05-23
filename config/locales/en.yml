@@ -36,3 +36,4 @@ en:
     not_found: "The page you were looking for doesn't exist"
     unprocessable_entity: 'The change you wanted was rejected'
     internal_server_error: "We're sorry, but something went wrong"
+    payment_service_error: "Payment service error. Please try again"

@@ -2,7 +2,8 @@ class PaymentsController < ApplicationController
   RETURN_URL = "http://localhost:3000/payment/success"
   CANCEL_URL = "http://localhost:3000/payment/cancel"
 
-  before_action :set_payos, only: %i[create]
+  before_action :set_payos
+  before_action :callback_params, only: %i[success cancel]
 
   def show; end
 
@@ -24,6 +25,13 @@ class PaymentsController < ApplicationController
   def success
     # /payment/success?code=00&id=aaec05a76b6a4fab8ba1a6da0d360a1a&cancel=false&status=PAID&orderCode=1234
 
+    # Get payment link information. To check if the payment is successful
+    response = @payos.get_payment_link_information(params[:orderCode])
+
+    # If the payment is successful, update the order record in db to have the status PAID
+  
+    # Else, update the order record in db to have the status CANCELLED
+
     render "show"
   end
 
@@ -41,5 +49,9 @@ class PaymentsController < ApplicationController
 
   def payment_params
     params.require(:payment).permit(:orderCode, :amount, :description)
+  end
+
+  def callback_params
+    params.permit(:code, :id, :cancel, :status, :orderCode)
   end
 end
