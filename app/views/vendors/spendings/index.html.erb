@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Spendings</h1>
+<%= link_to "New spending", new_vendor_spending_path, class: "rounded-lg cursor-pointer w-fit bg-white py-2 px-4 border border-gray-300 hover:border-gray-600 hover:bg-gray-200" %>
+
+<div id="spendings">
+  <% @spendings.each do |spending| %>
+    <%= render spending %>
+    <p>
+      <%= link_to "Show this spending", vendor_spending_path(spending) %>
+    </p>
+  <% end %>
+</div>

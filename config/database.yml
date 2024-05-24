@@ -13,7 +13,7 @@ development:
   database: wedding_vista_development
   adapter: mysql2
   username: root
-  password: <%= ENV['ROOT_PASSWORD'] %>
+  password: <%= ENV['DB_ROOT_PASSWORD'] %>
   host: 172.19.224.1
   port: 3307
   encoding: utf8

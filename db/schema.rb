@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_21_062946) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_24_064619) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -113,6 +113,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_21_062946) do
     t.index ["vendor_id"], name: "index_services_on_vendor_id"
   end
 
+  create_table "spendings", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "vendor_id", null: false
+    t.decimal "amount", precision: 10
+    t.string "kind"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vendor_id"], name: "index_spendings_on_vendor_id"
+  end
+
   create_table "topic_categories", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -127,6 +136,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_21_062946) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["topic_category_id"], name: "index_topics_on_topic_category_id"
+  end
+
+  create_table "transactions", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.decimal "amount", precision: 10
+    t.string "status", default: "PENDING"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "vendor_id", null: false
+    t.index ["vendor_id"], name: "index_transactions_on_vendor_id"
   end
 
   create_table "users", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
@@ -153,6 +171,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_21_062946) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "balance", precision: 10, default: "0"
+    t.integer "post_limit", default: 0
+    t.integer "boost_limit", default: 0
     t.index ["email"], name: "index_vendors_on_email", unique: true
     t.index ["reset_password_token"], name: "index_vendors_on_reset_password_token", unique: true
   end
@@ -166,5 +187,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_21_062946) do
   add_foreign_key "ideas", "vendors"
   add_foreign_key "services", "categories"
   add_foreign_key "services", "vendors"
+  add_foreign_key "spendings", "vendors"
   add_foreign_key "topics", "topic_categories"
+  add_foreign_key "transactions", "vendors"
 end

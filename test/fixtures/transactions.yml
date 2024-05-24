@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  vendor: one
+  description: MyString
+  amount: 1
+  status: MyString
+
+two:
+  vendor: two
+  description: MyString
+  amount: 1
+  status: MyString
