@@ -1,7 +1,7 @@
 <div id="turbo-flash" data-turbo-temporary class="flash">
   <% flash.each do |key,value| %>
     <div class="animation-fadeInDown flash__body <%= "flash__body--#{key}" %>" data-controller="flash">
-      <%= h value %>
+      <%= value.html_safe %>
     </div>
   <% end %>
 </div>

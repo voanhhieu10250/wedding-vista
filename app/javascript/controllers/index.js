@@ -27,3 +27,6 @@ application.register("nested-form", NestedFormController)
 
 import PriceController from "./price_controller"
 application.register("price", PriceController)
+
+import RedirectController from "./redirect_controller"
+application.register("redirect", RedirectController)

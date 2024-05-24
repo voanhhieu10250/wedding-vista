@@ -1,0 +1,13 @@
+<% if defined?(@redirect_url) %>
+
+  <%= turbo_stream.append "transaction-form" do %>
+    <div data-controller="redirect" data-redirect-url-value="<%= @redirect_url %>"></div>
+  <% end %>
+
+<% else %>
+
+  <%= turbo_stream.replace "transaction-form" do %>
+    <%= render "form", transaction: @transaction %>
+  <% end %>
+
+<% end %>
