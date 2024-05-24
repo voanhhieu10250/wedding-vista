@@ -35,7 +35,6 @@ class Vendors::TransactionsController < Vendors::BaseController
     end
   end
 
-  # /payment/success?code=00&id=aaec05a76b6a4fab8ba1a6da0d360a1a&cancel=false&status=PAID&orderCode=1234
   def success
     # Get payment link information. To check if the payment is successful
     response = @payos.get_payment_link_information(params[:id])
@@ -56,7 +55,6 @@ class Vendors::TransactionsController < Vendors::BaseController
     render "show"
   end
 
-  # /payment/cancel?code=00&id=b8ba2924a4dc48aebba8506d65c25c05&cancel=true&status=CANCELLED&orderCode=12
   def cancel
     response = @payos.get_payment_link_information(params[:id])
 
