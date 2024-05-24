@@ -5,5 +5,12 @@ class Vendor < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :services, dependent: :destroy
   has_many :ideas, dependent: :nullify
-  has_one_attached :avatar
+  has_many :transactions, dependent: :destroy
+  has_many :spendings, dependent: :destroy
+
+  validates :name, presence: true
+
+  has_one_attached :avatar do |attachable|
+    attachable.variant :thumb, resize_to_limit: [100, 100], preprocessed: true
+  end
 end

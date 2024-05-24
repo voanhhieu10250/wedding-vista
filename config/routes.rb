@@ -8,7 +8,8 @@ Rails.application.routes.draw do
              controllers: { registrations: "users/registrations" }
   devise_for :vendors,
              path: :vendor,
-             path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" }
+             path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" },
+             controllers: { registrations: "vendors/registrations" }
 
   #  Have to name the namespace vendors to avoid conflict between the auto mapped views with the devise_for :vendors,
   # which will have a vendor_root_path helper method, and the views will be in the views/vendors folder
@@ -22,6 +23,12 @@ Rails.application.routes.draw do
     resources :topic_categories, only: %i[index show]
     resources :topics, only: %i[index show]
     resources :ideas
+
+    resources :transactions, only: %i[index show new create]
+    get "payment/success", to: "transactions#success", as: :payment_success
+    get "payment/cancel", to: "transactions#cancel", as: :payment_cancel
+
+    resources :spendings
 
     root "services#index"
   end
