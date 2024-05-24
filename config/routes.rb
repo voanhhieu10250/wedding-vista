@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     get "payment/success", to: "transactions#success", as: :payment_success
     get "payment/cancel", to: "transactions#cancel", as: :payment_cancel
 
+    resources :spendings
+
     root "services#index"
   end
 
