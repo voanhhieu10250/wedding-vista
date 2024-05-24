@@ -76,6 +76,9 @@ class Vendors::TransactionsController < Vendors::BaseController
   private
 
   def transaction_params
+    if params[:transaction][:amount].present?
+      params[:transaction][:amount] = params[:transaction][:amount].gsub(",", "")
+    end
     params.require(:transaction).permit(:amount)
   end
 
