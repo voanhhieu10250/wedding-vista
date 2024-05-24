@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
   def authenticate_admin!
     return if current_user&.is_admin?
 
-    render_flash(type: :error, message: "You are not authorized to access this page.")
+    flash[:error] = "You are not authorized to access this page."
     redirect_to root_path
   end
 

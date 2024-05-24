@@ -8,7 +8,8 @@ Rails.application.routes.draw do
              controllers: { registrations: "users/registrations" }
   devise_for :vendors,
              path: :vendor,
-             path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" }
+             path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" },
+             controllers: { registrations: "vendors/registrations" }
 
   #  Have to name the namespace vendors to avoid conflict between the auto mapped views with the devise_for :vendors,
   # which will have a vendor_root_path helper method, and the views will be in the views/vendors folder
