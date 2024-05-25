@@ -1,5 +1,5 @@
 class Vendors::IdeasController < Vendors::BaseController
-  before_action :set_idea, only: %i[ show edit update destroy ]
+  before_action :set_idea, only: %i[ edit update destroy ]
 
   # GET /ideas or /ideas.json
   def index
@@ -8,6 +8,8 @@ class Vendors::IdeasController < Vendors::BaseController
 
   # GET /ideas/1 or /ideas/1.json
   def show
+    # Avoiding N+1 Queries
+    @idea = Idea.with_rich_text_body_and_embeds.find(params[:id])
   end
 
   # GET /ideas/new
@@ -16,8 +18,7 @@ class Vendors::IdeasController < Vendors::BaseController
   end
 
   # GET /ideas/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /ideas or /ideas.json
   def create
@@ -59,13 +60,14 @@ class Vendors::IdeasController < Vendors::BaseController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_idea
-      @idea = Idea.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def idea_params
-      params.require(:idea).permit(:title, :description, :body, :topic_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_idea
+    @idea = Idea.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def idea_params
+    params.require(:idea).permit(:title, :description, :body, :topic_id)
+  end
 end
