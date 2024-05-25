@@ -11,4 +11,10 @@
   <%= render "shared/flash" %>
 <% end %>
 
-<%= yield %>
+<% if defined?(@redirect_url) %>
+  <%= turbo_stream.before "turbo-flash" do %>
+    <div data-controller="redirect" data-redirect-url-value="<%= @redirect_url %>"></div>
+  <% end %>
+<% else %>
+  <%= yield %>
+<% end %>

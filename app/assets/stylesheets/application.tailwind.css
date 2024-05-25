@@ -59,7 +59,7 @@ header > nav a:visited {
 }
 
 .flash {
-  position: absolute;
+  position: fixed;
   margin: 0;
   padding: 0;
   z-index: 4;

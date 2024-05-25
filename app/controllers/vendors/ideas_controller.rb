@@ -59,6 +59,37 @@ class Vendors::IdeasController < Vendors::BaseController
     end
   end
 
+  def publish
+    @idea = current_vendor.ideas.find(params[:id])
+
+    # if the idea is not paid, it can't be published
+    unless @idea.is_paid?
+      flash.now[:error] = "You need to pay for this idea before publishing it."
+      render "toggle_publish", locals: { idea: @idea }
+      return
+    end
+
+    if @idea.update(published: true)
+      flash.now[:notice] = "Idea was successfully published."
+    else
+      flash.now[:error] = "Something went wrong. Please try again."
+    end
+
+    render "toggle_publish", locals: { idea: @idea }
+  end
+
+  def unpublish
+    @idea = current_vendor.ideas.find(params[:id])
+
+    if @idea.update(published: false)
+      flash.now[:notice] = "Idea was successfully unpublished."
+    else
+      flash.now[:error] = "Something went wrong. Please try again."
+    end
+
+    render "toggle_publish", locals: { idea: @idea }
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
