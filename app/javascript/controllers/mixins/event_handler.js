@@ -34,7 +34,12 @@ class EventHandler {
           if (event.target.dataset.preventDelegation) { return }
 
           const targetSelector = `[data-delegated-action~='${type}->${identifier}#${callback.name}']`
-          if (!event.target.closest(targetSelector)) { return }
+          const target = event.target.closest(targetSelector)
+
+          if (!target) { return }
+
+          callback(event, target)
+          return;
         }
 
         callback(event)

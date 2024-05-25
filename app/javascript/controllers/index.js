@@ -36,3 +36,6 @@ application.register("price", PriceController)
 
 import RedirectController from "./redirect_controller"
 application.register("redirect", RedirectController)
+
+import VendorSpendingController from "./vendor_spending_controller"
+application.register("vendor-spending", VendorSpendingController)

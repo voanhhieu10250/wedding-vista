@@ -76,6 +76,19 @@ class Vendors::IdeasController < Vendors::BaseController
     render "toggle_publish", locals: { idea: @idea }
   end
 
+  def pay
+    # check if the vendor has a post limit greater than 0
+    if current_vendor.post_limit.positive?
+      @idea = current_vendor.ideas.find(params[:id])
+      @idea.update_attribute(:is_paid, true)
+      current_vendor.decrement!(:post_limit)
+
+      flash.now[:notice] = "Idea was successfully paid for."
+    else
+      flash.now[:error] = "You have reached your post limit. Please upgrade your plan."
+    end
+  end
+
   private
 
   def set_idea
