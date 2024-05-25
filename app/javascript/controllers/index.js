@@ -13,6 +13,9 @@ application.register("dropdown", DropdownController)
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
+import FormChangedCheckController from "./form_changed_check_controller"
+application.register("form-changed-check", FormChangedCheckController)
+
 import FormController from "./form_controller"
 application.register("form", FormController)
 
