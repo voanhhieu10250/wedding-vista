@@ -13,11 +13,17 @@ application.register("dropdown", DropdownController)
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
+import FormChangedCheckController from "./form_changed_check_controller"
+application.register("form-changed-check", FormChangedCheckController)
+
 import FormController from "./form_controller"
 application.register("form", FormController)
 
 import GoongMapController from "./goong_map_controller"
 application.register("goong-map", GoongMapController)
+
+import ImageFilePreviewController from "./image_file_preview_controller"
+application.register("image-file-preview", ImageFilePreviewController)
 
 import NavbarController from "./navbar_controller"
 application.register("navbar", NavbarController)
@@ -27,3 +33,9 @@ application.register("nested-form", NestedFormController)
 
 import PriceController from "./price_controller"
 application.register("price", PriceController)
+
+import RedirectController from "./redirect_controller"
+application.register("redirect", RedirectController)
+
+import VendorSpendingController from "./vendor_spending_controller"
+application.register("vendor-spending", VendorSpendingController)

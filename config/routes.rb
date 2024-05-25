@@ -22,7 +22,13 @@ Rails.application.routes.draw do
 
     resources :topic_categories, only: %i[index show]
     resources :topics, only: %i[index show]
-    resources :ideas
+    resources :ideas do
+      member do
+        post :publish
+        post :unpublish
+        post :pay
+      end
+    end
 
     resources :transactions, only: %i[index show new create]
     get "payment/success", to: "transactions#success", as: :payment_success

@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Ideas</h1>
+
+<%= link_to "Mua lượt đăng tin", new_vendor_spending_path, class: "flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap mt-3 w-fit tracking-[0.2px] bg-white py-1.5 px-3 text-[rgb(224,60,49)] border border-[rgb(224,60,49)] hover:bg-[rgb(224,60,49)] hover:text-white" %>
+
+<div id="ideas">
+  <% @ideas.each do |idea| %>
+    <%= render partial: 'idea_minimal', locals: { idea: idea } %>
+    <p>
+      <%= link_to "Show this idea", vendor_idea_path(idea) %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New idea", new_vendor_idea_path %>

@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   end
 
   def flash_errors_message(object, now: false)
-    errors_message = object.errors.full_messages.join(". ")
+    errors_message = object.errors.full_messages.join(". <br>")
 
     if now
       flash.now[:error] = errors_message

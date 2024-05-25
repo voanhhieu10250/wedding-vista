@@ -1,5 +1,5 @@
 class Vendors::SpendingsController < Vendors::BaseController
-  before_action :set_spending, only: %i[ show edit update destroy ]
+  before_action :set_spending, only: %i[ show update destroy ]
 
   # GET /spendings or /spendings.json
   def index
@@ -14,19 +14,22 @@ class Vendors::SpendingsController < Vendors::BaseController
     @spending = Spending.new
   end
 
-  # GET /spendings/1/edit
-  def edit; end
-
   # POST /spendings or /spendings.json
   def create
-    # @spending = Spending.new(spending_params)
-    @spending = current_vendor.spendings.build(spending_params)
+    @spending = current_vendor.spendings.build(spending_params.except(:limit).merge(kind: :post_limit))
 
-    respond_to do |format|
-      if @spending.save
+    if @spending.save
+      current_vendor.transaction do
+        current_vendor.increment!(:post_limit, spending_params[:limit].to_i, touch: false)
+        current_vendor.decrement!(:balance, spending_params[:amount].to_i)
+      end
+
+      respond_to do |format|
         format.html { redirect_to vendor_spending_url(@spending), notice: "Spending was successfully created." }
         format.json { render :show, status: :created, location: @spending }
-      else
+      end
+    else
+      respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @spending.errors, status: :unprocessable_entity }
       end
@@ -65,6 +68,6 @@ class Vendors::SpendingsController < Vendors::BaseController
 
   # Only allow a list of trusted parameters through.
   def spending_params
-    params.require(:spending).permit(:amount, :kind)
+    params.require(:spending).permit(:amount, :limit)
   end
 end

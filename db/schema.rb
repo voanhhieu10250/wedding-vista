@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_24_064619) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_25_005259) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -95,6 +95,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_24_064619) do
     t.bigint "topic_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "published", default: false
+    t.boolean "is_paid", default: false
+    t.integer "views", default: 0
     t.index ["title"], name: "index_ideas_on_title"
     t.index ["topic_id"], name: "index_ideas_on_topic_id"
     t.index ["vendor_id"], name: "index_ideas_on_vendor_id"

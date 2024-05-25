@@ -28,10 +28,11 @@ class Vendors::TransactionsController < Vendors::BaseController
         description: "Wedding Vista"
       )
 
-      redirect_to response[:checkoutUrl], allow_other_host: true
+      # redirect_to response[:checkoutUrl], allow_other_host: true
+      @redirect_url = response[:checkoutUrl]
     else
-      flash_errors_message(@transaction)
-      redirect_to new_vendor_transaction_path
+      flash_errors_message(@transaction, now: true)
+      # redirect_to new_vendor_transaction_path
     end
   end
 
@@ -75,6 +76,9 @@ class Vendors::TransactionsController < Vendors::BaseController
   private
 
   def transaction_params
+    if params[:transaction][:amount].present?
+      params[:transaction][:amount] = params[:transaction][:amount].gsub(",", "")
+    end
     params.require(:transaction).permit(:amount)
   end
 

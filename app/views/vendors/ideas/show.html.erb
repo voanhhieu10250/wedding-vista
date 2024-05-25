@@ -1,0 +1,16 @@
+<%= render @idea %>
+
+<div id="toggle_publish">
+  <%= render 'toggle_publish_link', idea: @idea %>
+</div>
+
+<div id="pay_button">
+  <%= render 'pay_button', idea: @idea %>
+</div>
+
+<div>
+  <%= link_to "Edit this idea", edit_vendor_idea_path(@idea) %> |
+  <%= link_to "Back to ideas", vendor_ideas_path %>
+
+  <%= button_to "Destroy this idea", vendor_idea_path(@idea), method: :delete %>
+</div>

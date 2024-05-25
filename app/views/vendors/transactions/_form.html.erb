@@ -1,22 +1,22 @@
-<%= form_with(model: [ :vendor, transaction ], data:{turbo: false}) do |form| %>
-  <% if transaction.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
+<div class="flex justify-center md:pt-6" id="transaction-form">
+  <div class="w-full md:w-[696px] flex flex-col gap-4">
+    <div class="p-6 bg-white rounded shadow">
+      <h3 class="text-2xl font-semibold mb-4">Nạp tiền vào tài khoản</h3>
+      <%= form_with(model: [ :vendor, transaction ]) do |form| %>
+        <div class="flex flex-col gap-2">
+          <%= form.label :amount, class: "font-semibold text-sm" do %>
+            Nhập số tiền bạn muốn nạp (đ)
+            <span class="text-red-500 font-bold text-sm">*</span>
+          <% end %>
+          <%= form.text_field :amount, placeholder: "Nạp tối thiểu 10.000 đ",
+                                class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                                data: {controller: "price", action: "input->price#formatPriceWithCommas"} %>
+        </div>
 
-      <ul>
-        <% transaction.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <div class="flex justify-end mt-3">
+          <%= form.submit "Thanh toán", class: "relative rounded cursor-pointer whitespace-nowrap w-auto tracking-[0.2px] bg-[rgb(224,60,49)] px-3 py-1.5 text-white disabled:opacity-40" %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label :amount, style: "display: block" %>
-    <%= form.number_field :amount %>
   </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

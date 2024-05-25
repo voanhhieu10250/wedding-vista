@@ -1,0 +1,51 @@
+<%= form_with(model: [ :vendor, idea ], data: { controller: "form-changed-check" }) do |form| %>
+  <% if idea.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(idea.errors.count, "error") %> prohibited this idea from being saved:</h2>
+
+      <ul>
+        <% idea.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title, data: { action: "form-changed-check#checkDirty" } %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_area :description, data: { action: "form-changed-check#checkDirty" } %>
+  </div>
+
+  <div data-controller="image-file-preview">
+    <%= form.label :main_image, "Thumbnail", style: "display: block" %>
+    <%= form.file_field :main_image, accept: "image/png,image/jpg,image/jpeg" ,
+                        class: "w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500",
+                        data: { "image-file-preview-target": :input, action: "form-changed-check#checkDirty" } %>
+    <div class="my-2">
+      <img alt="preview" data-image-file-preview-target="preview" src="<%= url_for(idea.main_image) unless !idea.main_image.attached? || idea.new_record? %>">
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :content, style: "display: block" %>
+    <%= form.rich_text_area :content, { data: { action: "trix-change->form-changed-check#checkDirty" } } %>
+  </div>
+
+  <div>
+    <%= form.label :topic_id, class: "block" do %>
+      Loại dịch vụ
+    <% end %>
+    <%= form.collection_select :topic_id, Topic.all, :id, :name,
+                                              { :include_blank => "Chọn chủ đề" },
+                                              { :class => '', data: { action: "form-changed-check#checkDirty" } } %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

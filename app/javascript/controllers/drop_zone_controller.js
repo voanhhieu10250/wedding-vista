@@ -203,6 +203,12 @@ export default class extends Controller {
       Only images are allowed.`);
       return false;
     }
+
+    if (file.size > 10000000) {
+      alert("Upload file size must be less than 10MB");
+      return false;
+    }
+
     return true;
   };
 }

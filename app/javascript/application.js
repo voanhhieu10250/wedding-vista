@@ -22,3 +22,17 @@ document.addEventListener("turbo:frame-missing", (event) => {
   if (event.detail.response.url.includes("/login"))
     event.detail.visit(event.detail.response.url, { action: "replace" });
 });
+
+const allowedImageTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
+document.addEventListener("trix-file-accept", (event) => {
+  if (!allowedImageTypes.includes(event.file.type)) {
+    event.preventDefault();
+    alert("Only support attachment of png, jpg, jpeg, gif files");
+  }
+
+  // Prevent attaching files larger than 10MB
+  if (event.file.size > 10000000) {
+    event.preventDefault(); // prevent attaching the file to the document.
+    alert("Upload file size must be less than 10MB");
+  }
+});
