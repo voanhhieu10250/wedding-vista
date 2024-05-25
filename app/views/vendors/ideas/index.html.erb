@@ -4,7 +4,7 @@
 
 <div id="ideas">
   <% @ideas.each do |idea| %>
-    <%= render idea %>
+    <%= render partial: 'idea_minimal', locals: { idea: idea } %>
     <p>
       <%= link_to "Show this idea", vendor_idea_path(idea) %>
     </p>

@@ -51,13 +51,17 @@
 </div>
 <nav>
   <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-  <%= link_to 'Quản lý dịch vụ', vendor_services_path, class: [ "block rounded-md px-3 py-2 text-base font-medium",
-                                              (is_active?(path: vendor_services_path) ? "bg-gray-900 text-white" : "hover:bg-gray-700 hover:text-white")
-                                            ] %>
+  <%= link_to 'Quản lý dịch vụ', vendor_services_path,
+                                class: [ "block rounded-md px-3 py-2 text-base font-medium",
+                                  (is_active?(path: vendor_services_path) ? "bg-gray-900 text-white" : "hover:bg-gray-700 hover:text-white")
+                                ] %>
   <%#   <a href="#" class="hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Quản lý câu hỏi</a> %>
   <%#   <a href="#" class="hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Quản lý yêu cầu tư vấn</a> %>
 
-  <a href="#" class="hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Quản lý bài đăng</a>
+  <%= link_to 'Quản lý bài đăng', vendor_ideas_path,
+                                class: [ "block rounded-md px-3 py-2 text-base font-medium",
+                                  (is_active?(path: vendor_ideas_path) ? "bg-gray-900 text-white" : "hover:bg-gray-700 hover:text-white")
+                                ] %>
   <a href="#" class="hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Quản lý tài khoản</a>
   <a href="#" class="hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Lịch sử nạp tiền</a>
 </nav>
