@@ -1,5 +1,5 @@
 class Vendors::IdeasController < Vendors::BaseController
-  before_action :set_idea, only: %i[ update destroy publish unpublish ]
+  before_action :set_idea, only: %i[ update destroy publish unpublish pay ]
   before_action :set_idea_with_rich_text_content_and_embeds, only: %i[ edit show ]
 
   def index
@@ -79,14 +79,15 @@ class Vendors::IdeasController < Vendors::BaseController
   def pay
     # check if the vendor has a post limit greater than 0
     if current_vendor.post_limit.positive?
-      @idea = current_vendor.ideas.find(params[:id])
       @idea.update_attribute(:is_paid, true)
       current_vendor.decrement!(:post_limit)
 
       flash.now[:notice] = "Idea was successfully paid for."
     else
-      flash.now[:error] = "You have reached your post limit. Please upgrade your plan."
+      flash.now[:error] = "You have reached your post limit."
     end
+
+    render "pay_button", locals: { idea: @idea }
   end
 
   private

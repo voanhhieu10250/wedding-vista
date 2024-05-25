@@ -4,11 +4,8 @@
   <%= render 'toggle_publish_link', idea: @idea %>
 </div>
 
-<div>
-  <%= link_to 'Want to publish? Click here to pay for the post',
-              pay_vendor_idea_path(@idea),
-              data: { turbo_method: :post, turbo_confirm: "This will cost you 1 post limit. Are you sure to continue?" },
-              class: "underline" %>
+<div id="pay_button">
+  <%= render 'pay_button', idea: @idea %>
 </div>
 
 <div>

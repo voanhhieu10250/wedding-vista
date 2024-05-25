@@ -18,14 +18,18 @@ class Vendors::SpendingsController < Vendors::BaseController
   def create
     @spending = current_vendor.spendings.build(spending_params.except(:limit).merge(kind: :post_limit))
 
-    respond_to do |format|
-      if @spending.save
-        current_vendor.increment!(:post_limit, spending_params[:limit].to_i)
+    if @spending.save
+      current_vendor.transaction do
+        current_vendor.increment!(:post_limit, spending_params[:limit].to_i, touch: false)
         current_vendor.decrement!(:balance, spending_params[:amount].to_i)
-        current_vendor.save
+      end
+
+      respond_to do |format|
         format.html { redirect_to vendor_spending_url(@spending), notice: "Spending was successfully created." }
         format.json { render :show, status: :created, location: @spending }
-      else
+      end
+    else
+      respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @spending.errors, status: :unprocessable_entity }
       end
