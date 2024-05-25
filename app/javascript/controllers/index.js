@@ -19,6 +19,9 @@ application.register("form", FormController)
 import GoongMapController from "./goong_map_controller"
 application.register("goong-map", GoongMapController)
 
+import ImageFilePreviewController from "./image_file_preview_controller"
+application.register("image-file-preview", ImageFilePreviewController)
+
 import NavbarController from "./navbar_controller"
 application.register("navbar", NavbarController)
 

@@ -9,7 +9,7 @@ class Vendors::IdeasController < Vendors::BaseController
   # GET /ideas/1 or /ideas/1.json
   def show
     # Avoiding N+1 Queries
-    @idea = Idea.with_rich_text_body_and_embeds.find(params[:id])
+    @idea = Idea.with_rich_text_content_and_embeds.find(params[:id])
   end
 
   # GET /ideas/new
@@ -68,6 +68,6 @@ class Vendors::IdeasController < Vendors::BaseController
 
   # Only allow a list of trusted parameters through.
   def idea_params
-    params.require(:idea).permit(:title, :description, :body, :topic_id)
+    params.require(:idea).permit(:title, :description, :main_image, :content, :topic_id)
   end
 end

@@ -11,11 +11,11 @@
     <% if current_vendor.avatar.attached? %>
       <%= image_tag current_vendor.avatar&.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
     <% else %>
-      <div class="absolute inset-0 flex items-center justify-center text-white text-lg font-semibold w-full h-full"><%= current_vendor.name[0]&.titleize %></div>
+      <div class="absolute inset-0 flex items-center justify-center text-white text-3xl font-semibold w-full h-full"><%= current_vendor.name[0]&.titleize %></div>
     <% end %>
   </div>
   <div class="max-w-full overflow-hidden">
-    <p class="text-gray-800 text-sm font-medium" title="<%= current_vendor.name %>">
+    <p class="text-gray-800 text-base font-medium" title="<%= current_vendor.name %>">
       <%= current_vendor.name %>
     </p>
     <p class="text-gray-500 text-xs font-medium truncate" title="<%= current_vendor.email %>">

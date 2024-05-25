@@ -66,6 +66,6 @@ class IdeasController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def idea_params
-    params.require(:idea).permit(:title, :description, :body, :vendor_id, :topic_id)
+    params.require(:idea).permit(:title, :description, :content, :vendor_id, :topic_id)
   end
 end
