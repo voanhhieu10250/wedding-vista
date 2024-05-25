@@ -27,7 +27,7 @@
                         class: "w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500",
                         data: { "image-file-preview-target": :input, action: "form-changed-check#checkDirty" } %>
     <div class="my-2">
-      <img alt="preview" data-image-file-preview-target="preview" src="<%= url_for(idea.main_image) unless idea.new_record? %>">
+      <img alt="preview" data-image-file-preview-target="preview" src="<%= url_for(idea.main_image) unless !idea.main_image.attached? || idea.new_record? %>">
     </div>
   </div>
 
