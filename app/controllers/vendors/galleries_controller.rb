@@ -1,5 +1,6 @@
 class Vendors::GalleriesController < Vendors::BaseController
-  before_action :set_gallery, only: %i[ show edit update destroy ]
+  before_action :set_gallery, only: %i[ update destroy ]
+  before_action :set_gallery_with_items, only: %i[ show edit ]
   before_action :set_service
 
   # GET /galleries or /galleries.json
@@ -63,6 +64,10 @@ class Vendors::GalleriesController < Vendors::BaseController
   end
 
   private
+
+  def set_gallery_with_items
+    @gallery = Gallery.with_attached_items.find(params[:id])
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_gallery
