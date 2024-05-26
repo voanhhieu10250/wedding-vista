@@ -43,6 +43,8 @@ Rails.application.routes.draw do
     resources :topic_categories, only: %i[index show]
     resources :topics, only: %i[index show]
     resources :ideas, only: %i[index show]
+
+    root "ideas#index", as: :wedding_ideas_root
   end
 
   namespace :admin do

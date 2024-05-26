@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import "actiontext.css";
 @import "direct_upload.css";
 
@@ -25,16 +26,18 @@
   --preformatted: #444;
   --marked: #fd3;
   --disabled: #efefef;
+
+  font-family: Poppins, var(--sans-font);
 }
 
-header > nav a,
+/* header > nav a,
 header > nav a:visited {
   border: 1px solid var(--border);
   border-radius: var(--standard-border-radius);
   padding: 0.1rem 1rem;
   text-decoration: none;
   display: inline-block;
-}
+} */
 
 /* custom style */
 .turbo-progress-bar {
