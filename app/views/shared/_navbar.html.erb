@@ -1,4 +1,4 @@
-<nav class="py-2 border-b border-[#d9d9d9]" data-controller="navbar" data-navbar-mobile-menu-open-value="false">
+<nav class="py-2 border-b border-[#d9d9d9] mb-4" data-controller="navbar" data-navbar-mobile-menu-open-value="false">
   <div class="mx-auto max-w-screen-2xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -28,7 +28,7 @@
             <a href="#" class="mt-0.5 border-b-2 border-transparent hover:border-[#EDD1C6] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Forums</a>
 
             <%= link_to 'Ideas', wedding_ideas_root_path, class: [ "mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
-                                              (is_active?(path: wedding_ideas_root_path) ? "border-[#EDD1C6] text-[#FCB796] cursor-default" : "hover:border-[#EDD1C6] hover:text-[#FCB796]")
+                                              (is_active?(path: wedding_ideas_root_path) ? "!border-[#EDD1C6] text-[#FCB796] cursor-default" : "hover:border-[#EDD1C6] hover:text-[#FCB796]")
                                             ] %>
           </div>
         </div>

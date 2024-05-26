@@ -1,0 +1,16 @@
+<div id="<%= dom_id topic_category %>">
+  <p>
+    <strong>Name:</strong>
+    <%= topic_category.name %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= topic_category.description %>
+  </p>
+
+  <div class="max-w-16 max-h-16 lg:max-w-20 lg:max-h-20 rounded-full mb-2 overflow-hidden">
+    <%= image_tag topic_category.image.variant(:thumb), class: "w-full h-full object-cover" if topic_category.image.attached? %>
+  </div>
+
+</div>

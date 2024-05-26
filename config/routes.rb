@@ -39,8 +39,8 @@ Rails.application.routes.draw do
     root "services#index"
   end
 
+  resources :topic_categories, only: %i[show], path: "/wedding-ideas"
   scope "/wedding-ideas" do
-    resources :topic_categories, only: %i[index show]
     resources :topics, only: %i[index show]
     resources :ideas, only: %i[index show]
 

@@ -1,12 +1,35 @@
-<p style="color: green"><%= notice %></p>
+<% breadcrumbs = [
+  {name: "Weddings", path: root_path},
+  {name: "Wedding ideas", path: wedding_ideas_root_path},
+] %>
+<%= render 'shared/breadcrumb', breadcrumbs: %>
 
-<h1>Ideas</h1>
+<article class="listing">
+  <header class="listingHeading">
+    <h1 class="font-extrabold text-3xl md:text-4xl mb-5">Wedding ideas</h1>
+    <p>Planning a wedding is a truly magical experience. We’re offering our expertise to help make the planning process fun and stress-free for you from beginning to end. From decor inspiration to vow help, we’ve covered it all in our articles.</p>
+    <div class="flex flex-wrap mt-8">
 
-<div id="ideas">
-  <% @ideas.each do |idea| %>
-    <%= render idea %>
-    <p>
-      <%= link_to "Show this idea", idea %>
-    </p>
-  <% end %>
-</div>
+      <% @topic_categories.each do |item| %>
+        <div class="px-1 text-sm cursor-pointer text-center">
+          <div class="max-w-16 max-h-16 lg:max-w-20 lg:max-h-20 rounded-full mb-2 mx-auto overflow-hidden">
+            <%= image_tag item.image.variant(:thumb), class: "w-full h-full object-cover" if item.image.attached? %>
+          </div>
+          <div>
+            <%= link_to item.name, topic_category_path(item), class: "hover:text-[]" %>
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+  </header>
+
+  <div id="ideas">
+    <% @ideas.each do |idea| %>
+      <%= render idea %>
+      <p>
+        <%= link_to "Show this idea", idea %>
+      </p>
+    <% end %>
+  </div>
+</article>
