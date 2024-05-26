@@ -7,7 +7,6 @@
 
 <div class="flex items-center gap-2 m-0 mx-[15px] mb-4">
   <div class="relative flex rounded-full h-16 w-16 bg-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-    <span class="sr-only">Open user menu</span>
     <% if current_vendor.avatar.attached? %>
       <%= image_tag current_vendor.avatar&.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
     <% else %>

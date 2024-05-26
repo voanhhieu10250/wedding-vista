@@ -2,8 +2,8 @@
   <ol class="flex items-center text-sm text-[#6c6c6c] overflow-ellipsis">
     <% breadcrumbs.each do |crumb| %>
       <% if crumb[:path] %>
-        <li class="">
-          <%= link_to crumb[:name], crumb[:path] %>
+        <li>
+          <%= link_to crumb[:name], crumb[:path], class: "hover:text-[#FCB796]" %>
         </li>
         <p class="px-2 text-xs">/</p>
       <% else %>

@@ -7,7 +7,7 @@ class User < ApplicationRecord
   validates :name, presence: true
 
   has_one_attached :avatar do |attachable|
-    attachable.variant :thumb, resize_to_limit: [100, 100], preprocessed: true
+    attachable.variant :thumb, resize_to_limit: [100, 100], preprocessed: true if attachable.present?
   end
 
   validates :avatar, content_type: %i[image/png image/jpg image/jpeg], size: { less_than: 500.kilobytes }

@@ -17,7 +17,6 @@ export default class extends Controller {
       with: this.confirmSubmit,
     });
     this.handleEvent("turbo:submit-start", {
-      on: this.element,
       with: this.resetDirtyState,
     });
   }
@@ -32,14 +31,14 @@ export default class extends Controller {
     }
   };
 
-  checkDirty(event) {
+  checkDirty = (event) => {
     const currentFormState = this.serializeForm();
     this.dirtyValue = !this.compareFormData(
       this.initialFormState,
       currentFormState
     );
     this.updateFormStateIndicator();
-  }
+  };
 
   serializeForm() {
     const formData = new FormData(this.element);
@@ -103,6 +102,7 @@ export default class extends Controller {
   }
 
   resetDirtyState = () => {
+    console.log("resetDirtyState");
     this.dirtyValue = false;
     this.updateFormStateIndicator();
   };

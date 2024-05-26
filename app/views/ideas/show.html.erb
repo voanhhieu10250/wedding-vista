@@ -1,1 +1,14 @@
-<%= render @idea %>
+<% breadcrumbs = [
+  {name: "Weddings", path: root_path},
+  {name: "Wedding ideas", path: wedding_ideas_root_path},
+  {name: @idea.title},
+] %>
+<%= render 'shared/breadcrumb', breadcrumbs: %>
+
+<div class="flex justify-center">
+  <div class="w-full md:w-[948px] flex flex-col gap-4">
+    <div class="p-6 bg-white rounded">
+      <%= render partial: 'idea_full', locals: { idea: @idea } %>
+    </div>
+  </div>
+</div>

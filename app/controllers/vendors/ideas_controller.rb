@@ -60,6 +60,12 @@ class Vendors::IdeasController < Vendors::BaseController
       return
     end
 
+    unless @idea.main_image.attached?
+      flash.now[:error] = "Idea must have a main image attached to be published."
+      render "toggle_publish", locals: { idea: @idea }
+      return
+    end
+
     if @idea.update_attribute(:published, true)
       flash.now[:notice] = "Idea was successfully published."
     else
@@ -101,7 +107,10 @@ class Vendors::IdeasController < Vendors::BaseController
 
   def set_idea_with_rich_text_content_and_embeds
     # Avoiding N+1 Queries
-    @idea = current_vendor.ideas.with_rich_text_content_and_embeds.find(params[:id])
+    @idea = current_vendor.ideas.includes(:vendor, :topic)
+                          .with_attached_main_image
+                          .with_rich_text_content_and_embeds
+                          .find(params[:id])
   end
 
   def idea_params

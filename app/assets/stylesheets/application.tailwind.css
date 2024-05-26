@@ -121,61 +121,146 @@
 }
 
 .listing {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-row-gap: 1rem;
-    grid-template-areas:
-        "listingHeading"
-        "listingArticlesTitle"
-        "listingContent"
-        "listingSidebar"
-        "articlesMoreIdeas";
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-row-gap: 1rem;
+  grid-template-areas:
+    "listingHeading"
+    "listingArticlesTitle"
+    "listingContent"
+    "listingSidebar"
+    "articlesMoreIdeas";
 }
 @media (min-width: 1024px) {
-    .listing {
-        grid-template-columns: minmax(0, 3fr) 300px;
-        grid-column-gap: 3rem;
-        grid-row-gap: 3rem;
-        grid-template-areas:
-        "listingHeading listingHeading"
-        "listingArticlesTitle listingArticlesTitle"
-        "listingContent listingSidebar"
-        "articlesMoreIdeas articlesMoreIdeas";
-    }
+  .listing {
+    grid-template-columns: minmax(0, 3fr) 300px;
+    grid-column-gap: 3rem;
+    grid-row-gap: 3rem;
+    grid-template-areas:
+      "listingHeading listingHeading"
+      "listingArticlesTitle listingArticlesTitle"
+      "listingContent listingSidebar"
+      "articlesMoreIdeas articlesMoreIdeas";
+  }
 }
 .listing .listingHeading {
-    grid-area: listingHeading;
+  grid-area: listingHeading;
 }
 .listing .listingArticlesTitle {
-    grid-area: listingArticlesTitle;
+  grid-area: listingArticlesTitle;
 }
 .articleTile__preTitle {
-    font-size: .875rem;
-    line-height: 1.3125rem;
-    text-transform: uppercase;
-    letter-spacing: .0625rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    color: #6c6c6c;
-    margin-top: .5rem;
-}
-@media (min-width: 768px) {
-    .articleTile__title {
-        font-size: 1.25rem;
-        line-height: 1.625rem;
-    }
+  font-size: 0.875rem;
+  line-height: 1.3125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.0625rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: #6c6c6c;
+  margin-top: 0.5rem;
 }
 .articleTile__title {
-    font-size: 1.125rem;
-    line-height: 1.4375rem;
-    font-weight: 500;
-    margin-top: .5rem;
+  font-size: 1.125rem;
+  line-height: 1.4375rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
 }
+@media (min-width: 768px) {
+  .articleTile__title {
+    font-size: 1.25rem;
+    line-height: 1.625rem;
+  }
+}
+
 .articleTile__footer {
-    font-size: .875rem;
-    line-height: 1.3125rem;
-    margin-top: .5rem;
-    color: #6c6c6c;
+  font-size: 0.875rem;
+  line-height: 1.3125rem;
+  margin-top: 0.5rem;
+  color: #6c6c6c;
+}
+.articlesArticleHeading__categoryName {
+  font-size: 0.875rem;
+  line-height: 1.3125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.0625rem;
+  grid-area: category;
+  color: #6c6c6c;
+}
+.articlesArticleHeading__category {
+  grid-area: categoryTag;
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-areas:
+    "tag"
+    "category";
+  align-items: center;
+  margin-bottom: 1rem;
+}
+@media (min-width: 768px) {
+  .articlesArticleHeading__category {
+    grid-area: categoryTag;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-areas: "category tag";
+    grid-template-columns: auto auto 1fr;
+  }
+}
+
+.articlesArticleHeading__title {
+  font-size: 1.625rem;
+  line-height: 2.125rem;
+  font-family: ProximaNova Condensed, ProximaNovaCondensed-fallback-Arial,
+    sans-serif;
+  font-weight: 800;
+  grid-area: title;
+  margin-bottom: 1rem;
+}
+@media (min-width: 768px) {
+  .articlesArticleHeading__title {
+    font-size: 1.875rem;
+    line-height: 2.5rem;
+  }
+}
+
+.articlesArticleHeading__description {
+  grid-area: description;
+  font-style: italic;
+}
+@media (min-width: 768px) {
+  .articlesArticleHeading__description {
+    margin-bottom: 1rem;
+  }
+}
+.articlesArticleHeading__author {
+  grid-area: author;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+.articlesArticleHeading__authorImage {
+  flex-shrink: 0;
+  height: 40px;
+  width: 40px;
+  margin-right: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.articlesArticleHeading__date {
+  display: inline-block;
+  margin-right: 1rem;
+  color: #8c8c8c;
+}
+@media (min-width: 768px) {
+  .articlesArticleHeading__date {
+    white-space: nowrap;
+    margin-right: 2rem;
+  }
+}
+
+.articlesArticleHeading__counters {
+  display: inline-block;
+  vertical-align: bottom;
 }
