@@ -1,6 +1,5 @@
-<p style="color: green"><%= notice %></p>
-
 <h1>Topics</h1>
+<%= link_to "New topic", new_admin_topic_path %>
 
 <div id="topics">
   <% @topics.each do |topic| %>
@@ -10,5 +9,3 @@
     </p>
   <% end %>
 </div>
-
-<%= link_to "New topic", new_admin_topic_path %>

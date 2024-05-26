@@ -40,9 +40,9 @@ Rails.application.routes.draw do
   end
 
   resources :topic_categories, only: %i[show], path: "/wedding-ideas"
+  resources :ideas, only: %i[show], path: "/ideas"
   scope "/wedding-ideas" do
     resources :topics, only: %i[index show]
-    resources :ideas, only: %i[index show]
 
     root "ideas#index", as: :wedding_ideas_root
   end

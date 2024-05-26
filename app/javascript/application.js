@@ -3,8 +3,11 @@ import "@hotwired/turbo-rails";
 import "./controllers";
 import "trix";
 import "@rails/actiontext";
-
 import * as ActiveStorage from "@rails/activestorage";
+
+import LocalTime from "local-time"
+LocalTime.start()
+
 
 ActiveStorage.start();
 

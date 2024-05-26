@@ -1,6 +1,6 @@
 <h1>Editing idea</h1>
 
-<%= render "form", idea: @idea %>
+<%= render "form", idea: @idea, topic_categories: @topic_categories %>
 
 <div>
   <%= link_to "Public preview", vendor_idea_path(@idea) %> |

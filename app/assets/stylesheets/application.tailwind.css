@@ -127,7 +127,6 @@
     grid-row-gap: 1rem;
     grid-template-areas:
         "listingHeading"
-        "listingFeatured"
         "listingArticlesTitle"
         "listingContent"
         "listingSidebar"
@@ -140,7 +139,6 @@
         grid-row-gap: 3rem;
         grid-template-areas:
         "listingHeading listingHeading"
-        "listingFeatured listingFeatured"
         "listingArticlesTitle listingArticlesTitle"
         "listingContent listingSidebar"
         "articlesMoreIdeas articlesMoreIdeas";
@@ -148,4 +146,37 @@
 }
 .listing .listingHeading {
     grid-area: listingHeading;
+}
+.listing .listingArticlesTitle {
+    grid-area: listingArticlesTitle;
+}
+.articleTile__preTitle {
+    font-size: .875rem;
+    line-height: 1.3125rem;
+    text-transform: uppercase;
+    letter-spacing: .0625rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: #6c6c6c;
+    margin-top: .5rem;
+}
+@media (min-width: 768px) {
+    .articleTile__title {
+        font-size: 1.25rem;
+        line-height: 1.625rem;
+    }
+}
+.articleTile__title {
+    font-size: 1.125rem;
+    line-height: 1.4375rem;
+    font-weight: 500;
+    margin-top: .5rem;
+}
+.articleTile__footer {
+    font-size: .875rem;
+    line-height: 1.3125rem;
+    margin-top: .5rem;
+    color: #6c6c6c;
 }

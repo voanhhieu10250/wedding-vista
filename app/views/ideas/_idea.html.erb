@@ -1,27 +1,23 @@
 <div id="<%= dom_id idea %>">
-  <p>
-    <strong>Title:</strong>
-    <%= idea.title %>
-  </p>
 
-  <p>
-    <strong>Description:</strong>
-    <%= idea.description %>
-  </p>
+  <% if idea.main_image.attached? %>
+    <div class="relative rounded-lg overflow-hidden aspect-[3/2] w-full">
+      <%= image_tag idea.main_image.variant(:thumbnail), class: "w-full h-full object-cover transition duration-500 hover:[transform:translate3d(0,-2px,0)_scale3d(1.1,1.1,1.1)]" %>
+    </div>
+  <% end %>
 
-  <p>
-    <strong>Body:</strong>
-    <%= idea.content %>
-  </p>
-
-  <p>
-    <strong>Vendor:</strong>
-    <%= idea.vendor_id %>
-  </p>
-
-  <p>
-    <strong>Topic:</strong>
-    <%= idea.topic_id %>
-  </p>
-
+  <div>
+    <div class="articleTile__preTitle">
+      <%= idea.topic&.name&.upcase %>
+    </div>
+    <div class="articleTile__title">
+      <%= idea.title %>
+    </div>
+    <div class="mt-2 text-base">
+      <%= idea.description %>
+    </div>
+    <div class="articleTile__footer">
+      By <%= idea.vendor.name %>, updated on <%= local_date(idea.updated_at, '%B %e, %Y') %>
+    </div>
+  </div>
 </div>

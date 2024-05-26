@@ -13,6 +13,10 @@ class Idea < ApplicationRecord
   validates :title, :description, :main_image, presence: true
   validate :content_has_allowed_image_type
 
+  def to_param
+    "#{id}-#{title&.parameterize}"
+  end
+
   private
 
   def content_has_allowed_image_type

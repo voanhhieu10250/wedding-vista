@@ -9,27 +9,32 @@
     <h1 class="font-extrabold text-3xl md:text-4xl mb-5">Wedding ideas</h1>
     <p>Planning a wedding is a truly magical experience. We’re offering our expertise to help make the planning process fun and stress-free for you from beginning to end. From decor inspiration to vow help, we’ve covered it all in our articles.</p>
     <div class="flex flex-wrap mt-8">
-
       <% @topic_categories.each do |item| %>
-        <div class="px-1 text-sm cursor-pointer text-center">
+        <%= link_to topic_category_path(item), class: "block px-1 text-sm hover:text-[#FCB796] cursor-pointer text-center lg:w-[12.5%] xl:w-[10%]" do %>
           <div class="max-w-16 max-h-16 lg:max-w-20 lg:max-h-20 rounded-full mb-2 mx-auto overflow-hidden">
             <%= image_tag item.image.variant(:thumb), class: "w-full h-full object-cover" if item.image.attached? %>
           </div>
           <div>
-            <%= link_to item.name, topic_category_path(item), class: "hover:text-[]" %>
+            <p><%= item.name %></p>
           </div>
-        </div>
+        <% end %>
       <% end %>
-
     </div>
   </header>
 
-  <div id="ideas">
-    <% @ideas.each do |idea| %>
-      <%= render idea %>
-      <p>
-        <%= link_to "Show this idea", idea %>
-      </p>
-    <% end %>
-  </div>
+  <h2 class="listingArticlesTitle text-xl md:text-2xl font-semibold break-words">Recently added</h2>
+
+  <section class="listingArticles">
+    <div id="ideas" class="grid gap-y-6 gap-x-10 mb-8 grid-cols-[repeat(auto-fill,minmax(310px,1fr))]">
+      <% @ideas.each do |idea| %>
+
+        <%= link_to idea_path(idea), class: "block" do %>
+          <%= render idea %>
+        <% end %>
+
+      <% end %>
+    </div>
+
+    <span class="app-infinite-scroll-pagination "></span>
+  </section>
 </article>

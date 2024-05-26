@@ -10,9 +10,12 @@ class Vendors::IdeasController < Vendors::BaseController
 
   def new
     @idea = Idea.new
+    @topic_categories = TopicCategory.includes(:topics).all
   end
 
-  def edit; end
+  def edit
+    @topic_categories = TopicCategory.includes(:topics).all
+  end
 
   def create
     @idea = current_vendor.ideas.build(idea_params)

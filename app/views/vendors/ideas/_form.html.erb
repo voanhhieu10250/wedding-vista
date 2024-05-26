@@ -27,7 +27,7 @@
                         class: "w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500",
                         data: { "image-file-preview-target": :input, action: "form-changed-check#checkDirty" } %>
     <div class="my-2">
-      <img alt="preview" data-image-file-preview-target="preview" src="<%= url_for(idea.main_image) unless !idea.main_image.attached? || idea.new_record? %>">
+      <img alt="preview" data-image-file-preview-target="preview" data-has-image="<%= idea.main_image.attached? %>" src="<%= url_for(idea.main_image) unless !idea.main_image.attached? %>">
     </div>
   </div>
 
@@ -40,7 +40,7 @@
     <%= form.label :topic_id, class: "block" do %>
       Loại dịch vụ
     <% end %>
-    <%= form.collection_select :topic_id, Topic.all, :id, :name,
+    <%= form.grouped_collection_select :topic_id, topic_categories, :topics, :name, :id, :name,
                                               { :include_blank => "Chọn chủ đề" },
                                               { :class => '', data: { action: "form-changed-check#checkDirty" } } %>
   </div>

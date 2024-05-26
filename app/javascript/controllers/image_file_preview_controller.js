@@ -19,7 +19,7 @@ export default class extends Controller {
       with: this.onPreviewError,
     });
 
-    if (!this.previewTarget.src) {
+    if (!JSON.parse(this.previewTarget.dataset.hasImage)) {
       this.previewTarget.classList.add("hidden");
     }
   }
@@ -32,7 +32,11 @@ export default class extends Controller {
   previewImage = (event) => {
     const file = event.target.files[0];
 
-    if (!file) return;
+    if (!file) {
+      this.previewTarget.classList.add("hidden");
+      this.previewTarget.src = "";
+      return;
+    }
 
     // if the file is not an image, do nothing
     if (!file.type.startsWith("image/")) {

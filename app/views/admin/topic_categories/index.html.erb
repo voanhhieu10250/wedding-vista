@@ -1,6 +1,7 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>Topic categories</h1>
+<%= link_to "New topic category", new_admin_topic_category_path %>
 
 <div id="topic_categories">
   <% @topic_categories.each do |topic_category| %>
@@ -11,4 +12,3 @@
   <% end %>
 </div>
 
-<%= link_to "New topic category", new_admin_topic_category_path %>
