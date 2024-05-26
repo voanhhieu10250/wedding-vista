@@ -9,7 +9,7 @@ class Idea < ApplicationRecord
     attachable.variant :thumbnail, resize_to_limit: [604, 427], preprocessed: true
   end
 
-  validates :main_image, content_type: %i[image/png image/jpg image/jpeg], size: { less_than: 10.megabytes }
+  validates :main_image, content_type: %i[image/png image/jpg image/jpeg image/webp], size: { less_than: 10.megabytes }
   validates :title, :description, :main_image, presence: true
   validate :content_has_allowed_image_type
 

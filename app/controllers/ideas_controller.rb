@@ -3,7 +3,7 @@ class IdeasController < ApplicationController
 
   # GET /ideas or /ideas.json
   def index
-    @ideas = Idea.includes(:vendor, :topic).all
+    @ideas = Idea.includes(:vendor, :topic).with_attached_main_image.all
     @topic_categories = TopicCategory.with_attached_image.all
   end
 

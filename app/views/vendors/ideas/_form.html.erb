@@ -23,7 +23,7 @@
 
   <div data-controller="image-file-preview">
     <%= form.label :main_image, "Thumbnail", style: "display: block" %>
-    <%= form.file_field :main_image, accept: "image/png,image/jpg,image/jpeg" ,
+    <%= form.file_field :main_image, accept: "image/png,image/jpg,image/jpeg,image/webp" ,
                         class: "w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500",
                         data: { "image-file-preview-target": :input, action: "form-changed-check#checkDirty" } %>
     <div class="my-2">
