@@ -1,8 +1,16 @@
 class Vendors::TransactionsController < Vendors::BaseController
-  before_action :set_payos, only: %i[create success cancel verify_payment]
-  before_action :callback_params, only: %i[success cancel]
-  skip_before_action :verify_authenticity_token, only: %i[verify_payment]
-  skip_before_action :authenticate_vendor!, only: %i[verify_payment]
+  before_action :set_payos, only: %i[create cancel success_callback cancel_callback verify_payment_webhook]
+  before_action :callback_params, only: %i[success_callback cancel_callback]
+
+  skip_before_action :verify_authenticity_token, only: %i[verify_payment_webhook]
+  skip_before_action :authenticate_vendor!, only: %i[verify_payment_webhook]
+
+  rescue_from StandardError do |error|
+    respond_to do |format|
+      format.json { render_json_error(OpenStruct.new(type: "NotFound", message: error.message), :not_found) }
+      format.html { render template: "errors/not_found", layout: "application", status: :not_found }
+    end
+  end
 
   def index
     @transactions = current_vendor.transactions
@@ -30,6 +38,8 @@ class Vendors::TransactionsController < Vendors::BaseController
         description: "Wedding Vista"
       )
 
+      @transaction.update(checkout_url: response[:checkoutUrl], payment_link_id: response[:paymentLinkId])
+
       # redirect_to response[:checkoutUrl], allow_other_host: true
       @redirect_url = response[:checkoutUrl]
     else
@@ -38,86 +48,67 @@ class Vendors::TransactionsController < Vendors::BaseController
     end
   end
 
-  def success
-    # Get payment link information. To check if the payment is successful
-    response = @payos.get_payment_link_information(params[:id])
-
-    # remove the last 4 characters from the orderCode to get the transaction id
-    transaction_id = response[:orderCode].to_s[0..-5].to_i
-    @transaction = Transaction.find(transaction_id)
-
-    # If the payment is successful, update the transaction record in db to have the status PAID
-    if response[:status] == "PAID" && @transaction.pending?
-      @transaction.paid!
-      current_vendor.increment!(:balance, @transaction.amount)
-      flash.now[:success] = "Payment was successful"
-    else
-      flash.now[:error] = "Invalid action"
-    end
-    render "show"
-  rescue StandardError => e
-    respond_to do |format|
-      format.json do
-        render_json_error(OpenStruct.new(type: "NotFound", message: e.message), :not_found)
-      end
-      format.html { render template: "errors/not_found", layout: "application", status: :not_found }
-    end
-  end
-
   def cancel
-    response = @payos.get_payment_link_information(params[:id])
+    @transaction = current_vendor.transactions.find(params[:id])
 
-    # remove the last 4 characters from the orderCode to get the transaction id
-    transaction_id = response[:orderCode].to_s[0..-5].to_i
-    @transaction = Transaction.find(transaction_id)
-
-    if response[:status] == "CANCELLED" && @transaction.pending?
+    unless @transaction.cancelled?
+      @payos.cancel_payment_link(@transaction.payment_link_id)
       @transaction.cancelled!
-      flash.now[:error] = "Payment was cancelled"
-    else
-      flash.now[:error] = "Invalid action"
+      flash.now[:success] = "Payment was cancelled"
+    end
+
+    redirect_to vendor_transaction_path(@transaction)
+  end
+
+  def success_callback
+    unless @transaction.paid?
+      # Get payment link information. To check if the payment is successful
+      response = @payos.get_payment_link_information(@transaction.payment_link_id)
+
+      # If the payment is successful, update the transaction record in db to have the status PAID
+      if response[:status] == "PAID"
+        @transaction.paid!
+        current_vendor.increment!(:balance, @transaction.amount)
+        flash.now[:success] = "Payment was successful"
+      end
     end
 
     render "show"
-  rescue StandardError => e
-    respond_to do |format|
-      format.json do
-        render_json_error(OpenStruct.new(type: "NotFound", message: e.message), :not_found)
-      end
-      format.html { render template: "errors/not_found", layout: "application", status: :not_found }
-    end
   end
 
-  def verify_payment
+  def cancel_callback
+    unless @transaction.cancelled?
+      response = @payos.get_payment_link_information(@transaction.payment_link_id)
+
+      if response[:status] == "CANCELLED"
+        @transaction.cancelled!
+        flash.now[:error] = "Payment was cancelled"
+      end
+    end
+
+    render "show"
+  end
+
+  # This is the webhook endpoint that PayOS will send the SUCCESSFULL payment to
+  def verify_payment_webhook
     data = @payos.verify_payment_webhook_data(params)
 
-    pp data
-
-    if data[:orderCode] < 1000
+    # This is to avoid processing the webhook for test transactions
+    if data[:orderCode].to_i < 1000
       render json: { status: "success" }, status: :ok
       return
     end
 
     # Get the transaction id from the orderCode
+    transaction_id = data[:orderCode].to_s[0..-5].to_i
+    transaction = Transaction.find_by!(id: transaction_id, payment_link_id: data[:paymentLinkId])
 
-    # transaction_id = data[:orderCode].to_s[0..-5].to_i
-    # @transaction = Transaction.find(transaction_id)
-
-    # if params[:status] == "PAID" && @transaction.pending?
-    #   @transaction.paid!
-    #   current_vendor.increment!(:balance, @transaction.amount)
-    # elsif params[:status] == "CANCELLED" && @transaction.pending?
-    #   @transaction.cancelled!
-    # end
+    unless transaction.paid?
+      transaction.paid!
+      current_vendor.increment!(:balance, transaction.amount)
+    end
 
     render json: { status: "success" }, status: :ok
-  # rescue StandardError => e
-  #   respond_to do |format|
-  #     format.json do
-  #       render_json_error(OpenStruct.new(type: "NotFound", message: e.message), :not_found)
-  #     end
-  #     format.html { render template: "errors/not_found", layout: "application", status: :not_found }
-  #   end
   end
 
   private
@@ -134,6 +125,10 @@ class Vendors::TransactionsController < Vendors::BaseController
   end
 
   def callback_params
-    params.permit(:code, :id, :cancel, :status, :orderCode)
+    params.require(%i[orderCode id])
+
+    # remove the last 4 characters from the orderCode to get the transaction id
+    transaction_id = params[:orderCode].to_i < 1000 ? params[:orderCode] : params[:orderCode].to_s[0..-5].to_i
+    @transaction = Transaction.find_by!(id: transaction_id, payment_link_id: params[:id])
   end
 end

@@ -31,9 +31,10 @@ Rails.application.routes.draw do
     end
 
     resources :transactions, only: %i[index show new create]
-    get "payment/success", to: "transactions#success", as: :payment_success
-    get "payment/cancel", to: "transactions#cancel", as: :payment_cancel
-    post "payment/verify-payment", to: "transactions#verify_payment", as: :payment_verify
+    get "payment/success", to: "transactions#success_callback", as: :payment_success
+    get "payment/cancel", to: "transactions#cancel_callback", as: :payment_cancel
+    post "payment/verify-payment", to: "transactions#verify_payment_webhook", as: :payment_verify
+    post "payment/:id/cancel", to: "transactions#cancel", as: :payment_manual_cancel
 
     resources :spendings
 
