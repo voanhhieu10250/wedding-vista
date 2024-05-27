@@ -22,12 +22,11 @@ export default class extends Controller {
   }
 
   confirmSubmit = (event) => {
-    if (this.dirtyValue) {
-      if (
-        !confirm("You have unsaved changes. Are you sure you want to continue?")
-      ) {
-        event.preventDefault();
-      }
+    if (
+      this.dirtyValue &&
+      !confirm("You have unsaved changes. Are you sure you want to continue?")
+    ) {
+      event.preventDefault();
     }
   };
 
@@ -40,7 +39,7 @@ export default class extends Controller {
     this.updateFormStateIndicator();
   };
 
-  serializeForm() {
+  serializeForm = () => {
     const formData = new FormData(this.element);
     const serialized = {};
 
@@ -57,9 +56,9 @@ export default class extends Controller {
     });
 
     return serialized;
-  }
+  };
 
-  compareFormData(initial, current) {
+  compareFormData = (initial, current) => {
     const initialKeys = Object.keys(initial);
     const currentKeys = Object.keys(current);
 
@@ -83,15 +82,15 @@ export default class extends Controller {
     }
 
     return true;
-  }
+  };
 
-  updateFormStateIndicator() {
+  updateFormStateIndicator = () => {
     if (this.dirtyValue) {
       this.element.classList.add("is-dirty");
     } else {
       this.element.classList.remove("is-dirty");
     }
-  }
+  };
 
   resetForm(event) {
     event.preventDefault();
@@ -102,7 +101,6 @@ export default class extends Controller {
   }
 
   resetDirtyState = () => {
-    console.log("resetDirtyState");
     this.dirtyValue = false;
     this.updateFormStateIndicator();
   };

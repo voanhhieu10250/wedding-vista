@@ -25,6 +25,7 @@ class Vendors::IdeasController < Vendors::BaseController
         format.html { redirect_to vendor_idea_url(@idea), notice: "Idea was successfully created." }
         format.json { render :show, status: :created, location: @idea }
       else
+        @topic_categories = TopicCategory.includes(:topics).all
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @idea.errors, status: :unprocessable_entity }
       end
@@ -37,6 +38,7 @@ class Vendors::IdeasController < Vendors::BaseController
         format.html { redirect_to vendor_idea_url(@idea), notice: "Idea was successfully updated." }
         format.json { render :show, status: :ok, location: @idea }
       else
+        @topic_categories = TopicCategory.includes(:topics).all
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @idea.errors, status: :unprocessable_entity }
       end
