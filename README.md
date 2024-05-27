@@ -29,3 +29,5 @@
     - `CREATE USER '[your_user]'@'[rails_host_server_ip]' IDENTIFIED BY '[your_password]';`
     - `GRANT ALL PRIVILEGES ON *.* TO '[your_user]'@'[rails_host_server_ip]' WITH GRANT OPTION;`
     - `FLUSH PRIVILEGES;`
+7. Update webhook url in the PayOS dashboard to your production server's webhook url.
+    - `https://your_domain.com/vendor/payment/verify-payment`
