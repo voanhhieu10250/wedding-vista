@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     resources :transactions, only: %i[index show new create]
     get "payment/success", to: "transactions#success", as: :payment_success
     get "payment/cancel", to: "transactions#cancel", as: :payment_cancel
+    post "payment/verify-payment", to: "transactions#verify_payment", as: :payment_verify
 
     resources :spendings
 
