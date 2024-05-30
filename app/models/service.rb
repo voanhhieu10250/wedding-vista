@@ -2,6 +2,7 @@ class Service < ApplicationRecord
   belongs_to :vendor
   belongs_to :category, optional: true
 
+  has_many :priority_boostings, dependent: :destroy
   has_many :galleries, dependent: :destroy
   has_many :common_questions, dependent: :destroy
   has_many :addresses, dependent: :destroy, inverse_of: :service

@@ -20,6 +20,8 @@ Rails.application.routes.draw do
       resources :common_questions, as: :questions, path: :questions
     end
 
+    resources :boostings
+
     resources :topic_categories, only: %i[index show]
     resources :topics, only: %i[index show]
     resources :ideas do

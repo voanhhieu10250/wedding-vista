@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @priority_boosting %>
+
+<div>
+  <%= link_to "Edit this priority boosting", edit_vendor_boosting_path(@priority_boosting) %> |
+  <%= link_to "Back to priority boostings", vendor_boostings_path %>
+
+  <%= button_to "Destroy this priority boosting", @priority_boosting, method: :delete %>
+</div>

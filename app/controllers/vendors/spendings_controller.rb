@@ -1,15 +1,12 @@
 class Vendors::SpendingsController < Vendors::BaseController
   before_action :set_spending, only: %i[ show ]
 
-  # GET /spendings or /spendings.json
   def index
     @spendings = current_vendor.spendings
   end
 
-  # GET /spendings/1 or /spendings/1.json
   def show; end
 
-  # GET /spendings/new
   def new
     @spending = Spending.new
   end
@@ -17,7 +14,7 @@ class Vendors::SpendingsController < Vendors::BaseController
   # This method is used to create a new spending record.
   # Mainly, it creates a new spending record for post limit.
   # TODO: Need to do validate the amount and limit for the spending record.
-  # Create new table for spending limits and prices.
+  # Create new table for spending limits and prices, so that admin can set the limit and price for each spending.
   def create
     @spending = current_vendor.spendings.build(spending_params.except(:limit).merge(kind: :post_limit))
 

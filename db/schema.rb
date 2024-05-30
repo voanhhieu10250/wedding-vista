@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_30_031150) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_30_060253) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -103,6 +103,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_031150) do
     t.index ["vendor_id"], name: "index_ideas_on_vendor_id"
   end
 
+  create_table "priority_boostings", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.string "level", null: false
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string "status", default: "PENDING", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["end_time"], name: "index_priority_boostings_on_end_time"
+    t.index ["level"], name: "index_priority_boostings_on_level"
+    t.index ["service_id"], name: "index_priority_boostings_on_service_id"
+    t.index ["start_time"], name: "index_priority_boostings_on_start_time"
+    t.index ["status"], name: "index_priority_boostings_on_status"
+  end
+
   create_table "services", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -190,6 +205,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_031150) do
   add_foreign_key "galleries", "services"
   add_foreign_key "ideas", "topics"
   add_foreign_key "ideas", "vendors"
+  add_foreign_key "priority_boostings", "services"
   add_foreign_key "services", "categories"
   add_foreign_key "services", "vendors"
   add_foreign_key "spendings", "vendors"
