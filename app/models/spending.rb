@@ -3,5 +3,5 @@ class Spending < ApplicationRecord
 
   validates :amount, :kind, presence: true
 
-  enum kind: { post_limit: "POST_LIMIT", boost_limit: "BOOST_LIMIT" }
+  enum kind: { post_limit: "POST_LIMIT", service_boosting: "SERVICE_BOOSTING" }
 end

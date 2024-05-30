@@ -1,5 +1,5 @@
 class Vendors::SpendingsController < Vendors::BaseController
-  before_action :set_spending, only: %i[ show update destroy ]
+  before_action :set_spending, only: %i[ show ]
 
   # GET /spendings or /spendings.json
   def index
@@ -14,7 +14,10 @@ class Vendors::SpendingsController < Vendors::BaseController
     @spending = Spending.new
   end
 
-  # POST /spendings or /spendings.json
+  # This method is used to create a new spending record.
+  # Mainly, it creates a new spending record for post limit.
+  # TODO: Need to do validate the amount and limit for the spending record.
+  # Create new table for spending limits and prices.
   def create
     @spending = current_vendor.spendings.build(spending_params.except(:limit).merge(kind: :post_limit))
 
@@ -33,29 +36,6 @@ class Vendors::SpendingsController < Vendors::BaseController
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @spending.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # PATCH/PUT /spendings/1 or /spendings/1.json
-  def update
-    respond_to do |format|
-      if @spending.update(spending_params)
-        format.html { redirect_to vendor_spending_url(@spending), notice: "Spending was successfully updated." }
-        format.json { render :show, status: :ok, location: @spending }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @spending.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /spendings/1 or /spendings/1.json
-  def destroy
-    @spending.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to vendor_spendings_url, notice: "Spending was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 

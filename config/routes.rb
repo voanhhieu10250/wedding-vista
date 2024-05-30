@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     post "payment/verify-payment", to: "transactions#verify_payment_webhook", as: :payment_verify
     post "payment/:id/cancel", to: "transactions#cancel", as: :payment_manual_cancel
 
-    resources :spendings
+    resources :spendings, only: %i[index show new create]
 
     root "services#index"
   end
