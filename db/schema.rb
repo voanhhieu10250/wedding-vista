@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_30_060253) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_30_084449) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -128,6 +128,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_060253) do
     t.bigint "category_id"
     t.boolean "published", default: false
     t.index ["category_id"], name: "index_services_on_category_id"
+    t.index ["name"], name: "index_services_on_name"
     t.index ["vendor_id"], name: "index_services_on_vendor_id"
   end
 
