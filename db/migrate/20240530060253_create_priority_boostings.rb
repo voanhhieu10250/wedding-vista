@@ -2,7 +2,7 @@ class CreatePriorityBoostings < ActiveRecord::Migration[7.1]
   def change
     create_table :priority_boostings do |t|
       t.references :service, null: false, foreign_key: true
-      t.string :level, null: false
+      t.integer :level, default: 4, null: false
       t.datetime :start_time
       t.datetime :end_time
       t.string :status, null: false, default: "PENDING"

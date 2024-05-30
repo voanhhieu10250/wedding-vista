@@ -105,7 +105,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_084449) do
 
   create_table "priority_boostings", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.bigint "service_id", null: false
-    t.string "level", null: false
+    t.integer "level", default: 4, null: false
     t.datetime "start_time"
     t.datetime "end_time"
     t.string "status", default: "PENDING", null: false
