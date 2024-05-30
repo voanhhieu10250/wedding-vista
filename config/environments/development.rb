@@ -78,4 +78,6 @@ Rails.application.configure do
 
   config.hosts << /[a-z0-9\-.]+\.ngrok\.io/
   config.hosts << /[a-z0-9\-]+\.ngrok-free\.app/
+
+  config.active_job.queue_adapter = :solid_queue
 end

@@ -39,4 +39,8 @@ class Service < ApplicationRecord
             .select("services.*, COALESCE(MAX(priority_boostings.level), 0) AS max_priority_level, MAX(priority_boostings.created_at) AS latest_priority_created_at")
             .order("max_priority_level DESC, latest_priority_created_at DESC")
   end
+
+  def highest_active_boosting_level
+    priority_boostings.active.order(level: :desc).first&.level || 0
+  end
 end

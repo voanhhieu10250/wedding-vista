@@ -83,3 +83,5 @@ gem "mysql2"
 
 gem "local_time"
 gem "pagy", "~> 8.4"
+
+gem "solid_queue", "~> 0.3.1"
