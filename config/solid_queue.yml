@@ -10,7 +10,7 @@ default: &default
     - queues: "*"
       threads: 3
       processes: 1
-      polling_interval: 0.1
+      polling_interval: 0.5
 
 development:
  <<: *default
