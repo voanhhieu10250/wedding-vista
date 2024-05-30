@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Pagy::Backend
+
   helper_method :authenticate_admin!, :flash_errors_message
 
   rescue_from ActiveRecord::RecordNotFound do |error|
