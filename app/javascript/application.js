@@ -3,8 +3,11 @@ import "@hotwired/turbo-rails";
 import "./controllers";
 import "trix";
 import "@rails/actiontext";
-
 import * as ActiveStorage from "@rails/activestorage";
+
+import LocalTime from "local-time"
+LocalTime.start()
+
 
 ActiveStorage.start();
 
@@ -23,11 +26,11 @@ document.addEventListener("turbo:frame-missing", (event) => {
     event.detail.visit(event.detail.response.url, { action: "replace" });
 });
 
-const allowedImageTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
+const allowedImageTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif", "image/webp"];
 document.addEventListener("trix-file-accept", (event) => {
   if (!allowedImageTypes.includes(event.file.type)) {
     event.preventDefault();
-    alert("Only support attachment of png, jpg, jpeg, gif files");
+    alert("Only support attachment of png, jpg, jpeg, webp, gif files");
   }
 
   // Prevent attaching files larger than 10MB

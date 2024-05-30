@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Topic categories</h1>
+<%= link_to "New topic category", new_admin_topic_category_path %>
+
+<div id="topic_categories">
+  <% @topic_categories.each do |topic_category| %>
+    <%= render topic_category %>
+    <p>
+      <%= link_to "Show this topic category", admin_topic_category_path(topic_category) %>
+    </p>
+  <% end %>
+</div>
+

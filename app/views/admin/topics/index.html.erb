@@ -1,0 +1,11 @@
+<h1>Topics</h1>
+<%= link_to "New topic", new_admin_topic_path %>
+
+<div id="topics">
+  <% @topics.each do |topic| %>
+    <%= render topic %>
+    <p>
+      <%= link_to "Show this topic", admin_topic_path(topic) %>
+    </p>
+  <% end %>
+</div>

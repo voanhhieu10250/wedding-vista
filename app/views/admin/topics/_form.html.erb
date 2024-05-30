@@ -1,0 +1,33 @@
+<%= form_with(model: [ :admin, topic ]) do |form| %>
+  <% if topic.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
+
+      <ul>
+        <% topic.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :topic_category_id, style: "display: block" %>
+    <%= form.collection_select :topic_category_id, TopicCategory.all, :id, :name,
+                                              { :include_blank => "Chọn thể loại chủ đề" } %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

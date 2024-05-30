@@ -1,4 +1,4 @@
 class Topic < ApplicationRecord
   belongs_to :topic_category
-  has_many :ideas
+  has_many :ideas, dependent: :nullify
 end

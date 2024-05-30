@@ -1,0 +1,42 @@
+<%= form_with(model: [ :vendor, priority_boosting ], url: {controller: "boostings"}) do |form| %>
+  <% if priority_boosting.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(priority_boosting.errors.count, "error") %> prohibited this boosting from being saved:</h2>
+
+      <ul>
+        <% priority_boosting.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :service_id, style: "display: block" %>
+    <%= form.text_field :service_id %>
+  </div>
+
+  <div>
+    <%= form.label :level, style: "display: block" %>
+    <%= form.text_field :level %>
+  </div>
+
+  <div>
+    <%= form.label :start_time, style: "display: block" %>
+    <%= form.datetime_field :start_time %>
+  </div>
+
+  <div>
+    <%= form.label :end_time, style: "display: block" %>
+    <%= form.datetime_field :end_time %>
+  </div>
+
+  <div>
+    <%= form.label :status, style: "display: block" %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

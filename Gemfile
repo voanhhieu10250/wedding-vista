@@ -80,3 +80,6 @@ gem "devise", "~> 4.9"
 gem "active_storage_validations"
 
 gem "mysql2"
+
+gem "local_time"
+gem "pagy", "~> 8.4"

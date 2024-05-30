@@ -3,7 +3,10 @@ class IdeasController < ApplicationController
 
   # GET /ideas or /ideas.json
   def index
-    @ideas = Idea.all
+    @ideas = Idea.includes(:vendor, :topic).with_attached_main_image
+                 .where(published: true)
+                 .order(created_at: :desc)
+    @topic_categories = TopicCategory.with_attached_image.all
   end
 
   # GET /ideas/1 or /ideas/1.json

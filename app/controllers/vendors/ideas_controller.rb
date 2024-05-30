@@ -10,9 +10,12 @@ class Vendors::IdeasController < Vendors::BaseController
 
   def new
     @idea = Idea.new
+    @topic_categories = TopicCategory.includes(:topics).all
   end
 
-  def edit; end
+  def edit
+    @topic_categories = TopicCategory.includes(:topics).all
+  end
 
   def create
     @idea = current_vendor.ideas.build(idea_params)
@@ -22,6 +25,7 @@ class Vendors::IdeasController < Vendors::BaseController
         format.html { redirect_to vendor_idea_url(@idea), notice: "Idea was successfully created." }
         format.json { render :show, status: :created, location: @idea }
       else
+        @topic_categories = TopicCategory.includes(:topics).all
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @idea.errors, status: :unprocessable_entity }
       end
@@ -34,6 +38,7 @@ class Vendors::IdeasController < Vendors::BaseController
         format.html { redirect_to vendor_idea_url(@idea), notice: "Idea was successfully updated." }
         format.json { render :show, status: :ok, location: @idea }
       else
+        @topic_categories = TopicCategory.includes(:topics).all
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @idea.errors, status: :unprocessable_entity }
       end
@@ -53,6 +58,12 @@ class Vendors::IdeasController < Vendors::BaseController
     # if the idea is not paid, it can't be published
     unless @idea.is_paid?
       flash.now[:error] = "You need to pay for this idea before publishing it."
+      render "toggle_publish", locals: { idea: @idea }
+      return
+    end
+
+    unless @idea.main_image.attached?
+      flash.now[:error] = "Idea must have a main image attached to be published."
       render "toggle_publish", locals: { idea: @idea }
       return
     end
@@ -98,7 +109,10 @@ class Vendors::IdeasController < Vendors::BaseController
 
   def set_idea_with_rich_text_content_and_embeds
     # Avoiding N+1 Queries
-    @idea = current_vendor.ideas.with_rich_text_content_and_embeds.find(params[:id])
+    @idea = current_vendor.ideas.includes(:vendor, :topic)
+                          .with_attached_main_image
+                          .with_rich_text_content_and_embeds
+                          .find(params[:id])
   end
 
   def idea_params

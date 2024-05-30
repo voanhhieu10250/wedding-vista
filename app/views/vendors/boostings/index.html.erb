@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Priority boostings</h1>
+
+<div id="priority_boostings">
+  <% @priority_boostings.each do |priority_boosting| %>
+    <%= render priority_boosting %>
+    <p>
+      <%= link_to "Show this priority boosting", priority_boosting %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New priority boosting", new_vendor_boosting_path %>

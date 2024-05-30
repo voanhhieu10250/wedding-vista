@@ -1,5 +1,9 @@
 <% if idea.published? %>
-  <%= link_to 'Unpublish', unpublish_vendor_idea_path(idea), data: { turbo_method: :post }, class: "underline" %>
+  <%= link_to 'Unpublish', unpublish_vendor_idea_path(idea),
+                          data: { turbo_method: :post },
+                          class: "relative rounded cursor-pointer whitespace-nowrap w-auto tracking-[0.2px] bg-red-300 px-3 py-1.5" %>
 <% else %>
-  <%= link_to 'Publish', publish_vendor_idea_path(idea), data: { turbo_method: :post }, class: "underline" %>
+  <%= link_to 'Publish', publish_vendor_idea_path(idea),
+                         data: { turbo_method: :post },
+                         class: "relative rounded cursor-pointer whitespace-nowrap w-auto tracking-[0.2px] bg-green-300 px-3 py-1.5" %>
 <% end %>

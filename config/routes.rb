@@ -20,6 +20,8 @@ Rails.application.routes.draw do
       resources :common_questions, as: :questions, path: :questions
     end
 
+    resources :boostings
+
     resources :topic_categories, only: %i[index show]
     resources :topics, only: %i[index show]
     resources :ideas do
@@ -31,18 +33,22 @@ Rails.application.routes.draw do
     end
 
     resources :transactions, only: %i[index show new create]
-    get "payment/success", to: "transactions#success", as: :payment_success
-    get "payment/cancel", to: "transactions#cancel", as: :payment_cancel
+    get "payment/success", to: "transactions#success_callback", as: :payment_success
+    get "payment/cancel", to: "transactions#cancel_callback", as: :payment_cancel
+    post "payment/verify-payment", to: "transactions#verify_payment_webhook", as: :payment_verify
+    post "payment/:id/cancel", to: "transactions#cancel", as: :payment_manual_cancel
 
-    resources :spendings
+    resources :spendings, only: %i[index show new create]
 
     root "services#index"
   end
 
+  resources :topic_categories, only: %i[show], path: "/wedding-ideas"
+  resources :ideas, only: %i[show], path: "/ideas"
   scope "/wedding-ideas" do
-    resources :topic_categories, only: %i[index show]
     resources :topics, only: %i[index show]
-    resources :ideas, only: %i[index show]
+
+    root "ideas#index", as: :wedding_ideas_root
   end
 
   namespace :admin do
