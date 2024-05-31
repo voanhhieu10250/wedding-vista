@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_30_155506) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_31_125932) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -59,6 +59,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_155506) do
     t.string "latitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_main", default: false
     t.index ["district"], name: "index_addresses_on_district"
     t.index ["province"], name: "index_addresses_on_province"
     t.index ["service_id"], name: "index_addresses_on_service_id"
@@ -128,6 +129,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_155506) do
     t.bigint "vendor_id", null: false
     t.bigint "category_id"
     t.boolean "published", default: false
+    t.string "website"
     t.index ["category_id"], name: "index_services_on_category_id"
     t.index ["name"], name: "index_services_on_name"
     t.index ["vendor_id"], name: "index_services_on_vendor_id"

@@ -62,18 +62,31 @@
 
         <div class="flex flex-col gap-2">
           <div>
+            <%= form.label :website, class: "font-semibold text-sm" do %>
+            Địa chỉ website
+            <% end %>
+          </div>
+          <%= form.text_field :website, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                         placeholder: "Ví dụ: https://example.com" %>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <div>
             <%= form.label :published, class: "font-semibold text-sm" do %>
               Hiển thị
               <span class="text-red-500 font-bold text-sm">*</span>
             <% end %>
           </div>
-          <div>
-            <%= form.radio_button :published, false %>
-            <%= form.label :published_false, "Ẩn" %>
-          </div>
-          <div>
-            <%= form.radio_button :published, true %>
-            <%= form.label :published_true, "Công khai" %>
+
+          <div class="flex gap-7 items-center">
+            <div>
+              <%= form.radio_button :published, false %>
+              <%= form.label :published_false, "Ẩn" %>
+            </div>
+            <div>
+              <%= form.radio_button :published, true %>
+              <%= form.label :published_true, "Công khai" %>
+            </div>
           </div>
         </div>
 
