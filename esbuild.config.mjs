@@ -15,6 +15,7 @@ const configOptions = {
   format: "esm",
   publicPath: "/assets",
   outdir: "app/assets/builds",
+  minify: true,
   plugins: [envFilePlugin],
 };
 
