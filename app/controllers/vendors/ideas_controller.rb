@@ -3,7 +3,9 @@ class Vendors::IdeasController < Vendors::BaseController
   before_action :set_idea_with_rich_text_content_and_embeds, only: %i[ edit show ]
 
   def index
-    @ideas = current_vendor.ideas.with_rich_text_content_and_embeds
+    @ideas = current_vendor.ideas.includes(:topic)
+                           .with_attached_main_image
+                           .order(created_at: :desc)
   end
 
   def show; end
@@ -109,7 +111,7 @@ class Vendors::IdeasController < Vendors::BaseController
 
   def set_idea_with_rich_text_content_and_embeds
     # Avoiding N+1 Queries
-    @idea = current_vendor.ideas.includes(:vendor, :topic)
+    @idea = current_vendor.ideas.includes(:topic)
                           .with_attached_main_image
                           .with_rich_text_content_and_embeds
                           .find(params[:id])

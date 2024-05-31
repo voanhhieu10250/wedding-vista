@@ -14,16 +14,16 @@
     <div class="flex gap-8 items-center">
       <div class="articlesArticleHeading__author">
         <div class="articlesArticleHeading__authorImage">
-          <% if idea.vendor&.avatar.attached? %>
-            <%= image_tag idea.vendor&.avatar&.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
+          <% if current_vendor.avatar.attached? %>
+            <%= image_tag current_vendor.avatar&.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
           <% else %>
             <div class="absolute inset-0 flex items-center justify-center bg-gray-400 text-white text-xl font-semibold w-full h-full">
-              <%= idea.vendor&.name[0]&.titleize || "A" %>
+              <%= current_vendor.name[0]&.titleize || "A" %>
             </div>
           <% end %>
         </div>
         <p>
-          <%= idea.vendor&.name || "Admin" %>
+          <%= current_vendor.name || "Admin" %>
         </p>
       </div>
       <div class="flex items-center">

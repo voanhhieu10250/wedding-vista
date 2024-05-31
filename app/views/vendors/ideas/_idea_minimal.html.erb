@@ -17,7 +17,7 @@
       <%= idea.description %>
     </div>
     <div class="articleTile__footer">
-      By <%= idea.vendor.name %>, updated on <%= local_date(idea.updated_at, '%B %e, %Y') %>
+      By <%= current_vendor.name %>, updated on <%= local_date(idea.updated_at, '%B %e, %Y') %>
     </div>
   </div>
 </div>
