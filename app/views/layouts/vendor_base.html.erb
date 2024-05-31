@@ -16,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   </head>
-  <body>
+  <body data-controller="side-modal">
     <main class="relative">
       <aside class="hidden md:block fixed font-medium bg-white border-r border-gray-300 h-screen w-[264px] z-40 overflow-y-auto overflow-x-hidden pb-9 px-2">
         <%= render "shared/vendor_sidebar" %>
@@ -25,9 +25,11 @@
         <%= render "shared/flash" %>
         <%= render "shared/vendor_navbar" %>
       </header>
-      <section class="flex flex-col min-h-screen pt-16 md:pl-[264px] w-full bg-gray-100">
+      <section class="flex flex-col min-h-screen pt-16 md:pl-[264px] w-full bg-gray-100 overflow-x-auto">
         <%= content_for?(:body) ? yield(:body) : yield %>
       </section>
     </main>
+
+    <%= yield(:highest_modal) if content_for?(:highest_modal) %>
   </body>
 </html>
