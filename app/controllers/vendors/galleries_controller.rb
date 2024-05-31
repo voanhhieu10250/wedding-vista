@@ -1,11 +1,11 @@
 class Vendors::GalleriesController < Vendors::BaseController
+  before_action :set_service
   before_action :set_gallery, only: %i[ update destroy ]
   before_action :set_gallery_with_items, only: %i[ show edit ]
-  before_action :set_service
 
   # GET /galleries or /galleries.json
   def index
-    @galleries = Gallery.all
+    @galleries = @service.galleries
   end
 
   # GET /galleries/1 or /galleries/1.json
@@ -13,7 +13,7 @@ class Vendors::GalleriesController < Vendors::BaseController
 
   # GET /galleries/new
   def new
-    @gallery = Gallery.new
+    @gallery = @service.galleries.build
   end
 
   # GET /galleries/1/edit
@@ -66,16 +66,16 @@ class Vendors::GalleriesController < Vendors::BaseController
   private
 
   def set_gallery_with_items
-    @gallery = Gallery.with_attached_items.find(params[:id])
+    @gallery = @service.galleries.with_attached_items.find(params[:id])
   end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_gallery
-    @gallery = Gallery.find(params[:id])
+    @gallery = @service.galleries.find(params[:id])
   end
 
   def set_service
-    @service = Service.find(params[:service_id])
+    @service = current_vendor.services.find(params[:service_id])
   end
 
   # Only allow a list of trusted parameters through.

@@ -1,8 +1,11 @@
-<tr id="<%= dom_id service %>" class="hover:bg-[#ceefff] odd:bg-white even:bg-gray-50 text-[#333c48]">
+<tr id="<%= dom_id service %>" class="hover:bg-gray-100 odd:bg-white even:bg-gray-50 text-[#333c48]">
   <td class="px-2.5 pl-[18px] font-semibold text-sm whitespace-nowrap truncate leading-10 border-[#e2e7ee] border-b">
     <%= link_to vendor_service_path(service), class: "hover:underline hover:text-indigo-500" do %>
       <%= service.name %>
     <% end %>
+  </td>
+  <td style="border-left: 1px dashed #d5dce6;" class="py-1 px-2.5 text-sm whitespace-nowrap truncate leading-10 border-[#e2e7ee] border-b">
+    <%= image_tag service.first_image_thumb_of_first_gallery if service.first_image_thumb_of_first_gallery.present? %>
   </td>
   <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm whitespace-nowrap truncate leading-10 border-[#e2e7ee] border-b">
     <%= service.category.name %>
