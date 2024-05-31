@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       resources :galleries
       resources :common_questions, as: :questions, path: :questions
     end
+    post "services/search", to: "services#search"
 
     resources :boostings
 

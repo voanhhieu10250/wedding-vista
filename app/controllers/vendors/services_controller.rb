@@ -1,11 +1,11 @@
 module Vendors
   class ServicesController < Vendors::BaseController
     before_action :set_service, only: %i[ show edit update destroy publish unpublish ]
+    before_action :set_pagy_services, only: %i[ index search ]
 
-    # GET /services or /services.json
-    def index
-      @pagy, @services = pagy_countless current_vendor.services, item: 10
-    end
+    def index; end
+
+    def search; end
 
     # GET /services/1 or /services/1.json
     def show; end
@@ -79,6 +79,17 @@ module Vendors
     # Use callbacks to share common setup or constraints between actions.
     def set_service
       @service = current_vendor.services.find(params[:id])
+    end
+
+    def set_pagy_services
+      services = current_vendor.services.includes(:category)
+
+      if params[:search].present?
+        params[:search] = params[:search].strip
+        services = services.where("services.name LIKE ?", "%#{params[:search]}%")
+      end
+
+      @pagy, @services = pagy_countless services, item: 10
     end
   end
 end
