@@ -1,10 +1,10 @@
 module Vendors
   class ServicesController < Vendors::BaseController
-    before_action :set_service, only: %i[ show edit update ]
+    before_action :set_service, only: %i[ show edit update destroy publish unpublish ]
 
     # GET /services or /services.json
     def index
-      @services = current_vendor.services
+      @pagy, @services = pagy_countless current_vendor.services, item: 10
     end
 
     # GET /services/1 or /services/1.json
@@ -41,6 +41,22 @@ module Vendors
       redirect_to vendor_service_path(@service)
     end
 
+    def destroy
+      @service.destroy
+      flash[:notice] = "Service was successfully destroyed."
+      redirect_to vendor_services_path
+    end
+
+    def publish
+      @service.update(published: true)
+      flash.now[:notice] = "Service was successfully published."
+    end
+
+    def unpublish
+      @service.update(published: false)
+      flash.now[:notice] = "Service was successfully unpublished."
+    end
+
     private
 
     def service_params
@@ -49,7 +65,7 @@ module Vendors
 
       params.require(:service).permit(:name, :description, :pricing, :category_id, :published,
                                       addresses_attributes: %i[
-                                        id 
+                                        id
                                         full_address
                                         district
                                         province
@@ -62,7 +78,7 @@ module Vendors
 
     # Use callbacks to share common setup or constraints between actions.
     def set_service
-      @service = Service.find(params[:id])
+      @service = current_vendor.services.find(params[:id])
     end
   end
 end

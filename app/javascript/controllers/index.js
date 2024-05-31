@@ -37,5 +37,8 @@ application.register("price", PriceController)
 import RedirectController from "./redirect_controller"
 application.register("redirect", RedirectController)
 
+import SideModalController from "./side_modal_controller"
+application.register("side-modal", SideModalController)
+
 import VendorSpendingController from "./vendor_spending_controller"
 application.register("vendor-spending", VendorSpendingController)

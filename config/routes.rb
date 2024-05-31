@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   # which will have a vendor_root_path helper method, and the views will be in the views/vendors folder
   namespace :vendors, as: :vendor, path: :vendor do
     resources :services do
+      member do
+        post :publish
+        post :unpublish
+      end
       resources :addresses
       resources :galleries
       resources :common_questions, as: :questions, path: :questions

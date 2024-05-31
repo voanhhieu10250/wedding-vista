@@ -874,6 +874,11 @@ lru-cache@^10.2.0:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-10.2.2.tgz#48206bc114c1252940c41b25b41af5b545aca878"
   integrity sha512-9hp3Vp2/hFQUiIwKo8XCeFVnrg8Pk3TYNPIR7tJADKi5YfcF7vEaK7avFHTlSy3kOKYaJQaalfEo6YuXdceBOQ==
 
+lucide@^0.381.0:
+  version "0.381.0"
+  resolved "https://registry.yarnpkg.com/lucide/-/lucide-0.381.0.tgz#fab7269cfcad54a53b395ac5bfd88c0c5e9e376d"
+  integrity sha512-+RPg88RMmB+7EcusALa0EcedUY9xuw/6bGNeuf5t02dSx5DiJVl39Sc7XuOOU+zcZDvFKTRUaZv+ijRIjlb0PQ==
+
 mdn-data@2.0.28:
   version "2.0.28"
   resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-2.0.28.tgz#5ec48e7bef120654539069e1ae4ddc81ca490eba"
