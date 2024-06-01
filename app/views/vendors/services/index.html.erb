@@ -49,7 +49,7 @@
       </thead>
       <tbody id="services">
         <% @services.each do |service| %>
-          <%= render service %>
+          <%= render partial: 'service_table_row', locals: { service: } %>
         <% end %>
       </tbody>
     </table>

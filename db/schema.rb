@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_31_125932) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_01_003940) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -59,7 +59,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_125932) do
     t.string "latitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_main", default: false
     t.index ["district"], name: "index_addresses_on_district"
     t.index ["province"], name: "index_addresses_on_province"
     t.index ["service_id"], name: "index_addresses_on_service_id"
@@ -130,7 +129,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_125932) do
     t.bigint "category_id"
     t.boolean "published", default: false
     t.string "website"
+    t.bigint "main_address_id"
     t.index ["category_id"], name: "index_services_on_category_id"
+    t.index ["main_address_id"], name: "index_services_on_main_address_id"
     t.index ["name"], name: "index_services_on_name"
     t.index ["vendor_id"], name: "index_services_on_vendor_id"
   end
@@ -313,6 +314,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_31_125932) do
   add_foreign_key "ideas", "topics"
   add_foreign_key "ideas", "vendors"
   add_foreign_key "priority_boostings", "services"
+  add_foreign_key "services", "addresses", column: "main_address_id"
   add_foreign_key "services", "categories"
   add_foreign_key "services", "vendors"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

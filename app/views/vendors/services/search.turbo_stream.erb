@@ -1,6 +1,6 @@
 <%= turbo_stream.update :services do %>
   <% @services.each do |service| %>
-    <%= render service %>
+    <%= render partial: 'service_table_row', locals: { service: } %>
   <% end %>
 <% end %>
 

@@ -1,6 +1,7 @@
 class Service < ApplicationRecord
   belongs_to :vendor
   belongs_to :category, optional: true
+  belongs_to :main_address, class_name: "Address", optional: true
 
   has_many :priority_boostings, dependent: :destroy
   has_many :galleries, dependent: :destroy

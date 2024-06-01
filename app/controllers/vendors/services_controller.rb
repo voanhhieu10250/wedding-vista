@@ -1,6 +1,7 @@
 module Vendors
   class ServicesController < Vendors::BaseController
-    before_action :set_service, only: %i[ show edit update destroy publish unpublish ]
+    before_action :set_service_with_main_address, only: %i[ show edit ]
+    before_action :set_service, only: %i[ update destroy publish unpublish ]
     before_action :set_pagy_services, only: %i[ index search ]
 
     def index; end
@@ -63,7 +64,7 @@ module Vendors
       # Remove commas from the price string
       params[:service][:pricing] = params[:service][:pricing].gsub(",", "") if params[:service][:pricing].present?
 
-      params.require(:service).permit(:name, :description, :pricing, :category_id, :published, :website,
+      params.require(:service).permit(:name, :description, :pricing, :category_id, :published, :website, :main_address_id,
                                       addresses_attributes: %i[
                                         id
                                         full_address
@@ -77,8 +78,12 @@ module Vendors
     end
 
     # Use callbacks to share common setup or constraints between actions.
+    def set_service_with_main_address
+      @service = current_vendor.services.includes(:category, :main_address).find(params[:id])
+    end
+
     def set_service
-      @service = current_vendor.services.find(params[:id])
+      @service = current_vendor.services.includes(:category).find(params[:id])
     end
 
     def set_pagy_services
