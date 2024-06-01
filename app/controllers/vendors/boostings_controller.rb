@@ -71,7 +71,7 @@ class Vendors::BoostingsController < Vendors::BaseController
   private
 
   def set_service
-    @service = current_vendor.services.find(params[:priority_boosting][:service_id])
+    @service = current_vendor.services.find(params[:service_id])
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -81,6 +81,6 @@ class Vendors::BoostingsController < Vendors::BaseController
 
   # Only allow a list of trusted parameters through.
   def priority_boosting_params
-    params.require(:priority_boosting).permit(:service_id, :level, :start_time, :end_time, :now)
+    params.require(:priority_boosting).permit(:level, :start_time, :end_time, :now)
   end
 end
