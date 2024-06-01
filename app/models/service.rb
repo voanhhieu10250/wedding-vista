@@ -60,4 +60,12 @@ class Service < ApplicationRecord
   def first_four_items
     items.first(4)
   end
+
+  def first_or_main_address
+    main_address || addresses.first
+  end
+
+  def addresses_sorted_by_main_first
+    addresses.sort_by { |address| address == main_address ? 0 : 1 }
+  end
 end
