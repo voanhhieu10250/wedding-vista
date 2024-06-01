@@ -333,7 +333,7 @@
 }
 @media (min-width: 1024px) {
   .storefront .storefrontHeadingWrap {
-    grid-row: -5 / -2;
+    grid-row: 1 / 4;
   }
 }
 
