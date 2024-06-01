@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_01_003940) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_01_135505) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -85,6 +85,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_01_003940) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "attachments_count", default: 0
     t.index ["service_id"], name: "index_galleries_on_service_id"
   end
 

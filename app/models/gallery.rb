@@ -1,4 +1,6 @@
 class Gallery < ApplicationRecord
+  include Attachments
+
   belongs_to :service
   has_many_attached :items do |attachable|
     if attachable.present?
@@ -11,4 +13,10 @@ class Gallery < ApplicationRecord
   validates :items, content_type: %r{\Aimage/.*\z}
 
   to_param :name
+
+  # Gallery.find_each {|g| g.reset_attachment_counter}
+  def reset_attachment_counter
+    attachment_count = ActiveStorage::Attachment.where(record_type: "Gallery", record_id: id).count
+    update_column(:attachments_count, attachment_count)
+  end
 end

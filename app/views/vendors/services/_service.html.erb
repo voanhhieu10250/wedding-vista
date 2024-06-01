@@ -139,9 +139,9 @@
 
       </section>
       <div class="storefrontMultiGallery__button">
-        <button type="button" class="button app-gallery-slider-fullscreen-open app-gallery-fullscreen-open">
-          View Photos<span>18</span>
-        </button>
+        <%= link_to vendor_service_galleries_path(service), class: "button app-gallery-slider-fullscreen-open app-gallery-fullscreen-open" do %>
+          Xem ảnh <span><%= service.total_items_count %></span>
+        <% end %>
       </div>
     </div>
   </section>

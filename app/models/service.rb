@@ -53,6 +53,10 @@ class Service < ApplicationRecord
     galleries.flat_map(&:items)
   end
 
+  def total_items_count
+    galleries.sum(&:attachments_count)
+  end
+
   def first_four_items
     items.first(4)
   end

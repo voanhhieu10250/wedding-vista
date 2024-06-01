@@ -793,7 +793,7 @@
     display: flex;
   }
 }
-.storefrontMultiGallery__button button {
+.storefrontMultiGallery__button a {
   padding: 0.5rem 1.5rem;
   margin-left: 1rem;
   font-size: 0.875rem;
@@ -805,7 +805,7 @@
   cursor: pointer;
   background-position: center;
 }
-.storefrontMultiGallery__button button span {
+.storefrontMultiGallery__button a span {
   font-size: 0.8125rem;
   line-height: 1.1875rem;
   font-weight: 400;
