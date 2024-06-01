@@ -35,11 +35,11 @@ module Vendors
     def update
       if @service.update(service_params)
         flash[:notice] = "Service was successfully updated."
+        redirect_to vendor_service_path(@service)
       else
         flash_errors_message(@service)
+        render :edit, status: :unprocessable_entity
       end
-
-      redirect_to vendor_service_path(@service)
     end
 
     def destroy

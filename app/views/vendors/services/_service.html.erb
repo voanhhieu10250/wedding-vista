@@ -5,7 +5,7 @@
     <% end %>
   </td>
   <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm whitespace-nowrap truncate leading-10 border-[#e2e7ee] border-b">
-    <%= service.category.name %>
+    <%= service.category&.name %>
   </td>
   <td style="border-left: 1px dashed #d5dce6;" class="py-1 px-2.5 text-sm whitespace-nowrap truncate leading-10 border-[#e2e7ee] border-b">
     <%= image_tag service.first_image_thumb_of_first_gallery if service.first_image_thumb_of_first_gallery.present? %>
