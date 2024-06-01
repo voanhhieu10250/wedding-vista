@@ -1,7 +1,10 @@
 class Gallery < ApplicationRecord
   belongs_to :service
   has_many_attached :items do |attachable|
-    attachable.variant :thumb, resize_to_limit: [128, 128], preprocessed: true if attachable.present?
+    if attachable.present?
+      attachable.variant :thumb, resize_to_limit: [128, 128], preprocessed: true
+      attachable.variant :medium, resize_to_limit: [640, 640], preprocessed: true
+    end
   end
 
   validates :name, presence: true

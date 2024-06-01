@@ -11,8 +11,7 @@ class Vendors::SpendingsController < Vendors::BaseController
     @spending = Spending.new
   end
 
-  # This method is used to create a new spending record.
-  # Mainly, it creates a new spending record for post limit.
+  # This action is used to create a new spending record for post limit.
   # TODO: Need to do validate the amount and limit for the spending record.
   # Create new table for spending limits and prices, so that admin can set the limit and price for each spending.
   def create

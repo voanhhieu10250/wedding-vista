@@ -7,7 +7,6 @@
   <%= link_to "Back to services", vendor_services_path %>
 
   <%= button_to "Destroy this service", @service, method: :delete %>
-
   <div class="relative flex justify-center items-center">
     <%= tag.button type: "button", data: {action: "side-modal#open"}, class: "peer text-base text-gray-500 hover:text-indigo-500" do %>
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-from-line"><path d="m18 9-6-6-6 6"/><path d="M12 3v14"/><path d="M5 21h14"/></svg>

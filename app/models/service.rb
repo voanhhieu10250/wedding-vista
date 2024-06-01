@@ -46,6 +46,14 @@ class Service < ApplicationRecord
   def first_image_thumb_of_first_gallery
     # I dont use with_attached_items because I only need the first image thumb
     # with_attached_items will load ALL images of the gallery which is unnecessary
-    galleries.first&.items&.first&.variant(:thumb)
+    galleries.first&.items&.first&.variant(:thumb) if galleries.first&.items&.attached?
+  end
+
+  def items
+    galleries.flat_map(&:items)
+  end
+
+  def first_four_items
+    items.first(4)
   end
 end

@@ -23,7 +23,7 @@ module Vendors
       @service = current_vendor.services.build(service_params)
 
       if @service.save
-        flash[:notice] = "Service was successfully created."
+        flash[:notice] = "Dịch vụ đã được tạo thành công."
         redirect_to action: :index
       else
         flash_errors_message(@service, now: true)
@@ -34,7 +34,7 @@ module Vendors
     # PATCH/PUT /services/1 or /services/1.json
     def update
       if @service.update(service_params)
-        flash[:notice] = "Service was successfully updated."
+        flash[:notice] = "Dịch vụ đã được cập nhật."
         redirect_to vendor_service_path(@service)
       else
         flash_errors_message(@service)
@@ -44,18 +44,23 @@ module Vendors
 
     def destroy
       @service.destroy
-      flash[:notice] = "Service was successfully destroyed."
+      flash[:notice] = "Xoá dịch vụ thành công."
       redirect_to vendor_services_path
     end
 
     def publish
-      @service.update(published: true)
-      flash.now[:notice] = "Service was successfully published."
+      # Only publish when service has as least 4 items in its galleries
+      if @service.first_four_items.present? && @service.first_four_items.size >= 4
+        @service.update(published: true)
+        flash.now[:notice] = "Dịch vụ đã được bật trạng thái công khai."
+      else
+        flash.now[:alert] = "Dịch vụ cần ít nhất 4 ảnh để bật trạng thái công khai.<br>Vui lòng thêm ảnh vào dịch vụ."
+      end
     end
 
     def unpublish
       @service.update(published: false)
-      flash.now[:notice] = "Service was successfully unpublished."
+      flash.now[:notice] = "Dịch vụ đã được bật trạng thái ẩn."
     end
 
     private
