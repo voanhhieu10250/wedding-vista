@@ -46,5 +46,8 @@ application.register("service-details", ServiceDetailsController)
 import SideModalController from "./side_modal_controller"
 application.register("side-modal", SideModalController)
 
+import VendorBoostingController from "./vendor_boosting_controller"
+application.register("vendor-boosting", VendorBoostingController)
+
 import VendorSpendingController from "./vendor_spending_controller"
 application.register("vendor-spending", VendorSpendingController)

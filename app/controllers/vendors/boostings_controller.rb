@@ -33,17 +33,17 @@ class Vendors::BoostingsController < Vendors::BaseController
       return
     end
 
-    @priority_boosting = @service.priority_boostings.build(priority_boosting_params.except(:now))
+    @priority_boosting = @service.priority_boostings.build(priority_boosting_params.except(:now, :amount))
 
-    respond_to do |format|
-      if @priority_boosting.save
-        format.html do
-          redirect_to vendor_service_boosting_url(@service, @priority_boosting),
-                      notice: "Priority boosting was successfully created."
-        end
-      else
-        format.html { render :new, status: :unprocessable_entity }
+    if @priority_boosting.save
+      current_vendor.transaction do
+        current_vendor.decrement!(:balance, priority_boosting_params[:amount].to_i)
       end
+
+      redirect_to vendor_service_boosting_url(@service, @priority_boosting),
+                  notice: "Priority boosting was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -86,7 +86,7 @@ class Vendors::BoostingsController < Vendors::BaseController
   # Only allow a list of trusted parameters through.
   def priority_boosting_params
     # Convert start_time and end_time to UTC
-    priority_boosting_params = params.require(:priority_boosting).permit(:level, :start_time, :now)
+    priority_boosting_params = params.require(:priority_boosting).permit(:level, :start_time, :now, :amount)
 
     if priority_boosting_params[:now] == "1"
       priority_boosting_params[:status] = "ACTIVE"
