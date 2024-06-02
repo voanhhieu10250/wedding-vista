@@ -3,11 +3,10 @@ class ServicesController < ApplicationController
 
   # GET /services or /services.json
   def index
-    @pagy, @services = pagy_countless(Service.search(
-                              params[:search],
-                              district: params[:district],
-                              province: params[:province]
-                            ), items: 10)
+    @services = Service.search(params[:search], district: params[:district], province: params[:province])
+    custom_count = Service.custom_count(@services.to_sql)
+
+    @pagy, @services = pagy(@services, count: custom_count, items: 10)
   end
 
   # GET /services/1 or /services/1.json

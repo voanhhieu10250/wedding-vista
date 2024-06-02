@@ -12,7 +12,7 @@
               aria-checked="false" data-delegated-action="click->vendor-boosting#selectPackage"
             data-amount-param="10000"
             data-level-param="1">
-            <p class="font-semibold">VIP Bạc</p>
+            <p class="font-semibold text-[#009ba1]">VIP Bạc</p>
             <p>10,000 đ</p>
             <p class="text-sm">Hiển thị dưới VIP Vàng</p>
           </div>
@@ -21,7 +21,7 @@
               aria-checked="false" data-delegated-action="click->vendor-boosting#selectPackage"
             data-amount-param="20000"
             data-level-param="2">
-            <p class="font-semibold">VIP Vàng</p>
+            <p class="font-semibold text-[#e3aa49]">VIP Vàng</p>
             <p>20,000 đ</p>
             <p class="text-sm">Hiển thị dưới VIP Kim Cương</p>
           </div>
@@ -30,24 +30,24 @@
               aria-checked="false" data-delegated-action="click->vendor-boosting#selectPackage"
             data-amount-param="40000"
             data-level-param="3">
-            <p class="font-semibold">VIP Kim Cương</p>
+            <p class="font-semibold text-[#e03c31]">VIP Kim Cương</p>
             <p>40,000 đ</p>
             <p class="text-sm">Đứng đầu kết quả tìm kiếm</p>
           </div>
         </div>
+        
+        <div class="flex gap-2 items-center">
+          <%= form.check_box :now, checked: true, data:{action: "change->vendor-boosting#toggleStartTime"} %>
+          <%= form.label :now, "Đẩy ngay" %>
+        </div>
 
-        <div class="flex gap-7 items-center">
+        <div>
           <div>
             <%= form.label :start_time, class: "font-semibold text-sm" do %>
               Hẹn giờ bắt đầu đẩy top
             <% end %>
           </div>
           <%= form.datetime_field :start_time, disabled: true, data:{vendor_boosting_target: "startTime"}, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400" %>
-        </div>
-
-        <div class="flex gap-2 items-center">
-          <%= form.check_box :now, checked: true, data:{action: "change->vendor-boosting#toggleStartTime"} %>
-          <%= form.label :now %>
         </div>
 
         <div class="mt-6">

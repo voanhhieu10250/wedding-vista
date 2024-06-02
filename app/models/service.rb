@@ -39,6 +39,13 @@ class Service < ApplicationRecord
             .order("max_priority_level DESC, latest_priority_created_at DESC")
   end
 
+  # Pagy overrides the select statement of the query to include the count of the total records
+  # Because of that the order clause will generate an error for not knowing the max_priority_level column
+  # To fix this, we need to make the search query as a subquery and select count from it
+  def self.custom_count(sql)
+    Service.from("(#{sql}) services_search").count
+  end
+
   def highest_active_boosting_level
     priority_boostings.active.order(level: :desc).first&.level || 0
   end
