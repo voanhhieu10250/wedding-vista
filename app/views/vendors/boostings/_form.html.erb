@@ -1,42 +1,87 @@
-<%= form_with(model: [ :vendor, priority_boosting ], url: {controller: "boostings"}) do |form| %>
-  <% if priority_boosting.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(priority_boosting.errors.count, "error") %> prohibited this boosting from being saved:</h2>
+<div class="flex justify-center md:pt-6">
+  <div class="w-full md:w-[696px] flex flex-col gap-4">
+    <div class="p-6 bg-white rounded shadow">
+      <%= form_with(model: [ :vendor, priority_boosting.service, priority_boosting ], url: {controller: "boostings"}, html: {class: "space-y-4"}, data:{controller: "vendor-boosting", vendor_boosting_balance_value: current_vendor.balance}) do |form| %>
+        <h3 class="text-2xl font-semibold">Đẩy top tìm kiếm</h3>
+        <%= form.hidden_field :amount, data:{vendor_boosting_target: "amount"} %>
+        <%= form.hidden_field :level, data:{vendor_boosting_target: "level"} %>
 
-      <ul>
-        <% priority_boosting.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <div class="flex gap-3 mt-3">
+          <div
+              class="py-3 px-4 border border-[rgb(204,204,204)] rounded cursor-pointer flex-1 aria-checked:bg-[rgb(232,254,255)] aria-checked:shadow-md aria-checked:border-[rgb(0,124,128)]"
+              aria-checked="false" data-delegated-action="click->vendor-boosting#selectPackage"
+            data-amount-param="10000"
+            data-level-param="1">
+            <p class="font-semibold text-[#009ba1]">VIP Bạc</p>
+            <p>10,000 đ</p>
+            <p class="text-sm">Hiển thị dưới VIP Vàng</p>
+          </div>
+          <div
+              class="py-3 px-4 border border-[rgb(204,204,204)] rounded cursor-pointer flex-1 aria-checked:bg-[rgb(232,254,255)] aria-checked:shadow-md aria-checked:border-[rgb(0,124,128)]"
+              aria-checked="false" data-delegated-action="click->vendor-boosting#selectPackage"
+            data-amount-param="20000"
+            data-level-param="2">
+            <p class="font-semibold text-[#e3aa49]">VIP Vàng</p>
+            <p>20,000 đ</p>
+            <p class="text-sm">Hiển thị dưới VIP Kim Cương</p>
+          </div>
+          <div
+              class="py-3 px-4 border border-[rgb(204,204,204)] rounded cursor-pointer flex-1 aria-checked:bg-[rgb(232,254,255)] aria-checked:shadow-md aria-checked:border-[rgb(0,124,128)]"
+              aria-checked="false" data-delegated-action="click->vendor-boosting#selectPackage"
+            data-amount-param="40000"
+            data-level-param="3">
+            <p class="font-semibold text-[#e03c31]">VIP Kim Cương</p>
+            <p>40,000 đ</p>
+            <p class="text-sm">Đứng đầu kết quả tìm kiếm</p>
+          </div>
+        </div>
+        
+        <div class="flex gap-2 items-center">
+          <%= form.check_box :now, checked: true, data:{action: "change->vendor-boosting#toggleStartTime"} %>
+          <%= form.label :now, "Đẩy ngay" %>
+        </div>
+
+        <div>
+          <div>
+            <%= form.label :start_time, class: "font-semibold text-sm" do %>
+              Hẹn giờ bắt đầu đẩy top
+            <% end %>
+          </div>
+          <%= form.datetime_field :start_time, disabled: true, data:{vendor_boosting_target: "startTime"}, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400" %>
+        </div>
+
+        <div class="mt-6">
+          <div class="border-t border-gray-300 my-3"></div>
+          <h5 class="text-base font-medium tracking-[0.2px] text-[rgb(44,44,44)] mb-2">Thông tin</h5>
+          <div>
+            <div class="flex justify-between items-center gap-2">
+              <span>Số tiền trừ vào tài khoản:</span>
+              <p><span data-vendor-boosting-target="amountDisplay">0</span> đ</p>
+            </div>
+            <div class="flex justify-between items-center gap-2">
+              <span>Số dư hiện tại:</span>
+              <span>
+                <%= number_to_currency current_vendor.balance, unit: "đ", precision: 0, format: "%n %u" %>
+              </span>
+            </div>
+            <div class="border-t border-gray-300 my-3"></div>
+            <div class="flex justify-between items-center gap-2">
+              <span>Số dư mới:</span>
+              <p>
+                <span data-vendor-boosting-target="newBalance">
+                  <%= number_to_currency current_vendor.balance, precision: 0, format: "%n" %>
+                </span> đ
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-3">
+          <%= form.submit "Thanh toán", disabled:true, data: {vendor_boosting_target: "submit"},
+                                        class: "relative rounded cursor-pointer whitespace-nowrap w-auto tracking-[0.2px] bg-[rgb(224,60,49)] px-3 py-1.5 text-white disabled:opacity-40 disabled:cursor-default" %>
+        </div>
+      <% end %>
+
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label :service_id, style: "display: block" %>
-    <%= form.text_field :service_id %>
   </div>
-
-  <div>
-    <%= form.label :level, style: "display: block" %>
-    <%= form.text_field :level %>
-  </div>
-
-  <div>
-    <%= form.label :start_time, style: "display: block" %>
-    <%= form.datetime_field :start_time %>
-  </div>
-
-  <div>
-    <%= form.label :end_time, style: "display: block" %>
-    <%= form.datetime_field :end_time %>
-  </div>
-
-  <div>
-    <%= form.label :status, style: "display: block" %>
-    <%= form.text_field :status %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

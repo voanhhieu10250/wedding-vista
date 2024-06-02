@@ -22,6 +22,9 @@ application.register("form", FormController)
 import GoongMapController from "./goong_map_controller"
 application.register("goong-map", GoongMapController)
 
+import GoongNonInteractiveMapController from "./goong_non_interactive_map_controller"
+application.register("goong-non-interactive-map", GoongNonInteractiveMapController)
+
 import ImageFilePreviewController from "./image_file_preview_controller"
 application.register("image-file-preview", ImageFilePreviewController)
 
@@ -36,6 +39,15 @@ application.register("price", PriceController)
 
 import RedirectController from "./redirect_controller"
 application.register("redirect", RedirectController)
+
+import ServiceDetailsController from "./service_details_controller"
+application.register("service-details", ServiceDetailsController)
+
+import SideModalController from "./side_modal_controller"
+application.register("side-modal", SideModalController)
+
+import VendorBoostingController from "./vendor_boosting_controller"
+application.register("vendor-boosting", VendorBoostingController)
 
 import VendorSpendingController from "./vendor_spending_controller"
 application.register("vendor-spending", VendorSpendingController)

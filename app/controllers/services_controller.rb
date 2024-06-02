@@ -3,11 +3,10 @@ class ServicesController < ApplicationController
 
   # GET /services or /services.json
   def index
-    @pagy, @services = pagy_countless(Service.search(
-                              params[:search],
-                              district: params[:district],
-                              province: params[:province]
-                            ), items: 10)
+    @services = Service.search(params[:search], district: params[:district], province: params[:province])
+    custom_count = Service.custom_count(@services.to_sql)
+
+    @pagy, @services = pagy(@services, count: custom_count, items: 10)
   end
 
   # GET /services/1 or /services/1.json
@@ -18,7 +17,7 @@ class ServicesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_service
     # The bang method (!) will raise an ActiveRecord::RecordNotFound exception if the record is not found
-    @service = Service.find_by!(id: params[:id], published: true)
+    @service = Service.includes(:category, :main_address, :common_questions).find_by!(id: params[:id], published: true)
   end
 
   # Only allow a list of trusted parameters through.

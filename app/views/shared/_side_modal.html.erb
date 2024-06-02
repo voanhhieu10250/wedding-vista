@@ -1,0 +1,32 @@
+<% content_for :highest_modal do %>
+  <div class="fixed inset-0 z-50 bg-black bg-opacity-50 overflow-y-auto overflow-x-hidden sm:justify-end sm:p-5 hidden"
+      aria-modal="true"
+      data-action="click->side-modal#clickOutside"
+    data-side-modal-target="modal">
+
+    <%# Main %>
+    <div class="slide-in-right fixed inset-y-0 right-0 bg-white shadow-md w-[500px] flex flex-col">
+      <%# Header %>
+      <div class="py-3.5 px-5 rounded-t-md border-b border-gray-300 text-gray-600 bg-gray-50">
+        <div class="flex justify-between items-center flex-wrap text-lg font-semibold">
+          <%= title %>
+          <button data-action="click->side-modal#close" class="text-xl hover:text-indigo-700">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <%# Body %>
+      <div class="flex-1 p-5 overflow-y-scroll">
+        <%= yield %>
+      </div>
+
+      <%# Footer %>
+      <% if content_for?(:modal_footer) %>
+        <div class="rounded-b-md px-5 py-3.5 border-t border-gray-300 flex items-center justify-start bg-gray-50">
+          <%= yield(:modal_footer) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

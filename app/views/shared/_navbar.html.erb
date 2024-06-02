@@ -23,8 +23,9 @@
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <a href="#" class="mt-0.5 border-b-2 border-transparent hover:border-[#EDD1C6] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Planning tools</a>
-            <a href="#" class="mt-0.5 border-b-2 border-transparent hover:border-[#EDD1C6] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Venues</a>
-            <a href="#" class="mt-0.5 border-b-2 border-transparent hover:border-[#EDD1C6] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Vendors</a>
+            <%= link_to 'Vendors', services_path, class: [ "mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
+                                              (is_active?(path: services_path) ? "!border-[#EDD1C6] text-[#FCB796] cursor-default" : "hover:border-[#EDD1C6] hover:text-[#FCB796]")
+                                            ] %>
             <a href="#" class="mt-0.5 border-b-2 border-transparent hover:border-[#EDD1C6] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Forums</a>
 
             <%= link_to 'Ideas', wedding_ideas_root_path, class: [ "mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
@@ -87,8 +88,10 @@
                                               (is_active?(path: root_path) ? "bg-[#F4B99B]/30" : "hover:bg-[#F4B99B]/30")
                                             ] %>
       <a href="#" class="text-gray-700 hover:bg-[#F4B99B]/30 block rounded px-3 py-2 text-base font-medium">Planning tools</a>
-      <a href="#" class="text-gray-700 hover:bg-[#F4B99B]/30 block rounded px-3 py-2 text-base font-medium">Venues</a>
-      <a href="#" class="text-gray-700 hover:bg-[#F4B99B]/30 block rounded px-3 py-2 text-base font-medium">Vendors</a>
+      <%= link_to "Vendors", services_path,
+                          class: [ "text-gray-700 block rounded-md px-3 py-2 text-base font-medium",
+                            (is_active?(path: services_path) ? "bg-[#F4B99B]/30" : "hover:bg-[#F4B99B]/30")
+                          ] %>
       <a href="#" class="text-gray-700 hover:bg-[#F4B99B]/30 block rounded px-3 py-2 text-base font-medium">Forums</a>
       <%= link_to "Ideas", wedding_ideas_root_path,
                           class: [ "text-gray-700 block rounded-md px-3 py-2 text-base font-medium",

@@ -1,0 +1,11 @@
+<%= turbo_stream.update :services do %>
+  <% @services.each do |service| %>
+    <%= render partial: 'service_table_row', locals: { service: } %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update :pagination do %>
+  <% @services.each do |service| %>
+    <%== pagy_nav(@pagy) %>
+  <% end %>
+<% end %>

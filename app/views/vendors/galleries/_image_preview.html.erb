@@ -1,5 +1,5 @@
 <div class="drop-zone-item-wrapper" data-new-item="false">
   <%= f.hidden_field :items, multiple: true, value:  item.new_record? ? "TEMPLATE" : item.signed_id, id: nil %>
-  <%= image_tag item.new_record? ? "" : item.variant(:thumb), class: "w-[100px] h-[100px]" %>
+  <%= image_tag item.new_record? ? "" : item.variant(:thumb), class: "w-[100px] h-[100px] object-cover" %>
   <button type="button" data-action="drop-zone#remove">Remove</button>
 </div>

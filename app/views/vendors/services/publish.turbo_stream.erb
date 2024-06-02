@@ -1,0 +1,7 @@
+<%= turbo_stream.replace dom_id @service do %>
+  <%= render partial: 'service_table_row', locals: { service: @service } %>
+<% end %>
+
+<%= turbo_stream.replace "action-toolbar" do %>
+  <%= render partial: 'service_details_toolbar', locals: { service: @service } %>
+<% end %>

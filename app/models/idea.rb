@@ -1,6 +1,6 @@
 class Idea < ApplicationRecord
-  belongs_to :vendor
-  belongs_to :topic
+  belongs_to :vendor, optional: true
+  belongs_to :topic, optional: true
 
   has_rich_text :content
   has_one_attached :main_image do |attachable|

@@ -1,10 +1,3 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @service %>
-
-<div>
-  <%= link_to "Edit this service", edit_vendor_service_path(@service) %> |
-  <%= link_to "Back to services", vendor_services_path %>
-
-  <%= button_to "Destroy this service", @service, method: :delete %>
-</div>
+<main class="px-8 mb-4 max-w-screen-2xl mx-auto bg-white rounded-md">
+  <%= render @service %>
+</main>
