@@ -43,10 +43,10 @@ class Service < ApplicationRecord
     priority_boostings.active.order(level: :desc).first&.level || 0
   end
 
-  def first_image_thumb_of_first_gallery
+  def first_image_thumb_of_first_gallery(variant = :thumb)
     # I dont use with_attached_items because I only need the first image thumb
     # with_attached_items will load ALL images of the gallery which is unnecessary
-    galleries.first&.items&.first&.variant(:thumb) if galleries.first&.items&.attached?
+    galleries.first&.items&.first&.variant(variant) if galleries.first&.items&.attached?
   end
 
   def items
