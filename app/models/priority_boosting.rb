@@ -4,6 +4,7 @@ class PriorityBoosting < ApplicationRecord
   validates :level, :status, presence: true
 
   enum status: { pending: "PENDING", active: "ACTIVE", expired: "EXPIRED" }
+  enum level: { level1: 1, level2: 2, level3: 3 }
 
   def update_times_and_job(start_time, end_time)
     SolidQueue::Job.find_by(active_job_id: job_id)&.destroy! if job_id.present?

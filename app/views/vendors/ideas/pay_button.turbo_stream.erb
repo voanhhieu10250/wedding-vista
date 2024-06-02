@@ -1,3 +1,16 @@
 <%= turbo_stream.update "pay_button" do %>
   <%= render 'pay_button', idea: @idea %>
 <% end %>
+
+<%= turbo_stream.update "vendor_account" do %>
+  <div class="flex justify-between mb-2 text-sm">
+    <div class="text-[rgb(80,80,80)]">Số dư</div>
+    <div class="text-[rgb(44,44,44)] font-medium">
+      <%= number_to_currency current_vendor.balance, unit: "đ", precision: 0, format: "%n %u" %>
+    </div>
+  </div>
+  <div class="flex justify-between mb-2 text-sm">
+    <div class="text-[rgb(80,80,80)]">SL tin có thể đăng</div>
+    <div class="text-[rgb(44,44,44)] font-medium"><%= current_vendor.post_limit %></div>
+  </div>
+<% end %>

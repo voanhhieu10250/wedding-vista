@@ -1,42 +1,70 @@
-<%= form_with(model: [ :vendor, priority_boosting ], url: {controller: "boostings"}) do |form| %>
-  <% if priority_boosting.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(priority_boosting.errors.count, "error") %> prohibited this boosting from being saved:</h2>
+<div class="flex justify-center md:pt-6">
+  <div class="w-full md:w-[696px] flex flex-col gap-4">
+    <div class="p-6 bg-white rounded shadow">
+      <%= form_with(model: [ :vendor, priority_boosting.service, priority_boosting ], url: {controller: "boostings"}, html: {class: "space-y-4"}) do |form| %>
+        <h3 class="text-2xl font-semibold">Đẩy top tìm kiếm</h3>
 
-      <ul>
-        <% priority_boosting.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <div class="flex gap-7 items-center">
+          <div>
+            <%= form.radio_button :level, 1, checked: true %>
+            <%= form.label :level_1, "VIP Bạc" %>
+          </div>
+          <div>
+            <%= form.radio_button :level, 2 %>
+            <%= form.label :level_2, "VIP Vàng" %>
+          </div>
+          <div>
+            <%= form.radio_button :level, 3 %>
+            <%= form.label :level_3, "VIP Kim cương" %>
+          </div>
+        </div>
+
+        <div class="flex gap-7 items-center">
+          <div>
+            <%= form.label :start_time, class: "font-semibold text-sm" do %>
+              Thời gian bắt đầu
+            <% end %>
+          </div>
+          <%= form.datetime_field :start_time, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400" %>
+        </div>
+
+        <div class="flex gap-2 items-center">
+          <%= form.check_box :now %>
+          <%= form.label :now %>
+        </div>
+
+        <div class="mt-6">
+          <div class="border-t border-gray-300 my-3"></div>
+          <h5 class="text-base font-medium tracking-[0.2px] text-[rgb(44,44,44)] mb-2">Thông tin</h5>
+          <div>
+            <div class="flex justify-between items-center gap-2">
+              <span>Số tiền trừ vào tài khoản:</span>
+              <p><span data-vendor-spending-target="amountDisplay">0</span> đ</p>
+            </div>
+            <div class="flex justify-between items-center gap-2">
+              <span>Số dư hiện tại:</span>
+              <span>
+                <%= number_to_currency current_vendor.balance, unit: "đ", precision: 0, format: "%n %u" %>
+              </span>
+            </div>
+            <div class="border-t border-gray-300 my-3"></div>
+            <div class="flex justify-between items-center gap-2">
+              <span>Số dư mới:</span>
+              <p>
+                <span data-vendor-spending-target="newBalance">
+                  <%= number_to_currency current_vendor.balance, precision: 0, format: "%n" %>
+                </span> đ
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-3">
+          <%= form.submit "Thanh toán", data: {vendor_spending_target: "submit"},
+                                        class: "relative rounded cursor-pointer whitespace-nowrap w-auto tracking-[0.2px] bg-[rgb(224,60,49)] px-3 py-1.5 text-white disabled:opacity-40 disabled:cursor-default" %>
+        </div>
+      <% end %>
+
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label :service_id, style: "display: block" %>
-    <%= form.text_field :service_id %>
   </div>
-
-  <div>
-    <%= form.label :level, style: "display: block" %>
-    <%= form.text_field :level %>
-  </div>
-
-  <div>
-    <%= form.label :start_time, style: "display: block" %>
-    <%= form.datetime_field :start_time %>
-  </div>
-
-  <div>
-    <%= form.label :end_time, style: "display: block" %>
-    <%= form.datetime_field :end_time %>
-  </div>
-
-  <div>
-    <%= form.label :status, style: "display: block" %>
-    <%= form.text_field :status %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

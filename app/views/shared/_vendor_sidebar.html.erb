@@ -28,15 +28,17 @@
     <h5 class="text-base font-medium tracking-[0.2px] text-[rgb(44,44,44)]">Tài khoản</h5>
   </div>
 
-  <div class="flex justify-between mb-2 text-sm">
-    <div class="text-[rgb(80,80,80)]">Số dư</div>
-    <div class="text-[rgb(44,44,44)] font-medium">
-      <%= number_to_currency current_vendor.balance, unit: "đ", precision: 0, format: "%n %u" %>
+  <div id="vendor_account">  
+    <div class="flex justify-between mb-2 text-sm">
+      <div class="text-[rgb(80,80,80)]">Số dư</div>
+      <div class="text-[rgb(44,44,44)] font-medium">
+        <%= number_to_currency current_vendor.balance, unit: "đ", precision: 0, format: "%n %u" %>
+      </div>
     </div>
-  </div>
-  <div class="flex justify-between mb-2 text-sm">
-    <div class="text-[rgb(80,80,80)]">SL tin có thể đăng</div>
-    <div class="text-[rgb(44,44,44)] font-medium"><%= current_vendor.post_limit %></div>
+    <div class="flex justify-between mb-2 text-sm">
+      <div class="text-[rgb(80,80,80)]">SL tin có thể đăng</div>
+      <div class="text-[rgb(44,44,44)] font-medium"><%= current_vendor.post_limit %></div>
+    </div>
   </div>
 
   <%= link_to new_vendor_transaction_path, class: "flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap mt-3 w-full tracking-[0.2px] bg-white py-1.5 px-3 text-[rgb(224,60,49)] border border-[rgb(224,60,49)] hover:bg-[rgb(224,60,49)] hover:text-white" do %>

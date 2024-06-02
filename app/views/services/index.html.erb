@@ -344,7 +344,7 @@
       <div class="stickyFilterButtonBarMobile  app-sticky-filter-button-bar-mobile   stickyFilterButtonBarMobile--vendors  ">
         <div class="filterButtonBar app-filter-menu-type      filterButtonBar--vendors    " data-show-mode="list">
           <h2 class="filterButtonBar__results app-number-of-results" data-num-results="80">
-            80 results
+            <%= @services.length %> results
           </h2>
         </div>
       </div>
@@ -383,7 +383,7 @@
                     <div class="re__card-location">
                       <i class="re__icon-location--sm"></i>
                       <span>
-                        <%= truncate(service.description, length: 57) %>
+                        <%= truncate(service.description, length: 150) %>
                       </span>
                     </div>
                     <div class="re__clear"></div>
@@ -393,7 +393,7 @@
                   <div class="re__card-published-info" title="">
                     <div class="re__card-published-info-published-at">
                       <span class="re__card-published-info-published-at">
-                        <%= number_to_currency service.pricing, unit: "đ", precision: 0, format: "%n %u" %> - Mức giá phổ biến
+                        <%= "#{number_to_currency service.pricing, unit: "đ", precision: 0, format: "%n %u"} - Mức giá phổ biến" if service.pricing.present? %>
                       </span>
                     </div>
                   </div>
