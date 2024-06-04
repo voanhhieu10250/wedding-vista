@@ -28,7 +28,7 @@
     <h5 class="text-base font-medium tracking-[0.2px] text-[rgb(44,44,44)]">Tài khoản</h5>
   </div>
 
-  <div id="vendor_account">  
+  <div id="vendor_account">
     <div class="flex justify-between mb-2 text-sm">
       <div class="text-[rgb(80,80,80)]">Số dư</div>
       <div class="text-[rgb(44,44,44)] font-medium">
@@ -43,7 +43,7 @@
 
   <%= link_to new_vendor_transaction_path, class: "flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap mt-3 w-full tracking-[0.2px] bg-white py-1.5 px-3 text-[rgb(224,60,49)] border border-[rgb(224,60,49)] hover:bg-[rgb(224,60,49)] hover:text-white" do %>
     <span>
-      <svg font-size="16px" width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 17H22" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path><path d="M19 14V20" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13 17H4C2.89543 17 2 16.1046 2 15V6C2 4.89543 2.89543 4 4 4H17C18.1046 4 19 4.89543 19 6V10.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path><path d="M2 8H19" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <%= inline_svg_tag "svg/deposit.svg", size: "16" %>
     </span>
     <span>
       Nạp tiền

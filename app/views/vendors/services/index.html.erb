@@ -7,13 +7,13 @@
       <%= form_with url: vendor_services_search_path, html: {class: "relative"} do |form| %>
         <%= form.text_field :search, value: params[:search], class: "text-sm w-96 max-w-full border-gray-300 rounded py-2 px-4 leading-tight pl-12 border-0 ring-1 ring-inset ring-gray-300 outline-0 focus:ring-1 focus:ring-inset focus:ring-indigo-600", placeholder: "Search (type text, then press Enter)" %>
         <%= tag.button type: "submit", class:"absolute inset-y-0 left-0 flex items-center pl-4 text-lg", title: "Search" do %>
-          <i data-lucide="search"></i>
+          <%= inline_svg_tag "svg/search.svg", size: "18" %>
         <% end %>
       <% end %>
     </div>
     <div class="flex justify-center items-center">
       <%= link_to new_vendor_service_path, class: "flex gap-1 justify-center items-center pl-3 pr-4 py-2 text-sm text-white bg-indigo-500 font-medium rounded hover:bg-indigo-600" do %>
-        <i data-lucide="plus"></i>
+        <%= inline_svg_tag "svg/plus.svg", size: "18" %>
         <span>Thêm dịch vụ mới</span>
       <% end %>
     </div>
@@ -24,25 +24,25 @@
     <table class="min-w-full table-fixed">
       <thead class="bg-[#f8fafc] text-left">
         <tr>
-          <th scope="col" class="pl-[18px] px-2.5 py-[8.7px] w-44  text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]">
+          <th scope="col" class="pl-[18px] px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]">
             Dịch vụ
           </th>
-          <th scope="col" class="px-2.5 py-[8.7px] w-44  text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
+          <th scope="col" class="px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
             Loại dịch vụ
           </th>
-          <th scope="col" class="px-2.5 py-[8.7px] w-44  text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
+          <th scope="col" class="px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
             Hình ảnh
           </th>
-          <th scope="col" class="px-2.5 py-[8.7px] w-1/5 text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
+          <th scope="col" class="px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
             Mô tả
           </th>
-          <th scope="col" class="px-2.5 py-[8.7px] w-48 text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
+          <th scope="col" class="px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
             Mức giá phổ biến
           </th>
-          <th scope="col" class="px-2.5 py-[8.7px] w-48 text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
+          <th scope="col" class="px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
             Trạng thái
           </th>
-          <th scope="col" class="px-2.5 py-[8.7px] w-36 text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
+          <th scope="col" class="px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
             Hành động
           </th>
         </tr>
