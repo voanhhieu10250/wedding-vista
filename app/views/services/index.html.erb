@@ -28,7 +28,7 @@
     <header class="listingHeading app-heading">
       <h1 class="listingHeading__title">Wedding Vendors</h1>
       <div class="listingHeading__searcher app-searcher-tracking">
-        <%= form_with url: services_path, method: :get, html: {class: "searcherOpenModal app-searcher-modal suggestCategory", role: "search", data: {services_search_target: "form"}} do %>
+        <%= form_with url: services_path, method: :get, html: {class: "searcherOpenModal app-searcher-modal suggestCategory", role: "search"} do %>
           <input type="hidden" name="pricing_from" data-services-search-target="pricingFrom">
           <input type="hidden" name="pricing_to" data-services-search-target="pricingTo">
           <input type="hidden" name="search" data-services-search-target="search">
@@ -38,14 +38,14 @@
           </i>
           <div class="searcherOpenModal__inputsContainer app-searcher-inputs-container">
             <div class="searcherOpenModal__category app-filter-searcher-input">
-              <input type="text" class="searcherOpenModal__input" placeholder="Search for vendors" data-services-search-target="search">
+              <input type="text" class="searcherOpenModal__input" placeholder="Dịch vụ cần tìm" data-services-search-target="search">
             </div>
             <div class="searcherOpenModal__location app-searcher-location-input">
-              <input type="text" class="searcherOpenModal__input" placeholder="Location" data-services-search-target="location">
+              <input type="text" class="searcherOpenModal__input" placeholder="Khu vực" data-services-search-target="location">
             </div>
           </div>
         <% end %>
-        <%= form_with url: services_path, method: :get, html: {class: "searcher app-searcher suggestCategory", role: "search", data: {services_search_target: "form"}} do %>
+        <%= form_with url: services_path, method: :get, html: {class: "searcher app-searcher suggestCategory", role: "search"} do %>
           <input type="hidden" name="pricing_from" data-services-search-target="pricingFrom">
           <input type="hidden" name="pricing_to" data-services-search-target="pricingTo">
           <input type="hidden" name="search" data-services-search-target="search">
@@ -54,24 +54,25 @@
             <i class="svgIcon app-svg-async svgIcon__search searcher__categoryIcon">
               <%= inline_svg_tag "svg/search.svg", size: "18" %>
             </i>
-            <input class="searcher__input app-filter-searcher-input app-searcher-category-input-tracking" type="text" aria-label="Search for vendors" placeholder="Search for vendors" autocomplete="off" data-services-search-target="search">
+            <input class="searcher__input app-filter-searcher-input app-searcher-category-input-tracking" type="text" aria-label="Search for vendors" placeholder="Dịch vụ cần tìm" autocomplete="off" data-services-search-target="search">
             <span class="searcher__categoryReset app-searcher-reset-category">
               <i class="svgIcon app-svg-async svgIcon__close searcher__categoryResetIcon"   ><svg viewBox="0 0 26 26"><path d="M12.983 10.862L23.405.439l2.122 2.122-10.423 10.422 10.423 10.422-2.122 2.122-10.422-10.423L2.561 25.527.439 23.405l10.423-10.422L.439 2.561 2.561.439l10.422 10.423z" fill-rule="nonzero"></path></svg></i>
             </span>
             <div class="searcher__placeholder app-filter-searcher-list"></div>
           </div>
           <div class="searcher__location">
-            <span class="searcher__locationFixedText">in</span>
-            <input class="searcher__input app-searcher-location-input app-searcher-location-input-tracking" type="text" placeholder="Location" aria-label="Location" autocomplete="off" data-services-search-target="location">
+            <span class="searcher__locationFixedText">
+              <%= inline_svg_tag "svg/map-pin.svg", size: "18" %>
+            </span>
+            <input class="searcher__input app-searcher-location-input app-searcher-location-input-tracking" type="text" placeholder="Khu vực" aria-label="Location" autocomplete="off" data-services-search-target="location">
             <span class="searcher__locationReset app-searcher-reset-location">
               <i class="svgIcon app-svg-async svgIcon__close searcher__locationResetIcon"   ><svg viewBox="0 0 26 26"><path d="M12.983 10.862L23.405.439l2.122 2.122-10.423 10.422 10.423 10.422-2.122 2.122-10.422-10.423L2.561 25.527.439 23.405l10.423-10.422L.439 2.561 2.561.439l10.422 10.423z" fill-rule="nonzero"></path></svg></i>
             </span>
             <span class="searcher__locationReset app-searcher-reset-location">
               <i class="svgIcon app-svg-async svgIcon__close searcher__locationResetIcon"   ><svg viewBox="0 0 26 26"><path d="M12.983 10.862L23.405.439l2.122 2.122-10.423 10.422 10.423 10.422-2.122 2.122-10.422-10.423L2.561 25.527.439 23.405l10.423-10.422L.439 2.561 2.561.439l10.422 10.423z" fill-rule="nonzero"></path></svg></i>
             </span>
-            <div class="searcher__placeholder app-searcher-location-placeholder"></div>
           </div>
-          <button type="submit" class="searcher__submit app-searcher-submit-tracking">
+          <button type="submit" class="searcher__submit app-searcher-submit-tracking" data-services-search-target="submit">
             Search
           </button>
         <% end %>

@@ -9,7 +9,7 @@ export default class extends Controller {
     "pricing",
     "pricingFrom",
     "pricingTo",
-    "form",
+    "submit",
   ];
   static values = {
     search: String,
@@ -22,6 +22,7 @@ export default class extends Controller {
   }
 
   connect() {
+    this.pricingClicked = false;
     this.initializePricing();
     this.handleEvent("turbo:submit-start", {
       on: this.element,
@@ -59,8 +60,6 @@ export default class extends Controller {
   }
 
   form = (event) => {
-    console.log("form event", event);
-
     const formData = new FormData(event.target);
     // remove empty values
     const data = Array.from(formData).filter(function ([k, v]) {
@@ -83,10 +82,11 @@ export default class extends Controller {
   };
 
   pricing = (event) => {
+    this.pricingClicked = true;
     this.pricingValue = event.target.value;
   };
 
-  pricingValueChanged(value, oldValue) {
+  pricingValueChanged(value) {
     // turn pricing value to range
     let [from, to] = value.replace("[", "").replace("]", "").split(",");
 
@@ -97,6 +97,9 @@ export default class extends Controller {
       if (target.value !== value) target.value = to;
     });
 
+    if (this.pricingClicked) {
+      this.submitTarget.click();
+    }
   }
 
   searchValueChanged(value) {
