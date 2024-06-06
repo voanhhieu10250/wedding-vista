@@ -1,13 +1,14 @@
 class ServicesController < ApplicationController
   before_action :set_service, only: %i[ show ]
+  before_action :search_params, only: %i[ index ]
 
   # GET /services or /services.json
   def index
     @services = Service.search(params[:search],
                                district: params[:district],
                                province: params[:province],
-                               pricing_from: params[:pricing_from],
-                               pricing_to: params[:pricing_to])
+                               pricing_from: params[:pricing_from].to_i == 0 ? nil : params[:pricing_from].to_i,
+                               pricing_to: params[:pricing_to].to_i == 0 ? nil : params[:pricing_to].to_i)
     custom_count = Service.custom_count(@services.to_sql)
 
     @pagy, @services = pagy(@services, count: custom_count, items: 10)
@@ -25,7 +26,7 @@ class ServicesController < ApplicationController
   end
 
   # Only allow a list of trusted parameters through.
-  def service_params
-    params.require(:service).permit(:name, :description, :pricing)
+  def search_params
+    params.permit(:search, :district, :province, :pricing_from, :pricing_to)
   end
 end

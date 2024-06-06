@@ -3,7 +3,11 @@
   {name: "Wedding Vendors"},
 ] %>
 
-<div class='temp_home'>
+<div class='temp_home' data-controller="services-search"
+      data-pricing-from="<%= params[:pricing_from].to_i %>"
+      data-pricing-to="<%= params[:pricing_to].to_i %>"
+      data-services-search-search-value="<%= params[:search] %>"
+      data-services-search-location-value="<%= params[:location] %>">
   <%= render 'shared/breadcrumb', breadcrumbs: %>
 
   <article class="listing app-listing">
@@ -24,50 +28,33 @@
     <header class="listingHeading app-heading">
       <h1 class="listingHeading__title">Wedding Vendors</h1>
       <div class="listingHeading__searcher app-searcher-tracking">
-        <form class="searcherOpenModal app-searcher-modal suggestCategory" method="get" role="search" action="https://www.weddingwire.com/shared/search">
-          <input type="hidden" name="id_grupo" value="2">
-          <input type="hidden" name="id_sector" value="">
-          <input type="hidden" name="id_region" value="400">
-          <input type="hidden" name="id_provincia" value="10064">
-          <input type="hidden" name="id_poblacion" value="">
-          <input type="hidden" name="id_geozona" value="">
-          <input type="hidden" name="geoloc" value="0">
-          <input type="hidden" name="lat">
-          <input type="hidden" name="long">
-          <input type="hidden" name="isBrowseByImagesEnabled" value="">
-          <i class="svgIcon app-svg-async svgIcon__search searcherOpenModal__icon">
+        <%= form_with url: services_path, method: :get, html: {class: "searcherOpenModal app-searcher-modal suggestCategory", role: "search", data: {services_search_target: "form"}} do %>
+          <input type="hidden" name="pricing_from" data-services-search-target="pricingFrom">
+          <input type="hidden" name="pricing_to" data-services-search-target="pricingTo">
+          <input type="hidden" name="search" data-services-search-target="search">
+          <input type="hidden" name="province" data-services-search-target="location">
+          <i class="svgIcon app-svg-async svgIcon__search searcherOpenModal__icon ml-4">
             <%= inline_svg_tag "svg/search.svg", size: "16" %>
           </i>
           <div class="searcherOpenModal__inputsContainer app-searcher-inputs-container">
             <div class="searcherOpenModal__category app-filter-searcher-input">
-              <input type="hidden" name="txtStrSearch" value="Wedding Vendors" data-last-value="Wedding Vendors">
-              <span class="searcherOpenModal__input  app-searcher-category-input-tracking" data-last-value="Wedding Vendors">Wedding Vendors</span>
+              <input type="text" class="searcherOpenModal__input" placeholder="Search for vendors" data-services-search-target="search">
             </div>
             <div class="searcherOpenModal__location app-searcher-location-input">
-              <input type="hidden" name="txtLocSearch" data-last-value="Birmingham" value="Birmingham">
-              <span class="searcherOpenModal__input  app-searcher-location-input-tracking" data-last-value="Birmingham">
-                Birmingham
-              </span>
+              <input type="text" class="searcherOpenModal__input" placeholder="Location" data-services-search-target="location">
             </div>
           </div>
-        </form>
-
-        <form class="searcher app-searcher suggestCategory" method="get" role="search" action="https://www.weddingwire.com/shared/search">
-          <input type="hidden" name="id_grupo" value="2">
-          <input type="hidden" name="id_sector" value="">
-          <input type="hidden" name="id_region" value="400">
-          <input type="hidden" name="id_provincia" value="10064">
-          <input type="hidden" name="id_poblacion" value="">
-          <input type="hidden" name="id_geozona" value="">
-          <input type="hidden" name="geoloc" value="0">
-          <input type="hidden" name="latitude">
-          <input type="hidden" name="longitude">
-          <input type="hidden" name="isBrowseByImagesEnabled" value="">
+        <% end %>
+        <%= form_with url: services_path, method: :get, html: {class: "searcher app-searcher suggestCategory", role: "search", data: {services_search_target: "form"}} do %>
+          <input type="hidden" name="pricing_from" data-services-search-target="pricingFrom">
+          <input type="hidden" name="pricing_to" data-services-search-target="pricingTo">
+          <input type="hidden" name="search" data-services-search-target="search">
+          <input type="hidden" name="province" data-services-search-target="location">
           <div class="searcher__category app-filter-searcher-field ">
             <i class="svgIcon app-svg-async svgIcon__search searcher__categoryIcon">
               <%= inline_svg_tag "svg/search.svg", size: "18" %>
             </i>
-            <input class="searcher__input app-filter-searcher-input app-searcher-category-input-tracking" type="text" value="Wedding Vendors" name="txtStrSearch" data-last-value="Wedding Vendors" data-placeholder-default="Search for vendors" data-placeholder-focused="Search for vendors" aria-label="Search for vendors" placeholder="Search for vendors" autocomplete="off">
+            <input class="searcher__input app-filter-searcher-input app-searcher-category-input-tracking" type="text" aria-label="Search for vendors" placeholder="Search for vendors" autocomplete="off" data-services-search-target="search">
             <span class="searcher__categoryReset app-searcher-reset-category">
               <i class="svgIcon app-svg-async svgIcon__close searcher__categoryResetIcon"   ><svg viewBox="0 0 26 26"><path d="M12.983 10.862L23.405.439l2.122 2.122-10.423 10.422 10.423 10.422-2.122 2.122-10.422-10.423L2.561 25.527.439 23.405l10.423-10.422L.439 2.561 2.561.439l10.422 10.423z" fill-rule="nonzero"></path></svg></i>
             </span>
@@ -75,7 +62,7 @@
           </div>
           <div class="searcher__location">
             <span class="searcher__locationFixedText">in</span>
-            <input class="searcher__input app-searcher-location-input app-searcher-location-input-tracking" type="text" data-last-value="Birmingham" data-placeholder-default="Location" placeholder="Location" data-placeholder-focused="Location" aria-label="Location" value="" name="txtLocSearch" autocomplete="off">
+            <input class="searcher__input app-searcher-location-input app-searcher-location-input-tracking" type="text" placeholder="Location" aria-label="Location" autocomplete="off" data-services-search-target="location">
             <span class="searcher__locationReset app-searcher-reset-location">
               <i class="svgIcon app-svg-async svgIcon__close searcher__locationResetIcon"   ><svg viewBox="0 0 26 26"><path d="M12.983 10.862L23.405.439l2.122 2.122-10.423 10.422 10.423 10.422-2.122 2.122-10.422-10.423L2.561 25.527.439 23.405l10.423-10.422L.439 2.561 2.561.439l10.422 10.423z" fill-rule="nonzero"></path></svg></i>
             </span>
@@ -87,17 +74,14 @@
           <button type="submit" class="searcher__submit app-searcher-submit-tracking">
             Search
           </button>
-        </form>
+        <% end %>
       </div>
     </header>
     <aside class="sidebar app-vendor-listing-sidebar ">
       <section id="topbar-filters-menu" class="listingFilters app-listing-filters-wrapper   " role="navigation">
         <div class="listingFilters__content ">
           <div class="listingFilters__contentBody app-listing-filters">
-            <form class="app-listing-filter-form" name="frmSearchFilters" method="GET" action="https://www.weddingwire.com/search-filters.php" autocomplete="off">
-              <input type="hidden" name="page" value="1">
-              <input type="hidden" name="txtStrSearch" value="">
-              <input type="hidden" name="province" value="">
+            <div class="app-listing-filter-form">
               <div class="filterOptions  filterOptions--location app-listing-filters-location app-listing-filters-options">
                 <fieldset>
                   <div class="filterOptions__header app-listing-filters-collapse-button">
@@ -111,7 +95,15 @@
                     <ul class="filterOptions__list app-filters-list">
                       <li class="filterOptions__item app-filter-item">
                         <div class="checkbox app-form-field" aria-labelledby="popularPriceRange0">
-                          <input type="radio" name="popularPriceRange" id="popularPriceRange0" value="[,1000]" class="checkbox__input app-listing-filter-price-range">
+                          <input type="radio" checked name="popularPriceRange" id="popularPriceRangeAll" value="[,]" class="checkbox__input app-listing-filter-price-range" data-services-search-target="pricing">
+                          <label class="checkbox__icon" for="popularPriceRangeAll">
+                            Tất cả mức giá
+                          </label>
+                        </div>
+                      </li>
+                      <li class="filterOptions__item app-filter-item">
+                        <div class="checkbox app-form-field" aria-labelledby="popularPriceRange0">
+                          <input type="radio" name="popularPriceRange" id="popularPriceRange0" value="[,999000]" class="checkbox__input app-listing-filter-price-range" data-services-search-target="pricing">
                           <label class="checkbox__icon" for="popularPriceRange0">
                             Dưới 1,000,000 đ
                           </label>
@@ -119,7 +111,7 @@
                       </li>
                       <li class="filterOptions__item app-filter-item">
                         <div class="checkbox app-form-field" aria-labelledby="popularPriceRange1">
-                          <input type="radio" name="popularPriceRange" id="popularPriceRange1" value="[1000,1999]" class="checkbox__input app-listing-filter-price-range">
+                          <input type="radio" name="popularPriceRange" id="popularPriceRange1" value="[1000000,1999000]" class="checkbox__input app-listing-filter-price-range" data-services-search-target="pricing">
                           <label class="checkbox__icon" for="popularPriceRange1">
                             1,000,000 đ - 1,999,000 đ
                           </label>
@@ -127,7 +119,7 @@
                       </li>
                       <li class="filterOptions__item app-filter-item">
                         <div class="checkbox app-form-field" aria-labelledby="popularPriceRange2">
-                          <input type="radio" name="popularPriceRange" id="popularPriceRange2" value="[2000,2999]" class="checkbox__input app-listing-filter-price-range">
+                          <input type="radio" name="popularPriceRange" id="popularPriceRange2" value="[2000000,2999000]" class="checkbox__input app-listing-filter-price-range" data-services-search-target="pricing">
                           <label class="checkbox__icon" for="popularPriceRange2">
                             2,000,000 đ - 2,999,000 đ
                           </label>
@@ -135,7 +127,7 @@
                       </li>
                       <li class="filterOptions__item app-filter-item">
                         <div class="checkbox app-form-field" aria-labelledby="popularPriceRange3">
-                          <input type="radio" name="popularPriceRange" id="popularPriceRange3" value="[3000,3999]" class="checkbox__input app-listing-filter-price-range">
+                          <input type="radio" name="popularPriceRange" id="popularPriceRange3" value="[3000000,3999000]" class="checkbox__input app-listing-filter-price-range" data-services-search-target="pricing">
                           <label class="checkbox__icon" for="popularPriceRange3">
                             3,000,000 đ - 3,999,000 đ
                           </label>
@@ -143,7 +135,7 @@
                       </li>
                       <li class="filterOptions__item app-filter-item">
                         <div class="checkbox app-form-field" aria-labelledby="popularPriceRange4">
-                          <input type="radio" name="popularPriceRange" id="popularPriceRange4" value="[4000,]" class="checkbox__input app-listing-filter-price-range">
+                          <input type="radio" name="popularPriceRange" id="popularPriceRange4" value="[4000000,]" class="checkbox__input app-listing-filter-price-range" data-services-search-target="pricing">
                           <label class="checkbox__icon" for="popularPriceRange4">
                             Trên 4,000,000 đ
                           </label>
@@ -153,7 +145,7 @@
                   </div>
                 </fieldset>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </section>

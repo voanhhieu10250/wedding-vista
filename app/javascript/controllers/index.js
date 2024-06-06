@@ -46,6 +46,9 @@ application.register("redirect", RedirectController)
 import ServiceDetailsController from "./service_details_controller"
 application.register("service-details", ServiceDetailsController)
 
+import ServicesSearchController from "./services_search_controller"
+application.register("services-search", ServicesSearchController)
+
 import SideModalController from "./side_modal_controller"
 application.register("side-modal", SideModalController)
 
