@@ -7,8 +7,8 @@ class ServicesController < ApplicationController
     @services = Service.search(params[:search],
                                district: params[:district],
                                province: params[:province],
-                               pricing_from: params[:pricing_from].to_i == 0 ? nil : params[:pricing_from].to_i,
-                               pricing_to: params[:pricing_to].to_i == 0 ? nil : params[:pricing_to].to_i)
+                               pricing_from: params[:pricing_from].to_i.zero? ? nil : params[:pricing_from].to_i,
+                               pricing_to: params[:pricing_to].to_i.zero? ? nil : params[:pricing_to].to_i)
     custom_count = Service.custom_count(@services.to_sql)
 
     @pagy, @services = pagy(@services, count: custom_count, items: 10)

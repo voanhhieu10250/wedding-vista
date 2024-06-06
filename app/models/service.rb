@@ -20,17 +20,23 @@ class Service < ApplicationRecord
   # This method is used to search the services based on the search term (service's name, category's name), district, and province.
   # Service with the highest priority level will be shown first. Level 1 is the lowest priority level.
   # Rails will lazy load your query, so don't worry about performance here
-  def self.search(search_term = "", district: nil, province: nil, pricing_from: nil, pricing_to: nil)
+  def self.search(search_term = "", district: nil, province: nil, pricing_from: nil, pricing_to: nil, selected_category_id: nil)
     services = Service.left_joins(:addresses)
                       .joins("LEFT JOIN categories ON categories.id = services.category_id")
                       .joins("LEFT JOIN priority_boostings ON priority_boostings.service_id = services.id AND priority_boostings.status = 'ACTIVE'")
                       .where(published: true)
                       .where(["priority_boostings.start_time IS NULL OR priority_boostings.start_time <= :now AND priority_boostings.end_time >= :now",
                               { now: Time.zone.now }])
-                      .where(["categories.name LIKE :search OR services.name LIKE :search",
-                              { search: "%#{search_term}%" }])
+
 
     # Apply optional filters
+    services = if selected_category_id.present?
+                 services.where(["services.name LIKE :search", { search: "%#{search_term}%" }])
+                         .where(category_id: selected_category_id)
+               else
+                 services.where(["categories.name LIKE :search OR services.name LIKE :search",
+                                 { search: "%#{search_term}%" }])
+               end
     services = services.where("addresses.district LIKE ?", "%#{district}%") if district.present?
     services = services.where("addresses.province LIKE ?", "%#{province}%") if province.present?
     services = services.where("pricing >= ?", pricing_from) if pricing_from.present?

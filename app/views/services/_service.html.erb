@@ -63,7 +63,11 @@
         <div class="storefrontHeadingFaqsCard">
           <%= inline_svg_tag "svg/wallet.svg", size: "24" %>
           <span class="storefrontHeadingFaqsCard__label">
-            <%= number_to_currency service.pricing, unit: "đ", precision: 0, format: "%n %u" %> - Giá trung bình
+            <% if service.pricing %>
+              <%= number_to_currency service.pricing, unit: "đ", precision: 0, format: "%n %u" %> - Giá trung bình
+            <% else %>
+              Liên hệ để biết giá
+            <% end %>
           </span>
         </div>
       </div>
