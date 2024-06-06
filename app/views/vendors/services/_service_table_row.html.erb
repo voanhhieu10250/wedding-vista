@@ -1,15 +1,15 @@
 <tr id="<%= dom_id service %>" class="hover:bg-gray-100 odd:bg-white even:bg-gray-50 text-[#333c48]">
-  <td class="px-2.5 pl-[18px] font-semibold text-sm whitespace-nowrap truncate leading-10 border-[#e2e7ee] border-b">
-    <%= link_to vendor_service_path(service), class: "truncate hover:underline hover:text-indigo-500" do %>
+  <td class="px-2.5 pl-[18px] font-semibold text-sm leading-7 border-[#e2e7ee] border-b">
+    <%= link_to vendor_service_path(service), class: "min-w-full line-clamp-2 break-all hover:underline hover:text-indigo-500" do %>
       <%= service.name %>
     <% end %>
   </td>
-  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm whitespace-nowrap truncate leading-10 border-[#e2e7ee] border-b">
-    <p class="truncate">
+  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-7 border-[#e2e7ee] border-b">
+    <p class="min-w-full line-clamp-2 break-all">
       <%= service.category&.name %>
     </p>
   </td>
-  <td style="border-left: 1px dashed #d5dce6;" class="py-1 px-2.5 text-sm whitespace-nowrap truncate leading-10 border-[#e2e7ee] border-b">
+  <td style="border-left: 1px dashed #d5dce6;" class="py-1 px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
     <% if service.first_image_thumb_of_first_gallery.present? %>
       <%= image_tag service.first_image_thumb_of_first_gallery %>
     <% else %>
@@ -21,17 +21,17 @@
       </p>
     <% end %>
   </td>
-  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm whitespace-nowrap truncate leading-10 border-[#e2e7ee] border-b">
-    <div class="line-clamp-2 w-60">
-      <%= simple_format service.description, class: "truncate" %>
+  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-7 border-[#e2e7ee] border-b">
+    <div class="w-60 min-w-full line-clamp-2">
+      <%= simple_format service.description %>
     </div>
   </td>
-  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm whitespace-nowrap truncate leading-10 border-[#e2e7ee] border-b">
+  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
     <div class="w-40">
       <%= number_to_currency service.pricing, unit: "đ", precision: 0, format: "%n %u" %>
     </div>
   </td>
-  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm whitespace-nowrap truncate leading-10 border-[#e2e7ee] border-b">
+  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
     <div class="w-28">
       <span class="inline-block whitespace-nowrap px-2 py-0.5 text-xs text-center font-bold rounded-full <%= service.published? ? "text-green-400 bg-green-100" : "text-red-400 bg-red-100" %>">
         <%= service.published? ? "Công khai" : "Ẩn" %>
