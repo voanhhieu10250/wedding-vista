@@ -10,16 +10,20 @@
     </p>
   </td>
   <td style="border-left: 1px dashed #d5dce6;" class="py-1 px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
-    <% if service.first_image_thumb_of_first_gallery.present? %>
-      <%= image_tag service.first_image_thumb_of_first_gallery %>
-    <% else %>
-      <p class="flex gap-2 items-center">
-        <span class="text-gray-500">
-          <%= inline_svg_tag "svg/image.svg", size: "24" %>
-        </span>
-        <span>Chưa có ảnh</span>
-      </p>
-    <% end %>
+    <div class="relative">
+      <% if service.first_image_thumb_of_first_gallery.present? %>
+        <%= image_tag service.first_image_thumb_of_first_gallery %>
+      <% else %>
+        <p class="flex gap-2 items-center">
+          <span class="text-gray-500">
+            <%= inline_svg_tag "svg/image.svg", size: "24" %>
+          </span>
+          <span>Chưa có ảnh</span>
+        </p>
+      <% end %>
+
+      <div class="card-label-img label--v<%= service.highest_active_boosting_level %>"></div>
+    </div>
   </td>
   <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-7 border-[#e2e7ee] border-b">
     <div class="w-60 min-w-full line-clamp-2">

@@ -3,11 +3,17 @@ class IdeasController < ApplicationController
 
   # GET /ideas or /ideas.json
   def index
-    @ideas = Idea.includes(:vendor, :topic)
+    @pagy, @ideas = pagy_countless(Idea.includes(:vendor, :topic)
                  .with_attached_main_image
                  .where(published: true)
-                 .order(created_at: :desc)
+                 .order(created_at: :desc), items: 3)
+
     @topic_categories = TopicCategory.with_attached_image.all
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   # GET /ideas/1 or /ideas/1.json

@@ -1,3 +1,10 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @topic_category %>
+
+<br>
+<h3><strong>Topics</strong></h3>
+
+<% @topic_category.topics.each do |topic| %>
+  <%= link_to topic.name, topic_path(topic) %> <br>
+<% end %>

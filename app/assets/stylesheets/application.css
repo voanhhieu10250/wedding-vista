@@ -6743,25 +6743,24 @@ a {
     background: rgba(0, 0, 0, 0.8) !important;
     padding: 8px 12px !important;
   }
-  .card-label-img {
-    position: absolute;
-    background-repeat: no-repeat;
-    top: 4px;
-    left: -4px;
-    height: 24px;
-    width: 30px;
-  }
-  .label--v1 {
-    width: 58px;
-  }
-  .label--v2 {
-    width: 66px;
-  }
-  .label--v3 {
-    width: 100px;
-  }
 }
-
+.card-label-img {
+  position: absolute;
+  background-repeat: no-repeat;
+  top: 4px;
+  left: -4px;
+  height: 24px;
+  width: 30px;
+}
+.label--v1 {
+  width: 58px;
+}
+.label--v2 {
+  width: 66px;
+}
+.label--v3 {
+  width: 100px;
+}
 .layoutNavMenuTab {
   display: none;
   opacity: 0;

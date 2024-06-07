@@ -9,4 +9,9 @@
     <%= topic_category.description %>
   </p>
 
+  <p>
+    <strong>Image:</strong>
+    <%= image_tag topic_category.image.variant(:thumb) if topic_category.image.attached? %>
+  </p>
+
 </div>

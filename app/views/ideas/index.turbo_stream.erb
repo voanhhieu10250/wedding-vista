@@ -1,0 +1,15 @@
+<%= turbo_stream.append :ideas do %>
+  <%= render @ideas, cached: true %>
+<% end %>
+
+<%= turbo_stream.replace :ideas_pagination do %>
+  <% if @pagy.next.present? %>
+    <%= turbo_frame_tag :ideas_pagination,
+                        loading: :lazy,
+                        src: wedding_ideas_root_path(format: :turbo_stream, page: @pagy.next) do %>
+      <p class="text-center">
+        Loading more ideas...
+      </p>
+    <% end %>
+  <% end %>
+<% end %>
