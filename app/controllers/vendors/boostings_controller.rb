@@ -1,6 +1,7 @@
 class Vendors::BoostingsController < Vendors::BaseController
+  before_action :update_time_params, only: %i[ update ]
   before_action :set_service
-  before_action :set_priority_boosting, only: %i[ show edit update destroy ]
+  before_action :set_priority_boosting, only: %i[ show destroy edit update ]
 
   # GET /priority_boostings or /priority_boostings.json
   def index
@@ -15,9 +16,6 @@ class Vendors::BoostingsController < Vendors::BaseController
     @priority_boosting = @service.priority_boostings.build
   end
 
-  # GET /priority_boostings/1/edit
-  def edit; end
-
   # Nếu service đó đã có boosting thì sẽ check level của boosting đó,
   # nếu level của boosting đó lớn hơn level của boosting mới thì không cho tạo level mới
   def create
@@ -27,7 +25,7 @@ class Vendors::BoostingsController < Vendors::BaseController
       return
     end
 
-    if @service.highest_active_boosting_level >= priority_boosting_params[:level].to_i
+    if @service.highest_active_boosting_level > priority_boosting_params[:level].to_i
       redirect_to new_vendor_service_boosting_url(@service),
                   alert: "You can't create a new boosting with the same or lower level than the current active boosting."
       return
@@ -47,23 +45,39 @@ class Vendors::BoostingsController < Vendors::BaseController
     end
   end
 
-  # Chỉ cho update các Boosting đang ở trạng thái pending
-  # Chỉ cho update start_time (end_time cũng sẽ được cập nhật lại là start_time + 1.day)
-  def update
-    # respond_to do |format|
-    #   if @priority_boosting.update(priority_boosting_params)
-    #     format.html do
-    #       redirect_to vendor_boosting_url(@priority_boosting), notice: "Priority boosting was successfully updated."
-    #     end
-    #     format.json { render :show, status: :ok, location: @priority_boosting }
-    #   else
-    #     format.html { render :edit, status: :unprocessable_entity }
-    #     format.json { render json: @priority_boosting.errors, status: :unprocessable_entity }
-    #   end
-    # end
+  def edit
+    return unless @priority_boosting.active? || @priority_boosting.expired?
+
+    redirect_to vendor_service_boosting_url(@service, @priority_boosting),
+                alert: "You can't edit an active or expired boosting."
   end
 
-  # DELETE /priority_boostings/1 or /priority_boostings/1.json
+  def update
+    # if boosting is active or expired then we can't update the level of the boosting
+    if @priority_boosting.active? || @priority_boosting.expired?
+      redirect_to edit_vendor_service_boosting_url(@service, @priority_boosting),
+                  alert: "You can't update the level of an active or expired boosting."
+      return
+    end
+
+    success = if update_time_params[:now] == "1"
+                @priority_boosting.update_times_and_job(Time.zone.now.to_s,
+                                                        (Time.zone.now + 1.day).to_s)
+
+              else
+                @priority_boosting.update_times_and_job(Time.zone.parse(update_time_params[:start_time]).to_s,
+                                                        (Time.zone.parse(update_time_params[:start_time]) + 1.day).to_s,
+                                                        create_job: true)
+              end
+
+    if success
+      redirect_to vendor_service_boosting_url(@service, @priority_boosting),
+                  notice: "Priority boosting was successfully updated."
+    else
+      format.html { render :edit, status: :unprocessable_entity }
+    end
+  end
+
   def destroy
     @priority_boosting.destroy!
 
@@ -92,12 +106,16 @@ class Vendors::BoostingsController < Vendors::BaseController
       priority_boosting_params[:status] = "ACTIVE"
       priority_boosting_params[:start_time] = Time.zone.now.to_s
     else
-      priority_boosting_params[:start_time] = Time.zone.parse(priority_boosting_params[:start_time]).utc.to_s
+      priority_boosting_params[:start_time] = Time.zone.parse(priority_boosting_params[:start_time]).to_s
     end
 
-    priority_boosting_params[:end_time] = (Time.zone.parse(priority_boosting_params[:start_time]).utc + 1.day).to_s
+    priority_boosting_params[:end_time] = (Time.zone.parse(priority_boosting_params[:start_time]) + 1.day).to_s
     priority_boosting_params[:level] = priority_boosting_params[:level].to_i
 
     priority_boosting_params
+  end
+
+  def update_time_params
+    params.require(:priority_boosting).permit(:start_time, :now)
   end
 end

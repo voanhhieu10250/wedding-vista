@@ -4,11 +4,11 @@
 
 <div id="priority_boostings">
   <% @priority_boostings.each do |priority_boosting| %>
-    <%= render priority_boosting %>
+    <%= render partial: "priority_boosting", locals: { priority_boosting: } %>
     <p>
-      <%= link_to "Show this priority boosting", priority_boosting %>
+      <%= link_to "Show this priority boosting", vendor_service_boosting_path(priority_boosting.service, priority_boosting) %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New priority boosting", new_vendor_boosting_path %>
+<%= link_to "New priority boosting", new_vendor_service_boosting_path %>

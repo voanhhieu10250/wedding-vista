@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :categories
+  resources :categories, only: %i[show]
   resources :services, only: %i[index show]
 
   devise_for :users,
@@ -60,6 +60,7 @@ Rails.application.routes.draw do
     resources :topic_categories
     resources :topics
     resources :ideas
+    resources :categories
 
     root "pages#index"
   end

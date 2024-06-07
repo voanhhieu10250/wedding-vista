@@ -3,8 +3,8 @@
 <%= render partial: "priority_boosting", locals:{ priority_boosting: @priority_boosting } %>
 
 <div>
+  <%= link_to "Back to priority boostings", vendor_service_boostings_path %> |
   <%= link_to "Edit this priority boosting", edit_vendor_service_boosting_path(@priority_boosting.service, @priority_boosting) %> |
-  <%= link_to "Back to priority boostings", vendor_service_boostings_path %>
 
-  <%= button_to "Destroy this priority boosting", vendor_service_boosting_path(@priority_boosting.service, @priority_boosting), method: :delete %>
+  <%= button_to "Destroy this priority boosting", vendor_service_boosting_path(@priority_boosting.service, @priority_boosting), method: :delete, data:{turbo_confirm: "Bạn có chắc muốn xóa lượt đẩy top tìm kiếm này?"} %>
 </div>

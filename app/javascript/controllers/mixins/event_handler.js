@@ -1,18 +1,18 @@
 class EventHandler {
-  constructor (controller) {
-    this.eventHandlers = []
-    this.identifier = controller.scope.identifier
+  constructor(controller) {
+    this.eventHandlers = [];
+    this.identifier = controller.scope.identifier;
 
-    const controllerDisconnectCallback = controller.disconnect.bind(controller)
+    const controllerDisconnectCallback = controller.disconnect.bind(controller);
 
     Object.assign(controller, {
       handleEvent: this.handleEvent,
       removeHandledEvents: this.removeHandledEvents,
-      disconnect () {
-        controllerDisconnectCallback()
-        this.removeHandledEvents()
-      }
-    })
+      disconnect() {
+        controllerDisconnectCallback();
+        this.removeHandledEvents();
+      },
+    });
   }
 
   // if options.delegation is true, the event will be delegated to the child element
@@ -23,44 +23,51 @@ class EventHandler {
   //      data-prevent-delegation="true"
   // otherwise, the event will be handled by the element that the event is attached to.
   handleEvent = (type, options = {}) => {
-    const element = options.on || document
-    const isDelegation = options.delegation
-    const callback = options.with
-    const identifier = this.identifier
+    const element = options.on || document;
+    const isDelegation = options.delegation;
+    const callback = options.with;
+    const identifier = this.identifier;
 
     const handler = {
-      listener (event) {
+      listener(event) {
         if (isDelegation) {
-          if (event.target.dataset.preventDelegation) { return }
+          if (
+            event.target.dataset.preventDelegation ||
+            event.target.closest("[data-prevent-delegation]")
+          ) {
+            return;
+          }
 
-          const targetSelector = `[data-delegated-action~='${type}->${identifier}#${callback.name}']`
-          const target = event.target.closest(targetSelector)
+          const targetSelector = `[data-delegated-action~='${type}->${identifier}#${callback.name}']`;
+          const target = event.target.closest(targetSelector);
 
-          if (!target) { return }
+          if (!target) {
+            return;
+          }
 
-          callback(event, target)
+          callback(event, target);
           return;
         }
 
-        callback(event)
+        callback(event);
       },
 
-      removeListener () {
-        element.removeEventListener(type, this.listener)
-      }
-    }
+      removeListener() {
+        element.removeEventListener(type, this.listener);
+      },
+    };
 
-    element.addEventListener(type, handler.listener)
+    element.addEventListener(type, handler.listener);
 
-    this.eventHandlers.push(handler)
-  }
+    this.eventHandlers.push(handler);
+  };
 
   removeHandledEvents = () => {
-    this.eventHandlers.forEach((handler) => handler.removeListener())
-    this.eventHandlers = []
-  }
+    this.eventHandlers.forEach((handler) => handler.removeListener());
+    this.eventHandlers = [];
+  };
 }
 
 export const installEventHandler = (controller) => {
-  return new EventHandler(controller)
-}
+  return new EventHandler(controller);
+};

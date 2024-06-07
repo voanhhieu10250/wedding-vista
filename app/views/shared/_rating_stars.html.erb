@@ -1,0 +1,6 @@
+<div class="rating rating--stars" aria-hidden="true">
+  <div class="rating__picture" style="background-image: url(<%= asset_path "svg/sprite-rating-stars-bars.svg" %>)">
+    <span class="rating__picture rating__progress" style="background-image: url(<%= asset_path "svg/sprite-rating-stars-bars.svg" %>); width:<%= rating * 20 %>%"></span>
+  </div>
+  <span class="rating__count"><%= rating.to_f.round(1) %></span>
+</div>

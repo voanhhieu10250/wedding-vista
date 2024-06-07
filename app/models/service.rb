@@ -20,23 +20,33 @@ class Service < ApplicationRecord
   # This method is used to search the services based on the search term (service's name, category's name), district, and province.
   # Service with the highest priority level will be shown first. Level 1 is the lowest priority level.
   # Rails will lazy load your query, so don't worry about performance here
-  def self.search(search_term = "", district: nil, province: nil)
+  def self.search(search_term = "", district: nil, province: nil, pricing_from: nil, pricing_to: nil, selected_category_id: nil)
     services = Service.left_joins(:addresses)
                       .joins("LEFT JOIN categories ON categories.id = services.category_id")
                       .joins("LEFT JOIN priority_boostings ON priority_boostings.service_id = services.id AND priority_boostings.status = 'ACTIVE'")
                       .where(published: true)
                       .where(["priority_boostings.start_time IS NULL OR priority_boostings.start_time <= :now AND priority_boostings.end_time >= :now",
                               { now: Time.zone.now }])
-                      .where(["categories.name LIKE :search OR services.name LIKE :search",
-                              { search: "%#{search_term}%" }])
+                      .select("services.*, COALESCE(MAX(priority_boostings.level), 0) AS max_priority_level, MAX(priority_boostings.created_at) AS latest_priority_created_at")
+                      .group(:id)
+                      .order(Arel.sql("COALESCE(MAX(priority_boostings.level), 0) DESC, MAX(priority_boostings.created_at) DESC"))
 
     # Apply optional filters
+    services = if selected_category_id.present?
+                 services.where(["services.name LIKE :search", { search: "%#{search_term}%" }])
+                         .where(category_id: selected_category_id)
+               else
+                 services.where(["categories.name LIKE :search OR services.name LIKE :search",
+                                 { search: "%#{search_term}%" }])
+               end
     services = services.where("addresses.district LIKE ?", "%#{district}%") if district.present?
     services = services.where("addresses.province LIKE ?", "%#{province}%") if province.present?
+    services = services.where("pricing >= ?", pricing_from) if pricing_from.present?
+    services = services.where("pricing <= ?", pricing_to) if pricing_to.present?
 
-    services.group(:id)
-            .select("services.*, COALESCE(MAX(priority_boostings.level), 0) AS max_priority_level, MAX(priority_boostings.created_at) AS latest_priority_created_at")
-            .order("max_priority_level DESC, latest_priority_created_at DESC")
+    services
+    # NOTE: We can access the max_priority_level and latest_priority_created_at columns in the view, but
+    # we can't access then in the cache block.
   end
 
   # Pagy overrides the select statement of the query to include the count of the total records
