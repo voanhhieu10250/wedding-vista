@@ -6761,3 +6761,53 @@ a {
     width: 100px;
   }
 }
+
+.layoutNavMenuTab {
+  display: none;
+  opacity: 0;
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 9;
+}
+.layoutNavMenuTab__layout {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 2rem 2rem 3rem;
+}
+.layoutNavMenuTabVenues {
+  display: flex;
+}
+.layoutNavMenuTabVenues__categories {
+  flex: 1 0 auto;
+}
+.layoutNavMenuTabVenuesList {
+  margin-bottom: 20px;
+}
+.layoutNavMenuTabVenues__title {
+  font-size: 1.125rem;
+  line-height: 1.6875rem;
+  color: #222;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+.layoutNavMenuTabVenuesList__content {
+  grid-area: list;
+  grid-template-columns: repeat(4, 1fr);
+  display: grid;
+  grid-template-rows: auto;
+  grid-auto-flow: row;
+}
+.layoutNavMenuTabVenuesList__item {
+  display: flex;
+  align-items: center;
+
+  a {
+    padding: 0.5rem 1rem 0.5rem 0;
+  }
+}

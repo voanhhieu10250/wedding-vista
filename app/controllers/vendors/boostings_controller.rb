@@ -1,6 +1,7 @@
 class Vendors::BoostingsController < Vendors::BaseController
+  before_action :update_time_params, only: %i[ update ]
   before_action :set_service
-  before_action :set_priority_boosting, only: %i[ show destroy ]
+  before_action :set_priority_boosting, only: %i[ show destroy edit update ]
 
   # GET /priority_boostings or /priority_boostings.json
   def index
@@ -44,6 +45,38 @@ class Vendors::BoostingsController < Vendors::BaseController
     end
   end
 
+  def edit
+    return unless @priority_boosting.active? || @priority_boosting.expired?
+
+    redirect_to vendor_service_boosting_url(@service, @priority_boosting),
+                alert: "You can't edit an active or expired boosting."
+  end
+
+  def update
+    # if boosting is active or expired then we can't update the level of the boosting
+    if @priority_boosting.active? || @priority_boosting.expired?
+      redirect_to edit_vendor_service_boosting_url(@service, @priority_boosting),
+                  alert: "You can't update the level of an active or expired boosting."
+      return
+    end
+
+    success = if update_time_params[:now] == "1"
+                @priority_boosting.update_times_and_job(Time.zone.now.to_s,
+                                                        (Time.zone.now + 1.day).to_s,
+                                                        create_job: true)
+              else
+                @priority_boosting.update_times_and_job(Time.zone.parse(update_time_params[:start_time]).utc.to_s,
+                                                        (Time.zone.parse(update_time_params[:start_time]).utc + 1.day).to_s)
+              end
+
+    if success
+      redirect_to vendor_service_boosting_url(@service, @priority_boosting),
+                  notice: "Priority boosting was successfully updated."
+    else
+      format.html { render :edit, status: :unprocessable_entity }
+    end
+  end
+
   def destroy
     @priority_boosting.destroy!
 
@@ -79,5 +112,9 @@ class Vendors::BoostingsController < Vendors::BaseController
     priority_boosting_params[:level] = priority_boosting_params[:level].to_i
 
     priority_boosting_params
+  end
+
+  def update_time_params
+    params.require(:priority_boosting).permit(:start_time, :now)
   end
 end

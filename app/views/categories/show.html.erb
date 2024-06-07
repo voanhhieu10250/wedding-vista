@@ -161,68 +161,73 @@
         </div>
       </div>
 
-      <div class="services">
-        <% @services.each do |service| %>
-          <div class="js__card js__card-full-web pr-container re__card-full  re__vip-normal">
-            <%= link_to service_path(service), class: "js__product-link-for-product-id", data:{controller: "card-link", delegated_action:"click->card-link#visit"} do %>
-              <div class="re__card-image">
-                <span>
-                  <% if service.first_image_thumb_of_first_gallery.present? %>
-                    <%= image_tag service.first_image_thumb_of_first_gallery(:medium) %>
-                  <% end %>
-                </span>
-                <% cur_level = service.max_priority_level %>
-                <div class="card-label-img label--v<%= cur_level %>"></div>
-                <div class="re__card-image-feature">
-                  <span><%= service.total_items_count %></span>
-                  <%= inline_svg_tag "svg/image.svg", size: "20" %>
-                </div>
-              </div>
-              <div class="re__card-info" title="Bán nhà mới tinh tại phường Hà Lầm, TP Hạ Long 0968 484 ***">
-                <div class="re__card-info-content">
-                  <div>
-                    <h3 class="re__card-title">
-                      <span class="pr-title js__card-title" product-title="">
-                        <%= service.name %>
-                      </span>
-                    </h3>
-                    <div class="flex gap-1 items-center mb-2">
-                      <div class="flex gap-1 items-center" aria-hidden="true">
-                        <%= inline_svg_tag "svg/star.svg", size: "16", class: "text-yellow-400" %>
-                        <span class="text-sm"><%= 4.to_f.round(1) %></span>
-                      </div>
-                      <div class="re__card-location">
-                        <span><%= "#{ service.first_or_main_address&.district }, #{ service.first_or_main_address&.province }" if service.first_or_main_address.present? %></span>
-                      </div>
-                    </div>
-                    <div class="mb-2">
-                      <p class="text-sm line-clamp-3">
-                        <%= service.description %>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="re__card-published-info">
-                    <div class="re__card-published-info-published-at space-x-1">
-                      <% if service.pricing.present? %>
-                        <%= inline_svg_tag "svg/coins.svg", size: "16" %>
-                        <span class="re__card-published-info-published-at">
-                          <%= "#{number_to_currency service.pricing, unit: "đ", precision: 0, format: "%n %u"} - Mức giá phổ biến" %>
-                        </span>
+      <% priority_created_at_map = @services.map(&:latest_priority_created_at) %>
+      <% max_priority_level_map = @services.map(&:max_priority_level) %>
+
+      <% cache [ @services.map(&:id), @services.maximum(:updated_at), priority_created_at_map, max_priority_level_map ] do %>
+        <div class="services">
+          <% @services.each_with_index do |service, idx| %>
+            <% cache [ service, max_priority_level_map[idx] ] do %>
+              <div class="js__card js__card-full-web pr-container re__card-full  re__vip-normal">
+                <%= link_to service_path(service), class: "js__product-link-for-product-id", data:{controller: "card-link", delegated_action:"click->card-link#visit"} do %>
+                  <div class="re__card-image">
+                    <span>
+                      <% if service.first_image_thumb_of_first_gallery.present? %>
+                        <%= image_tag service.first_image_thumb_of_first_gallery(:medium) %>
                       <% end %>
-                    </div>
-                    <div class="re__card-contact-button relative" data-prevent-delegation="true">
-                      <span class="js__marking-product re__btn re__btn-se-border--sm re__btn-icon--sm" data-marked-product-info-as-json="{&quot;documentId&quot;:&quot;39738594&quot;,&quot;productId&quot;:39738594,&quot;avatarinfowap&quot;:&quot;https://file4.batdongsan.com.vn/crop/200x140/2024/05/03/20240503102933-9816_wm.jpg&quot;,&quot;title&quot;:&quot;Bán nhà mới tinh tại phường Hà Lầm, TP Hạ Long 0968484869&quot;,&quot;url&quot;:&quot;/ban-nha-rieng-phuong-ha-lam/ban-moi-tinh-tai-tp-long-pr39738594&quot;}" aria-label="Bấm để lưu tin" data-microtip-position="bottom" role="tooltip" tracking-id="save-listing" tracking-label="loc=SRP For Sale,status=save" title="">
-                        <%= inline_svg_tag "svg/heart.svg", size: "20" %>
-                      </span>
+                    </span>
+                    <div class="card-label-img label--v<%= max_priority_level_map[idx] %>"></div>
+                    <div class="re__card-image-feature">
+                      <span><%= service.total_items_count %></span>
+                      <%= inline_svg_tag "svg/image.svg", size: "20" %>
                     </div>
                   </div>
-                </div>
+                  <div class="re__card-info" title="Bán nhà mới tinh tại phường Hà Lầm, TP Hạ Long 0968 484 ***">
+                    <div class="re__card-info-content">
+                      <div>
+                        <h3 class="re__card-title">
+                          <span class="pr-title js__card-title" product-title="">
+                            <%= service.name %>
+                          </span>
+                        </h3>
+                        <div class="flex gap-1 items-center mb-2">
+                          <div class="flex gap-1 items-center" aria-hidden="true">
+                            <%= inline_svg_tag "svg/star.svg", size: "16", class: "text-yellow-400" %>
+                            <span class="text-sm"><%= 4.to_f.round(1) %></span>
+                          </div>
+                          <div class="re__card-location">
+                            <span><%= "#{ service.first_or_main_address&.district }, #{ service.first_or_main_address&.province }" if service.first_or_main_address.present? %></span>
+                          </div>
+                        </div>
+                        <div class="mb-2">
+                          <p class="text-sm line-clamp-3">
+                            <%= service.description %>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="re__card-published-info">
+                        <div class="re__card-published-info-published-at space-x-1">
+                          <% if service.pricing.present? %>
+                            <%= inline_svg_tag "svg/coins.svg", size: "16" %>
+                            <span class="re__card-published-info-published-at">
+                              <%= "#{number_to_currency service.pricing, unit: "đ", precision: 0, format: "%n %u"} - Mức giá phổ biến" %>
+                            </span>
+                          <% end %>
+                        </div>
+                        <div class="re__card-contact-button relative" data-prevent-delegation="true">
+                          <span class="js__marking-product re__btn re__btn-se-border--sm re__btn-icon--sm" data-marked-product-info-as-json="{&quot;documentId&quot;:&quot;39738594&quot;,&quot;productId&quot;:39738594,&quot;avatarinfowap&quot;:&quot;https://file4.batdongsan.com.vn/crop/200x140/2024/05/03/20240503102933-9816_wm.jpg&quot;,&quot;title&quot;:&quot;Bán nhà mới tinh tại phường Hà Lầm, TP Hạ Long 0968484869&quot;,&quot;url&quot;:&quot;/ban-nha-rieng-phuong-ha-lam/ban-moi-tinh-tai-tp-long-pr39738594&quot;}" aria-label="Bấm để lưu tin" data-microtip-position="bottom" role="tooltip" tracking-id="save-listing" tracking-label="loc=SRP For Sale,status=save" title="">
+                            <%= inline_svg_tag "svg/heart.svg", size: "20" %>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
               </div>
             <% end %>
-          </div>
-        <% end %>
-
-      </div>
+          <% end %>
+        </div>
+      <% end %>
 
       <%== pagy_nav(@pagy) %>
     </section>

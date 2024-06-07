@@ -1,7 +1,7 @@
-<nav class="py-2 border-b border-[#d9d9d9] mb-4" data-controller="navbar" data-navbar-mobile-menu-open-value="false">
+<nav class="relative py-2 border-b border-[#d9d9d9] mb-4 z-10 bg-white" data-controller="navbar" data-navbar-mobile-menu-open-value="false">
   <div class="mx-auto max-w-screen-2xl px-2 sm:px-6 lg:px-8">
-    <div class="relative flex items-center justify-between">
-      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+    <div class="flex items-stretch justify-between">
+      <div class="absolute inset-y-0 left-2 top-2 h-fit flex items-center sm:hidden">
         <!-- Mobile menu button-->
         <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-[#F4B99B]/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false"
                 data-action="click->navbar#toggleMobileMenu">
@@ -10,23 +10,54 @@
           <%= inline_svg_tag "svg/bugger-btn-opened", size: "24", class: "hidden", data: { navbar_target: "openedIcon"} %>
         </button>
       </div>
-      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+      <div class="h-[inherit] flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
         <%= link_to root_path, class: "flex flex-shrink-0 items-center gap-1" do %>
           <img class="h-10 w-auto" src="<%= asset_path "logo-transparent.png" %>" alt="Your Company">
           <span class="sm:hidden md:inline text-[#FCB796] font-medium text-lg">Wedding Vista</span>
         <% end %>
-        <div class="hidden sm:ml-7 sm:block">
-          <div class="flex space-x-4">
-            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a href="#" class="mt-0.5 border-b-2 border-transparent hover:border-[#EDD1C6] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Planning tools</a>
-            <%= link_to 'Vendors', services_path, class: [ "mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
-                                              (is_active?(path: services_path) ? "!border-[#EDD1C6] text-[#FCB796] cursor-default" : "hover:border-[#EDD1C6] hover:text-[#FCB796]")
-                                            ] %>
-            <a href="#" class="mt-0.5 border-b-2 border-transparent hover:border-[#EDD1C6] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Forums</a>
+        <div class="hidden sm:ml-7 sm:block -mt-2 -mb-[6px]">
+          <div class="flex space-x-4 h-full">
+            <div>
+              <a href="#" class="grid place-items-center h-full mt-0.5 border-b-2 border-transparent hover:border-[#FCB796] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Planning tools</a>
+            </div>
 
-            <%= link_to 'Ideas', wedding_ideas_root_path, class: [ "mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
-                                              (is_active?(path: wedding_ideas_root_path) ? "!border-[#EDD1C6] text-[#FCB796] cursor-default" : "hover:border-[#EDD1C6] hover:text-[#FCB796]")
+            <div class="group" data-action="mouseover->navbar#toggleOverlay mouseout->navbar#toggleOverlay">
+              <%= link_to 'Vendors', services_path, class: [ "grid place-items-center h-full mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
+                                              (is_active?(path: services_path) ? "!border-[#FCB796] text-[#FCB796] cursor-default" : "hover:border-[#FCB796] hover:text-[#FCB796]")
                                             ] %>
+
+              <% category_new_updated = Category.maximum(:updated_at) %>
+              <% cache category_new_updated do %>
+                <div class="layoutNavMenuTab app-header-menu-itemDropdown hidden [&_a:hover]:text-[#FCB796] border-t border-[#d9d9d9] z-10 transition-opacity group-hover:opacity-100 group-hover:block">
+                  <div class="layoutNavMenuTab__layout">
+                    <div class="layoutNavMenuTabVenues">
+                      <div class="layoutNavMenuTabVenues__categories">
+                        <div class="layoutNavMenuTabVenuesList layoutNavMenuTabVenuesListBig">
+                          <%= link_to 'Tìm dịch vụ cưới', services_path, class: "layoutNavMenuTabVenues__title" %>
+                          <ul class="layoutNavMenuTabVenuesList__content layoutNavMenuTabVenuesList__contentBig">
+                            <% Category.all.each do |category| %>
+                              <li class="layoutNavMenuTabVenuesList__item">
+                                <%= link_to category.name, category_path(category) %>
+                              </li>
+                            <% end %>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+
+            <div>
+              <a href="#" class="grid place-items-center h-full mt-0.5 border-b-2 border-transparent hover:border-[#FCB796] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Forums</a>
+            </div>
+
+            <div>
+              <%= link_to 'Ideas', wedding_ideas_root_path, class: [ "grid place-items-center h-full mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
+                                              (is_active?(path: wedding_ideas_root_path) ? "!border-[#FCB796] text-[#FCB796] cursor-default" : "hover:border-[#FCB796] hover:text-[#FCB796]")
+                                            ] %>
+            </div>
           </div>
         </div>
       </div>
@@ -106,3 +137,5 @@
     </div>
   </div>
 </nav>
+
+<div class="z-[9] bg-black bg-opacity-30 fixed inset-0 h-screen w-screen opacity-0 hidden" id="header-overlay"></div>

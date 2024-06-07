@@ -27,7 +27,9 @@ class Service < ApplicationRecord
                       .where(published: true)
                       .where(["priority_boostings.start_time IS NULL OR priority_boostings.start_time <= :now AND priority_boostings.end_time >= :now",
                               { now: Time.zone.now }])
-
+                      .select("services.*, COALESCE(MAX(priority_boostings.level), 0) AS max_priority_level, MAX(priority_boostings.created_at) AS latest_priority_created_at")
+                      .group(:id)
+                      .order(Arel.sql("COALESCE(MAX(priority_boostings.level), 0) DESC, MAX(priority_boostings.created_at) DESC"))
 
     # Apply optional filters
     services = if selected_category_id.present?
@@ -42,11 +44,9 @@ class Service < ApplicationRecord
     services = services.where("pricing >= ?", pricing_from) if pricing_from.present?
     services = services.where("pricing <= ?", pricing_to) if pricing_to.present?
 
-    services.group(:id)
-            .select("services.*, COALESCE(MAX(priority_boostings.level), 0) AS max_priority_level, MAX(priority_boostings.created_at) AS latest_priority_created_at")
-            .order("max_priority_level DESC, latest_priority_created_at DESC")
-
-    # NOTE: We can access the max_priority_level and latest_priority_created_at columns in the view
+    services
+    # NOTE: We can access the max_priority_level and latest_priority_created_at columns in the view, but
+    # we can't access then in the cache block.
   end
 
   # Pagy overrides the select statement of the query to include the count of the total records
