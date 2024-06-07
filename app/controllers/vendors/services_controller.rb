@@ -99,7 +99,7 @@ module Vendors
         services = services.where("services.name LIKE ?", "%#{params[:search]}%")
       end
 
-      @pagy, @services = pagy_countless services, item: 10
+      @pagy, @services = pagy services, item: 10
     end
   end
 end

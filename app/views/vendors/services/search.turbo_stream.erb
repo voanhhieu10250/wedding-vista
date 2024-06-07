@@ -5,7 +5,6 @@
 <% end %>
 
 <%= turbo_stream.update :pagination do %>
-  <% @services.each do |service| %>
-    <%== pagy_nav(@pagy) %>
-  <% end %>
+  <%== pagy_info(@pagy, item_name: 'dịch vụ') %>
+  <%== pagy_nav(@pagy) %>
 <% end %>

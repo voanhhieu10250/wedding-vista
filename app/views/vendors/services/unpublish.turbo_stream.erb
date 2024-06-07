@@ -1,5 +1,11 @@
-<%= turbo_stream.replace dom_id @service do %>
-  <%= render partial: 'service_table_row', locals: { service: @service } %>
+<%= turbo_stream.update dom_id @service, "status" do %>
+  <span class="inline-block whitespace-nowrap px-2 py-0.5 text-xs text-center font-bold rounded-full <%= @service.published? ? "text-green-400 bg-green-100" : "text-red-400 bg-red-100" %>">
+    <%= @service.published? ? "Công khai" : "Ẩn" %>
+  </span>
+<% end %>
+
+<%= turbo_stream.update dom_id @service, "toggle-publish" do %>
+  <%= render 'toggle_publish_link', service: @service %>
 <% end %>
 
 <%= turbo_stream.replace "action-toolbar" do %>

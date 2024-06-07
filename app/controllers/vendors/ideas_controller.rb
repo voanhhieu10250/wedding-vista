@@ -3,9 +3,16 @@ class Vendors::IdeasController < Vendors::BaseController
   before_action :set_idea_with_rich_text_content_and_embeds, only: %i[ edit show ]
 
   def index
-    @ideas = current_vendor.ideas.includes(:topic)
-                           .with_attached_main_image
-                           .order(created_at: :desc)
+    ideas = current_vendor.ideas.includes(:topic)
+                          .with_attached_main_image
+                          .order(created_at: :desc)
+
+    if params[:search].present?
+      params[:search] = params[:search].strip
+      ideas = ideas.where("ideas.title LIKE ?", "%#{params[:search]}%")
+    end
+
+    @pagy, @ideas = pagy ideas, item: 10
   end
 
   def show; end

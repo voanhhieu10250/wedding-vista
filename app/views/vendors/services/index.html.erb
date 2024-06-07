@@ -60,15 +60,14 @@
         </tr>
       </thead>
       <tbody id="services">
-        <% @services.each do |service| %>
-          <%= render partial: 'service_table_row', locals: { service: } %>
-        <% end %>
+        <%= render partial: 'service_table_row', collection: @services, as: :service %>
       </tbody>
     </table>
   </div>
 
   <%# Pagination %>
-  <div class="mt-2 flex justify-end" id="pagination">
+  <div class="mt-2 flex justify-between mx-2" id="pagination">
+    <%== pagy_info(@pagy, item_name: 'dịch vụ') %>
     <%== pagy_nav(@pagy) %>
   </div>
 </div>
