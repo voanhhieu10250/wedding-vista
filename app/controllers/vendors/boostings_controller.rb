@@ -62,11 +62,12 @@ class Vendors::BoostingsController < Vendors::BaseController
 
     success = if update_time_params[:now] == "1"
                 @priority_boosting.update_times_and_job(Time.zone.now.to_s,
-                                                        (Time.zone.now + 1.day).to_s,
-                                                        create_job: true)
+                                                        (Time.zone.now + 1.day).to_s)
+
               else
-                @priority_boosting.update_times_and_job(Time.zone.parse(update_time_params[:start_time]).utc.to_s,
-                                                        (Time.zone.parse(update_time_params[:start_time]).utc + 1.day).to_s)
+                @priority_boosting.update_times_and_job(Time.zone.parse(update_time_params[:start_time]).to_s,
+                                                        (Time.zone.parse(update_time_params[:start_time]) + 1.day).to_s,
+                                                        create_job: true)
               end
 
     if success
@@ -105,10 +106,10 @@ class Vendors::BoostingsController < Vendors::BaseController
       priority_boosting_params[:status] = "ACTIVE"
       priority_boosting_params[:start_time] = Time.zone.now.to_s
     else
-      priority_boosting_params[:start_time] = Time.zone.parse(priority_boosting_params[:start_time]).utc.to_s
+      priority_boosting_params[:start_time] = Time.zone.parse(priority_boosting_params[:start_time]).to_s
     end
 
-    priority_boosting_params[:end_time] = (Time.zone.parse(priority_boosting_params[:start_time]).utc + 1.day).to_s
+    priority_boosting_params[:end_time] = (Time.zone.parse(priority_boosting_params[:start_time]) + 1.day).to_s
     priority_boosting_params[:level] = priority_boosting_params[:level].to_i
 
     priority_boosting_params

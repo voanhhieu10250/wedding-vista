@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
 
+  around_action :set_time_zone, if: -> { params[:time_zone].present? }
+
   helper_method :authenticate_admin!, :flash_errors_message
 
   rescue_from ActiveRecord::RecordNotFound do |error|
@@ -60,5 +62,11 @@ class ApplicationController < ActionController::Base
 
   def render_json_error(error, status)
     render json: { type: error.type, message: error.message }, status:
+  end
+
+  private
+
+  def set_time_zone(&)
+    Time.use_zone(params[:time_zone], &)
   end
 end

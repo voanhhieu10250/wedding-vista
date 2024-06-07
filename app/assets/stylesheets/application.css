@@ -61,7 +61,7 @@
   position: fixed;
   margin: 0;
   padding: 0;
-  z-index: 4;
+  z-index: 11;
   backface-visibility: hidden;
   filter: blur(0);
   max-width: 90%;

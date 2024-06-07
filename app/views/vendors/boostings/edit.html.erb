@@ -45,7 +45,8 @@
               Hẹn giờ bắt đầu đẩy top
             <% end %>
           </div>
-          <%= form.datetime_field :start_time, disabled: true, data:{vendor_boosting_target: "startTime"}, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400" %>
+          <%= hidden_field_tag :time_zone %>
+          <%= form.datetime_field :start_time, value: @priority_boosting.start_time.in_time_zone(current_vendor.time_zone), disabled: true, data:{vendor_boosting_target: "startTime"}, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400" %>
         </div>
 
         <div class="flex justify-end mt-3">

@@ -5,9 +5,8 @@ import "trix";
 import "@rails/actiontext";
 import * as ActiveStorage from "@rails/activestorage";
 
-import LocalTime from "local-time"
-LocalTime.start()
-
+import LocalTime from "local-time";
+LocalTime.start();
 
 ActiveStorage.start();
 
@@ -26,7 +25,13 @@ document.addEventListener("turbo:frame-missing", (event) => {
     event.detail.visit(event.detail.response.url, { action: "replace" });
 });
 
-const allowedImageTypes = ["image/png", "image/jpg", "image/jpeg", "image/gif", "image/webp"];
+const allowedImageTypes = [
+  "image/png",
+  "image/jpg",
+  "image/jpeg",
+  "image/gif",
+  "image/webp",
+];
 document.addEventListener("trix-file-accept", (event) => {
   if (!allowedImageTypes.includes(event.file.type)) {
     event.preventDefault();
@@ -38,4 +43,12 @@ document.addEventListener("trix-file-accept", (event) => {
     event.preventDefault(); // prevent attaching the file to the document.
     alert("Upload file size must be less than 10MB");
   }
+});
+
+document.addEventListener("turbo:load", (event) => {
+  const timeZoneFields = document.querySelectorAll('input[name="time_zone"], input[name$="[time_zone]"]');
+
+  timeZoneFields.forEach((field) => {
+    field.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  });
 });
