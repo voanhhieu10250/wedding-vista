@@ -1,18 +1,21 @@
 class Vendors::BoostingsController < Vendors::BaseController
   before_action :update_time_params, only: %i[ update ]
   before_action :set_service
-  before_action :set_priority_boosting, only: %i[ show destroy edit update ]
+  before_action :set_priority_boosting, only: %i[ destroy edit update ]
 
-  # GET /priority_boostings or /priority_boostings.json
   def index
-    @priority_boostings = @service.priority_boostings.order(created_at: :desc)
+    priority_boostings = @service.priority_boostings.order(created_at: :desc)
+    priority_boostings = priority_boostings.where(level: params[:level].to_i) if params[:level].present?
+
+    @pagy, @priority_boostings = pagy(priority_boostings, item: 10)
   end
 
-  # GET /priority_boostings/1 or /priority_boostings/1.json
-  def show; end
-
-  # GET /priority_boostings/new
   def new
+    unless @service.published?
+      redirect_to vendor_service_url(@service), alert: "You can't create a new boosting for an unpublished service."
+      return
+    end
+
     @priority_boosting = @service.priority_boostings.build
   end
 
@@ -20,8 +23,7 @@ class Vendors::BoostingsController < Vendors::BaseController
   # nếu level của boosting đó lớn hơn level của boosting mới thì không cho tạo level mới
   def create
     unless @service.published?
-      redirect_to new_vendor_service_boosting_url(@service),
-                  alert: "You can't create a new boosting for an unpublished service."
+      redirect_to vendor_service_url(@service), alert: "You can't create a new boosting for an unpublished service."
       return
     end
 
@@ -38,8 +40,7 @@ class Vendors::BoostingsController < Vendors::BaseController
         current_vendor.decrement!(:balance, priority_boosting_params[:amount].to_i)
       end
 
-      redirect_to vendor_service_boosting_url(@service, @priority_boosting),
-                  notice: "Priority boosting was successfully created."
+      redirect_to vendor_service_boostings_url(@service), notice: "Priority boosting was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -48,7 +49,7 @@ class Vendors::BoostingsController < Vendors::BaseController
   def edit
     return unless @priority_boosting.active? || @priority_boosting.expired?
 
-    redirect_to vendor_service_boosting_url(@service, @priority_boosting),
+    redirect_to vendor_service_boostings_url(@service),
                 alert: "You can't edit an active or expired boosting."
   end
 
@@ -71,8 +72,7 @@ class Vendors::BoostingsController < Vendors::BaseController
               end
 
     if success
-      redirect_to vendor_service_boosting_url(@service, @priority_boosting),
-                  notice: "Priority boosting was successfully updated."
+      redirect_to vendor_service_boostings_url(@service), notice: "Priority boosting was successfully updated."
     else
       format.html { render :edit, status: :unprocessable_entity }
     end

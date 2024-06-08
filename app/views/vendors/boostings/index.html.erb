@@ -1,14 +1,67 @@
-<p style="color: green"><%= notice %></p>
+<% levels = options_for_select([
+  [ "VIP Bạc", 1 ],
+  [ "VIP Vàng", 2 ],
+  [ "VIP Kim Cương", 3 ],
+ ], params[:level]) %>
 
-<h1>Priority boostings</h1>
+<div class="py-8 px-6 min-w-[1024px]">
+  <h1 class="mb-2 text-2xl font-medium">Lịch sử top tìm kiếm</h1>
+  <p class="italic text-sm mb-2">
+    Dịch vụ: <%= @service.name %>
+  </p>
 
-<div id="priority_boostings">
-  <% @priority_boostings.each do |priority_boosting| %>
-    <%= render partial: "priority_boosting", locals: { priority_boosting: } %>
-    <p>
-      <%= link_to "Show this priority boosting", vendor_service_boosting_path(priority_boosting.service, priority_boosting) %>
-    </p>
-  <% end %>
+  <%# Toolbar %>
+  <div class="mb-4 flex flex-row justify-between">
+    <div class="flex flex-row gap-5 items-center">
+      <%= form_with model: nil, url: vendor_service_boostings_path, method: :get, html: {class: "relative"} do |form| %>
+        <%= form.select :level, levels, { :include_blank => "Lọc theo cấp độ VIP" }, class: "text-sm w-96 max-w-full border-gray-300 rounded py-2 px-4 leading-tight pl-12 border-0 ring-1 ring-inset ring-gray-300 outline-0 focus:ring-1 focus:ring-inset focus:ring-indigo-600" %>
+        <%= tag.button type: "submit", class:"absolute inset-y-0 left-0 flex items-center pl-4 text-lg", title: "Search" do %>
+          <%= inline_svg_tag "svg/search.svg", size: "18" %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="flex justify-center items-center gap-2">
+      <%= link_to new_vendor_service_boosting_path, class: "flex gap-1 justify-center items-center pl-3 pr-4 py-2 text-sm text-white bg-indigo-500 font-medium rounded hover:bg-indigo-600" do %>
+        <%= inline_svg_tag "svg/plus.svg", size: "18" %>
+        <span>Tạo lượt đẩy tìm kiếm mới</span>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Table %>
+  <div class="flex flex-col border border-gray-200 rounded overflow-x-auto shadow-sm" id="priority_boostings">
+    <table class="min-w-full table-fixed">
+      <thead class="bg-[#f8fafc] text-left">
+        <tr>
+          <th scope="col" class="pl-[18px] px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]">
+            STT
+          </th>
+          <th scope="col" class="px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
+            Cấp độ
+          </th>
+          <th scope="col" class="px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
+            Ngày bắt đầu
+          </th>
+          <th scope="col" class="px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
+            Ngày kết thúc
+          </th>
+          <th scope="col" class="px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
+            Trạng thái
+          </th>
+          <th scope="col" class="px-2.5 py-[8.7px] text-sm font-medium text-[#637286] tracking-wider border-[#e2e7ee] border-b leading-6 shadow-[0_-10px_0_white]" style="border-left: 1px dashed #d5dce6;">
+            Hành động
+          </th>
+        </tr>
+      </thead>
+      <tbody id="services">
+        <%= render partial: "priority_boosting", collection: @priority_boostings %>
+      </tbody>
+    </table>
+  </div>
+
+  <%# Pagination %>
+  <div class="mt-2 flex justify-between mx-2" id="pagination">
+    <%== pagy_info(@pagy, item_name: 'bài viết') %>
+    <%== pagy_nav(@pagy) %>
+  </div>
 </div>
-
-<%= link_to "New priority boosting", new_vendor_service_boosting_path %>

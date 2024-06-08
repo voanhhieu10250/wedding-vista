@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       resources :addresses
       resources :galleries
       resources :common_questions, as: :questions, path: :questions
-      resources :boostings
+      resources :boostings, except: %i[show]
     end
     post "services/search", to: "services#search"
 
