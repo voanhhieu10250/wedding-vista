@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
+  get 'galleries/index'
+  get 'galleries/show'
   resources :categories, only: %i[show]
   resources :services, only: %i[index show] do
     resources :reviews, only: %i[create]
+    resources :galleries, only: %i[index show]
   end
 
   devise_for :users,

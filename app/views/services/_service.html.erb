@@ -55,7 +55,9 @@
                 <%= service.first_or_main_address&.province %>, <%= service.first_or_main_address&.district %>
               </a>
             <% else %>
-              <%= link_to 'Chưa có địa chỉ (Bấm để cập nhật)', new_vendor_service_address_path(service), class: "app-heading-quick-link" %>
+              <span class="app-heading-quick-link">
+                Chưa có địa chỉ
+              </span>
             <% end %>
           </div>
         </div>
@@ -76,7 +78,7 @@
               Đến website
             </a>
           <% else %>
-            <%= link_to 'Chưa có website (Bấm để cập nhật)', edit_vendor_service_path(service), class: "storefrontHeadingWebsite__label app-storefront-visit-website" %>
+            <span class="storefrontHeadingWebsite__label app-storefront-visit-website">Chưa có website</span>
           <% end %>
         </div>
       </div>
@@ -169,7 +171,7 @@
 
       </section>
       <div class="storefrontMultiGallery__button">
-        <%= link_to services_path, class: "button app-gallery-slider-fullscreen-open app-gallery-fullscreen-open" do %>
+        <%= link_to service_galleries_path(service), class: "button app-gallery-slider-fullscreen-open app-gallery-fullscreen-open" do %>
           Xem ảnh <span><%= service.total_items_count %></span>
         <% end %>
       </div>

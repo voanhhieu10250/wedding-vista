@@ -22,7 +22,7 @@ class ServicesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_service
     # The bang method (!) will raise an ActiveRecord::RecordNotFound exception if the record is not found
-    @service = Service.includes(:category, :main_address, :common_questions).find_by!(id: params[:id], published: true)
+    @service = Service.includes(:category, :main_address, :common_questions, :galleries).find_by!(id: params[:id], published: true)
   end
 
   # Only allow a list of trusted parameters through.
