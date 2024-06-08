@@ -1,5 +1,5 @@
 <% unless @common_question.errors.any? %>
-  <%= turbo_stream.update dom_id @common_question, "detail" do %>
+  <%= turbo_stream.replace dom_id @common_question, "detail" do %>
     <%= render @common_question %>
   <% end %>
 <% end %>

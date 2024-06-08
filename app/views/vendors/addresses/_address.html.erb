@@ -1,37 +1,42 @@
-<div id="<%= dom_id address %>">
-  <p>
-    <strong>Service:</strong>
-    <%= address.service_id %>
-  </p>
+<%= turbo_frame_tag dom_id address, "detail" do %>
+  <div id="<%= dom_id address %>">
+    <p>
+      <strong>Full address:</strong>
+      <%= address.full_address %>
+    </p>
 
-  <p>
-    <strong>Full address:</strong>
-    <%= address.full_address %>
-  </p>
+    <p>
+      <strong>District:</strong>
+      <%= address.district %>
+    </p>
 
-  <p>
-    <strong>District:</strong>
-    <%= address.district %>
-  </p>
+    <p>
+      <strong>Province:</strong>
+      <%= address.province %>
+    </p>
 
-  <p>
-    <strong>Province:</strong>
-    <%= address.province %>
-  </p>
+    <p>
+      <strong>Phone:</strong>
+      <%= address.phone %>
+    </p>
 
-  <p>
-    <strong>Phone:</strong>
-    <%= address.phone %>
-  </p>
+    <p>
+      <strong>Longitude:</strong>
+      <%= address.longitude %>
+    </p>
 
-  <p>
-    <strong>Longitude:</strong>
-    <%= address.longitude %>
-  </p>
+    <p>
+      <strong>Latitude:</strong>
+      <%= address.latitude %>
+    </p>
 
-  <p>
-    <strong>Latitude:</strong>
-    <%= address.latitude %>
-  </p>
-
-</div>
+    <div class="flex space-x-4">
+      <%= link_to "Edit this address", edit_vendor_service_address_path(address.service, address), class: "text-blue-600 hover:text-blue-800" %>
+      <%= button_to "Destroy this address",
+                vendor_service_address_path(params[:service_id], address),
+                method: :delete,
+                data: { confirm: "Are you sure?" },
+                class: "text-red-600 hover:text-red-800" %>
+    </div>
+  </div>
+<% end %>

@@ -19,7 +19,7 @@ Rails.application.routes.draw do
         post :publish
         post :unpublish
       end
-      resources :addresses
+      resources :addresses, except: %i[new]
       resources :galleries
       resources :common_questions, as: :questions, path: :questions, except: %i[new]
       resources :boostings, except: %i[show]

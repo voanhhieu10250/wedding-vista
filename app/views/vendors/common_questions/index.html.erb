@@ -13,11 +13,7 @@
       <h3 class="text-2xl font-semibold mb-4">Các câu hỏi hiện có</h3>
 
       <div id="common_questions" class="flex flex-col gap-5">
-        <% @common_questions.each do |common_question| %>
-            <%= turbo_frame_tag dom_id common_question, "detail" do %>
-              <%= render common_question %>
-            <% end %>
-        <% end %>
+        <%= render @common_questions %>
       </div>
     </div>
   </div>

@@ -7,9 +7,13 @@ class Vendors::CommonQuestionsController < Vendors::BaseController
     @common_questions = @service.common_questions.order(id: :desc)
   end
 
-  def show; end
+  def show
+    render :show, layout: false
+  end
 
-  def edit; end
+  def edit
+    render :edit, layout: false
+  end
 
   def create
     @common_question = @service.common_questions.build(common_question_params)
@@ -31,7 +35,6 @@ class Vendors::CommonQuestionsController < Vendors::BaseController
 
   def destroy
     @common_question.destroy!
-
     flash.now[:notice] = "Common question was successfully destroyed."
   end
 
