@@ -19,4 +19,8 @@ class Gallery < ApplicationRecord
     attachment_count = ActiveStorage::Attachment.where(record_type: "Gallery", record_id: id).count
     update_column(:attachments_count, attachment_count)
   end
+
+  def first_four_items
+    items.limit(4)
+  end
 end

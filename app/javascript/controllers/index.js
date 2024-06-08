@@ -22,6 +22,9 @@ application.register("form-changed-check", FormChangedCheckController)
 import FormController from "./form_controller"
 application.register("form", FormController)
 
+import GalleryDetailController from "./gallery_detail_controller"
+application.register("gallery-detail", GalleryDetailController)
+
 import GoongMapController from "./goong_map_controller"
 application.register("goong-map", GoongMapController)
 

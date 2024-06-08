@@ -24,7 +24,7 @@
 
   <div class="flex justify-<%= question.new_record? ? "between" : "end" %> items-center gap-4">
     <%= link_to "Quay lại trang chi tiết dịch vụ", vendor_service_path(@service), class: "text-sm underline hover:text-indigo-500" if question.new_record? %>
-    <%= link_to "Hủy", vendor_service_question_path(question.service, question), class: "text-sm underline hover:text-indigo-500" unless question.new_record? %>
-    <%= form.submit question.new_record? ? "Thêm" : "Sửa", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
+    <%= link_to "Hủy thay đổi", vendor_service_question_path(question.service, question), class: "text-sm underline hover:text-indigo-500" unless question.new_record? %>
+    <%= form.submit question.new_record? ? "Thêm" : "Lưu thay đổi", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
   </div>
 <% end %>

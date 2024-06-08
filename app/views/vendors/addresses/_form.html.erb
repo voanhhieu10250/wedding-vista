@@ -20,8 +20,8 @@
 
   <div class="flex justify-<%= address.new_record? ? "between" : "end" %> items-center gap-4">
     <%= link_to "Quay lại trang chi tiết dịch vụ", vendor_service_path(address.service), class: "text-sm underline hover:text-indigo-500" if address.new_record? %>
-    <%= link_to "Hủy", vendor_service_address_path(address.service, address), class: "text-sm underline hover:text-indigo-500" unless address.new_record? %>
-    <%= form.submit address.new_record? ? "Thêm" : "Sửa", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
+    <%= link_to "Hủy thay đổi", vendor_service_address_path(address.service, address), class: "text-sm underline hover:text-indigo-500" unless address.new_record? %>
+    <%= form.submit address.new_record? ? "Thêm" : "Lưu thay đổi", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
   </div>
 <% end %>
 

@@ -173,6 +173,9 @@
       </section>
       <div class="storefrontMultiGallery__button">
         <%= link_to vendor_service_galleries_path(service), class: "button app-gallery-slider-fullscreen-open app-gallery-fullscreen-open" do %>
+          Chỉnh sửa bộ sưu tập
+        <% end %>
+        <%= link_to vendor_service_galleries_path(service), class: "button app-gallery-slider-fullscreen-open app-gallery-fullscreen-open" do %>
           Xem ảnh <span><%= service.total_items_count %></span>
         <% end %>
       </div>
