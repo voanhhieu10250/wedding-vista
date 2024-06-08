@@ -1,26 +1,16 @@
+<h2>New common question</h2>
+<%= render "form", path: vendor_service_questions_path(@service), method: :post,
+                    question: CommonQuestion.new(service_id: @service.id) %>
+
+<%= link_to "Quay lại trang chi tiết dịch vụ", vendor_service_path(@service) %>
+<p>-------------</p>
+
 <h1>Common questions</h1>
 
-<%= turbo_frame_tag "service_question_list" do %>
-  <div id="common_questions">
-    <% @common_questions.each do |common_question| %>
-      <%= turbo_frame_tag dom_id(common_question) do %>
-        <%= render common_question %>
-
-        <div>
-          <%= link_to "Edit this common question", edit_vendor_service_question_path(params[:service_id], common_question) %> |
-          <%= button_to "Destroy this common question",
-                      vendor_service_question_path(params[:service_id], common_question),
-                      method: :delete,
-                      form: {data: {"turbo-frame": "service_question_list"}} %>
-        </div>
-      <% end %>
+<div id="common_questions">
+  <% @common_questions.each do |common_question| %>
+    <%= turbo_frame_tag dom_id common_question, "detail" do %>
+      <%= render common_question %>
     <% end %>
-  </div>
-<% end %>
-
-<p>-------------</p>
-<h2>New common question</h2>
-<%= render "form", path: vendor_service_questions_path(params[:service_id]),
-                   method: :post,
-                   question: CommonQuestion.new,
-                   turbo_frame_target: :service_question_list %>
+  <% end %>
+</div>

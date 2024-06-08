@@ -84,6 +84,7 @@ gem "mysql2"
 gem "local_time"
 gem "pagy", "~> 8.4"
 
+gem "solid_cache"
 gem "solid_queue", "~> 0.3.1"
 
 gem "inline_svg", "~> 1.9"

@@ -21,11 +21,10 @@ Rails.application.routes.draw do
       end
       resources :addresses
       resources :galleries
-      resources :common_questions, as: :questions, path: :questions
+      resources :common_questions, as: :questions, path: :questions, except: %i[new]
       resources :boostings, except: %i[show]
     end
     post "services/search", to: "services#search"
-
 
     resources :topic_categories, only: %i[index show]
     resources :topics, only: %i[index show]

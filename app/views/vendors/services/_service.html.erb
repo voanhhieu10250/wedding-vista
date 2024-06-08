@@ -197,62 +197,22 @@
     <section class="storefrontFaqs app-faqs-toggle app-section-highlighter-item <%= "all" if service.common_questions.size <= 4 %>" data-service-details-target="faqs">
       <h2 id="faqs" class="storefrontFaqs__title" tabindex="-1">Các câu hỏi thường gặp</h2>
       <div class="storefrontFaqs__container">
-        <div class="storefrontFaqs__item">
-          <h3 class="storefrontFaqs__itemTitle">What is the starting price for your wedding photography services?</h3>
-          <div class="storefrontFaqs__itemContent">
-            <div class="storefrontFaqs__itemBlock">
-              $3,000
+        <% if service.common_questions.present? %>
+          <% service.common_questions.each do |item| %>
+            <div class="storefrontFaqs__item">
+              <h3 class="storefrontFaqs__itemTitle"><%= item.question %></h3>
+              <div class="storefrontFaqs__itemContent">
+                <div class="storefrontFaqs__itemBlock">
+                  <%= item.answer %>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="storefrontFaqs__item">
-          <h3 class="storefrontFaqs__itemTitle">What is the price of your most popular wedding package?</h3>
-          <div class="storefrontFaqs__itemContent">
-            <div class="storefrontFaqs__itemBlock">
-              $3,500
-            </div>
-          </div>
-        </div>
-        <div class="storefrontFaqs__item">
-          <h3 class="storefrontFaqs__itemTitle">What primary photographic style do you identify with?</h3>
-          <div class="storefrontFaqs__itemContent">
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              Vintage
-            </div>
-          </div>
-        </div>
-        <div class="storefrontFaqs__item">
-          <h3 class="storefrontFaqs__itemTitle">What photography services do you offer?</h3>
-          <div class="storefrontFaqs__itemContent">
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              Additional Hours
-            </div>
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              Engagement Shoot
-            </div>
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              High-Res Images
-            </div>
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              Wedding Portraits
-            </div>
-          </div>
-        </div>
+          <% end %>
+        <% else %>
+          <p class="italic text-sm">Chưa có câu hỏi nào</p>
+        <% end %>
+        <br>
+        <%= link_to 'Thêm/Chỉnh sửa câu hỏi', vendor_service_questions_path(service), class: "hover:underline" %>
       </div>
       <button type="button" data-action="service-details#openAllFAQs" class="storefrontFaqs__button button button--tertiary app-faqs-toggle-action">View more FAQs</button>
     </section>
@@ -355,37 +315,44 @@
 
     <section class="storefrontMap app-section-highlighter-item">
       <h2 id="map" class="storefrontMap__title" tabindex="-1">Địa chỉ</h2>
-
-      <div class="app-storefront-addresses storefrontAddresses">
-        <% service.addresses_sorted_by_main_first.each_with_index do |address, idx| %>
-          <div class="app-storefront-item-active storefrontAddresses__itemActive ">
-            <% if idx == 0 %>
-              <div class="app-storefront-map storefrontAddresses__map">
-                <div class="aspect-[2/1] rounded-md overflow-hidden">
-                  <div data-controller="goong-non-interactive-map" class="h-full w-full"
+      <% if service.addresses.present? %>
+        <div class="app-storefront-addresses storefrontAddresses">
+          <% service.addresses_sorted_by_main_first.each_with_index do |address, idx| %>
+            <div class="app-storefront-item-active storefrontAddresses__itemActive ">
+              <% if idx == 0 %>
+                <div class="app-storefront-map storefrontAddresses__map">
+                  <div class="aspect-[2/1] rounded-md overflow-hidden">
+                    <div data-controller="goong-non-interactive-map" class="h-full w-full"
                         data-goong-non-interactive-map-lat-value="<%= address.latitude %>"
                         data-goong-non-interactive-map-lng-value="<%= address.longitude %>">
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+              <div class="storefrontAddresses__infoActive">
+                <%= inline_svg_tag "svg/map-pin.svg", class: "text-[#FCB796] storefrontAddresses__icon" %>
+                <div class="app-storefront-header storefrontAddresses__header">
+                  <%= address.full_address %>
+                </div>
+                <div class="app-storefront-content storefrontAddresses__content">
+                  <div class="storefrontAddresses__phone">
+                    <span class="app-phone-replace" data-vendorid="2184871">
+                      <%= address.phone %>
+                    </span>
                   </div>
                 </div>
               </div>
-            <% end %>
-            <div class="storefrontAddresses__infoActive">
-              <%= inline_svg_tag "svg/map-pin.svg", class: "text-[#FCB796] storefrontAddresses__icon" %>
-              <div class="app-storefront-header storefrontAddresses__header">
-                <%= address.full_address %>
-              </div>
-              <div class="app-storefront-content storefrontAddresses__content">
-                <div class="storefrontAddresses__phone">
-                  <span class="app-phone-replace" data-vendorid="2184871">
-                    <%= address.phone %>
-                  </span>
-                </div>
-              </div>
             </div>
-          </div>
-        <% end %>
+          <% end %>
 
-      </div>
+        </div>
+      <% else %>
+        <div class="storefrontMap__noAddress">
+          <p class="italic text-sm">Chưa có địa chỉ</p>
+        </div>
+      <% end %>
+      <br>
+      <%= link_to 'Thêm địa chỉ', new_vendor_service_address_path(service), class: "hover:underline" %>
     </section>
   </div>
 </article>

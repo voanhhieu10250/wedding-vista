@@ -1,6 +1,6 @@
 module Vendors
   class ServicesController < Vendors::BaseController
-    before_action :set_service_with_main_address, only: %i[ show edit ]
+    before_action :set_service_with_references, only: %i[ show edit ]
     before_action :set_service, only: %i[ update destroy publish unpublish ]
     before_action :set_pagy_services, only: %i[ index search ]
 
@@ -83,7 +83,7 @@ module Vendors
     end
 
     # Use callbacks to share common setup or constraints between actions.
-    def set_service_with_main_address
+    def set_service_with_references
       @service = current_vendor.services.includes(:category, :main_address, :common_questions).find(params[:id])
     end
 

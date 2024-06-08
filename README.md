@@ -34,3 +34,15 @@
 8. Check if the s3 bucket is configured correctly in the `config/storage.yml` file.
 9. Update webhook url in the PayOS dashboard to your production server's webhook url.
     - `https://your_domain.com/vendor/payment/verify-payment`
+
+
+# Development
+
+Set up the development environment by following the steps below:
+
+1. Command to build the redis image:
+    - `docker build -t redis_image ./redis/.`
+2. Command to create a network:
+    - `docker network create rails`
+3. Command to run the redis container:
+    - `docker run --network rails --name redis_container -p 6379:6379 -d redis_image`

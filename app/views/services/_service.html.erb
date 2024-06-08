@@ -195,62 +195,20 @@
     <section class="storefrontFaqs app-faqs-toggle app-section-highlighter-item <%= "all" if service.common_questions.size <= 4 %>" data-service-details-target="faqs">
       <h2 id="faqs" class="storefrontFaqs__title" tabindex="-1">Các câu hỏi thường gặp</h2>
       <div class="storefrontFaqs__container">
-        <div class="storefrontFaqs__item">
-          <h3 class="storefrontFaqs__itemTitle">What is the starting price for your wedding photography services?</h3>
-          <div class="storefrontFaqs__itemContent">
-            <div class="storefrontFaqs__itemBlock">
-              $3,000
+        <% if service.common_questions.present? %>
+          <% service.common_questions.each do |item| %>
+            <div class="storefrontFaqs__item">
+              <h3 class="storefrontFaqs__itemTitle"><%= item.question %></h3>
+              <div class="storefrontFaqs__itemContent">
+                <div class="storefrontFaqs__itemBlock">
+                  <%= item.answer %>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="storefrontFaqs__item">
-          <h3 class="storefrontFaqs__itemTitle">What is the price of your most popular wedding package?</h3>
-          <div class="storefrontFaqs__itemContent">
-            <div class="storefrontFaqs__itemBlock">
-              $3,500
-            </div>
-          </div>
-        </div>
-        <div class="storefrontFaqs__item">
-          <h3 class="storefrontFaqs__itemTitle">What primary photographic style do you identify with?</h3>
-          <div class="storefrontFaqs__itemContent">
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              Vintage
-            </div>
-          </div>
-        </div>
-        <div class="storefrontFaqs__item">
-          <h3 class="storefrontFaqs__itemTitle">What photography services do you offer?</h3>
-          <div class="storefrontFaqs__itemContent">
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              Additional Hours
-            </div>
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              Engagement Shoot
-            </div>
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              High-Res Images
-            </div>
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              Wedding Portraits
-            </div>
-          </div>
-        </div>
+          <% end %>
+        <% else %>
+          <p class="italic text-sm">Chưa có câu hỏi nào</p>
+        <% end %>
       </div>
       <button type="button" data-action="service-details#openAllFAQs" class="storefrontFaqs__button button button--tertiary app-faqs-toggle-action">View more FAQs</button>
     </section>
