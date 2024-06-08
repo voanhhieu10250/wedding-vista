@@ -84,7 +84,10 @@ module Vendors
 
     # Use callbacks to share common setup or constraints between actions.
     def set_service_with_references
-      @service = current_vendor.services.includes(:category, :main_address, :common_questions).find(params[:id])
+      @service = current_vendor.services.includes(:category,
+                                                  :main_address,
+                                                  :common_questions,
+                                                  :reviews).find(params[:id])
     end
 
     def set_service

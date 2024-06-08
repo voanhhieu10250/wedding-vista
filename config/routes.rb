@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'reviews/new'
+  get 'reviews/create'
   resources :categories, only: %i[show]
   resources :services, only: %i[index show]
 

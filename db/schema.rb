@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_08_085043) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_08_145443) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -120,6 +120,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_08_085043) do
     t.index ["status"], name: "index_priority_boostings_on_status"
   end
 
+  create_table "reviews", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "rating"
+    t.string "title"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_id"], name: "index_reviews_on_service_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "services", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -131,6 +143,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_08_085043) do
     t.boolean "published", default: false
     t.string "website"
     t.bigint "main_address_id"
+    t.integer "reviews_count", default: 0
     t.index ["category_id"], name: "index_services_on_category_id"
     t.index ["main_address_id"], name: "index_services_on_main_address_id"
     t.index ["name"], name: "index_services_on_name"
@@ -328,6 +341,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_08_085043) do
   add_foreign_key "ideas", "topics"
   add_foreign_key "ideas", "vendors"
   add_foreign_key "priority_boostings", "services"
+  add_foreign_key "reviews", "services"
+  add_foreign_key "reviews", "users"
   add_foreign_key "services", "addresses", column: "main_address_id"
   add_foreign_key "services", "categories"
   add_foreign_key "services", "vendors"
