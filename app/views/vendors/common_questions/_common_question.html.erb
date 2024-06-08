@@ -1,18 +1,20 @@
-<div id="<%= dom_id common_question %>">
-  <p>
-    <strong>Question:</strong>
-    <%= common_question.question %>
+<div id="<%= dom_id common_question %>" class="bg-white shadow rounded px-6 py-3 border border-gray-300 space-y-2">
+  <p class="font-semibold">
+    <strong class="text-gray-700">Question:</strong>
+    <span class=""><%= common_question.question %></span>
   </p>
 
-  <p>
-    <strong>Answer:</strong>
-    <%= common_question.answer %>
+  <p class="">
+    <strong class="text-gray-700">Answer:</strong>
+    <span class="text-gray-900"><%= common_question.answer %></span>
   </p>
 
-</div>
-<div>
-  <%= link_to "Edit this common question", edit_vendor_service_question_path(common_question.service, common_question) %> |
-  <%= button_to "Destroy this common question",
-                      vendor_service_question_path(params[:service_id], common_question),
-                      method: :delete %>
+  <div class="flex space-x-4">
+    <%= link_to "Edit this common question", edit_vendor_service_question_path(common_question.service, common_question), class: "text-blue-600 hover:text-blue-800" %>
+    <%= button_to "Destroy this common question",
+                vendor_service_question_path(params[:service_id], common_question),
+                method: :delete,
+                data: { confirm: "Are you sure?" },
+                class: "text-red-600 hover:text-red-800" %>
+  </div>
 </div>
