@@ -35,7 +35,7 @@ module Vendors
     def update
       if @service.update(service_params)
         flash[:notice] = "Dịch vụ đã được cập nhật."
-        redirect_to vendor_service_path(@service)
+        redirect_to vendor_service_url(@service)
       else
         flash_errors_message(@service)
         render :edit, status: :unprocessable_entity
@@ -45,7 +45,7 @@ module Vendors
     def destroy
       @service.destroy
       flash[:notice] = "Xoá dịch vụ thành công."
-      redirect_to vendor_services_path
+      redirect_to vendor_services_url
     end
 
     def publish

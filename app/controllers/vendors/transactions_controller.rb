@@ -44,7 +44,7 @@ class Vendors::TransactionsController < Vendors::BaseController
       @redirect_url = response[:checkoutUrl]
     else
       flash_errors_message(@transaction, now: true)
-      # redirect_to new_vendor_transaction_path
+      # redirect_to new_vendor_transaction_url
     end
   end
 
@@ -57,7 +57,7 @@ class Vendors::TransactionsController < Vendors::BaseController
       flash.now[:success] = "Payment was cancelled"
     end
 
-    redirect_to vendor_transaction_path(@transaction)
+    redirect_to vendor_transaction_url(@transaction)
   end
 
   def success_callback

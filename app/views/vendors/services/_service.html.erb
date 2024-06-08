@@ -281,8 +281,8 @@
       </div>
 
       <ul class="app-infinite-scroll-content app-reviews-list">
-        <% service.reviews.each do |review| %>
-          <li class="storefrontReviewsTileSubpage  app-reviews-tile-rating-toggle">
+        <% service.reviews.order(id: :desc).each_with_index do |review, idx| %>
+          <li class="<%= "!hidden" if idx > 1 %> storefrontReviewsTileSubpage  app-reviews-tile-rating-toggle" data-service-details-target="review">
             <div class="storefrontReviewsTileSubpage__avatar">
               <% if review.user.avatar.attached? %>
                 <%= image_tag review.user.avatar.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
@@ -308,10 +308,10 @@
 
       <% if service.reviews_count > 2 %>
         <div class="flex justify-center storefrontReviewsList">
-          <a class="button button--tertiary storefrontReviewsListFooter__more app-storefront-all-reviews-link" href="" title="See all reviews">
+          <button class="button button--tertiary storefrontReviewsListFooter__more app-storefront-all-reviews-link" data-action="service-details#openAllReviews" title="See all reviews">
             Tất cả đánh giá
             <%= inline_svg_tag "svg/right-arrow.svg", size: "20" %>
-          </a>
+          </button>
         </div>
       <% end %>
 
