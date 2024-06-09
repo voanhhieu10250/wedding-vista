@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   has_many :reviews, dependent: :destroy
   has_many :reviewed_services, through: :reviews, source: :service
+  has_many :discussions, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize_to_limit: [100, 100], preprocessed: true if attachable.present?

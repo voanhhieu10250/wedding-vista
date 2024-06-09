@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :comments
+  resources :discussions
+  resources :forums
   get 'galleries/index'
   get 'galleries/show'
   resources :categories, only: %i[show]

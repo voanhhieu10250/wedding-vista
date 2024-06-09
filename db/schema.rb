@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_08_145443) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_09_053545) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -71,6 +71,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_08_145443) do
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
+  create_table "comments", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "discussion_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "parent_comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discussion_id"], name: "index_comments_on_discussion_id"
+    t.index ["parent_comment_id"], name: "index_comments_on_parent_comment_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "common_questions", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "question"
     t.text "answer"
@@ -78,6 +89,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_08_145443) do
     t.datetime "updated_at", null: false
     t.bigint "service_id", null: false
     t.index ["service_id"], name: "index_common_questions_on_service_id"
+  end
+
+  create_table "discussions", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "forum_id", null: false
+    t.bigint "user_id", null: false
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["forum_id"], name: "index_discussions_on_forum_id"
+    t.index ["user_id"], name: "index_discussions_on_user_id"
+  end
+
+  create_table "forums", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "users_count"
+    t.integer "discussions_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "galleries", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
@@ -336,7 +366,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_08_145443) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "addresses", "services"
+  add_foreign_key "comments", "comments", column: "parent_comment_id"
+  add_foreign_key "comments", "discussions"
+  add_foreign_key "comments", "users"
   add_foreign_key "common_questions", "services"
+  add_foreign_key "discussions", "forums"
+  add_foreign_key "discussions", "users"
   add_foreign_key "galleries", "services"
   add_foreign_key "ideas", "topics"
   add_foreign_key "ideas", "vendors"
