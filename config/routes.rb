@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :discussions
   end
 
-  resources :discussions, only: %i[new create] do
+  resources :discussions, only: %i[index new create] do
     resources :comments
   end
 

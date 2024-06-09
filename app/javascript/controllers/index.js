@@ -46,6 +46,9 @@ application.register("price", PriceController)
 import RedirectController from "./redirect_controller"
 application.register("redirect", RedirectController)
 
+import SearchController from "./search_controller"
+application.register("search", SearchController)
+
 import ServiceDetailsController from "./service_details_controller"
 application.register("service-details", ServiceDetailsController)
 

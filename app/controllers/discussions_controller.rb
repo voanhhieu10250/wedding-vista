@@ -4,12 +4,23 @@ class DiscussionsController < ApplicationController
 
   # GET /discussions or /discussions.json
   def index
-    @discussions = Discussion.all
+    @discussions = if params[:sort_by].present? && Discussion::SORTABLE.include?(params[:sort_by])
+                     Discussion.order(params[:sort_by])
+                   else
+                     Discussion.order(id: :desc)
+                   end
+
+    if params[:q].present?
+      @discussions = @discussions.where(["discussions.title LIKE :search", { search: "%#{params[:q].strip}%" }])
+    end
+
+    @pagy, @discussions = pagy(@discussions, item: 10)
   end
 
   # GET /discussions/1 or /discussions/1.json
   def show
     @discussion = Discussion.find(params[:id])
+    @discussion.increment!(:views)
   end
 
   # GET /discussions/new

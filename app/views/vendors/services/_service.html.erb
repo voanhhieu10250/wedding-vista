@@ -55,7 +55,7 @@
                 <%= service.first_or_main_address&.province %>, <%= service.first_or_main_address&.district %>
               </a>
             <% else %>
-              <%= link_to 'Chưa có địa chỉ (Bấm để cập nhật)', new_vendor_service_address_path(service), class: "app-heading-quick-link" %>
+              <%= link_to 'Chưa có địa chỉ (Bấm để cập nhật)', vendor_service_addresses_path(service), class: "app-heading-quick-link" %>
             <% end %>
           </div>
         </div>
