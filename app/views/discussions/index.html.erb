@@ -6,7 +6,7 @@
   <% @discussions.each do |discussion| %>
     <%= render discussion %>
     <p>
-      <%= link_to "Show this discussion", discussion %>
+      <%= link_to "Show this discussion", forum_discussion_path(discussion.forum, discussion) %>
     </p>
   <% end %>
 </div>

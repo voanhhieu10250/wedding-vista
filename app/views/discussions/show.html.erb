@@ -3,8 +3,8 @@
 <%= render @discussion %>
 
 <div>
-  <%= link_to "Edit this discussion", edit_discussion_path(@discussion) %> |
-  <%= link_to "Back to discussions", discussions_path %>
+  <%= link_to "Edit this discussion", edit_forum_discussion_path(@discussion.forum, @discussion) %> |
+  <%= link_to "Back to discussions", forum_discussions_path %>
 
-  <%= button_to "Destroy this discussion", @discussion, method: :delete %>
+  <%= button_to "Destroy this discussion", forum_discussion_path(@discussion.forum, @discussion), method: :delete %>
 </div>

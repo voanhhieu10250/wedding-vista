@@ -24,38 +24,26 @@ class DiscussionsController < ApplicationController
   def create
     @discussion = current_user.discussions.build(discussion_params)
 
-    respond_to do |format|
-      if @discussion.save
-        format.html { redirect_to discussion_url(@discussion), notice: "Discussion was successfully created." }
-        format.json { render :show, status: :created, location: @discussion }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @discussion.errors, status: :unprocessable_entity }
-      end
+    if @discussion.save
+      redirect_to forum_discussion_url(@discussion.forum, @discussion), notice: "Discussion was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /discussions/1 or /discussions/1.json
   def update
-    respond_to do |format|
-      if @discussion.update(discussion_params)
-        format.html { redirect_to discussion_url(@discussion), notice: "Discussion was successfully updated." }
-        format.json { render :show, status: :ok, location: @discussion }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @discussion.errors, status: :unprocessable_entity }
-      end
+    if @discussion.update(discussion_params)
+      redirect_to forum_discussion_url(@discussion.forum, @discussion), notice: "Discussion was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   # DELETE /discussions/1 or /discussions/1.json
   def destroy
     @discussion.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to discussions_url, notice: "Discussion was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to forum_discussions_url(@discussion.forum), notice: "Discussion was successfully destroyed."
   end
 
   private

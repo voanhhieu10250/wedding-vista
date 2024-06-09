@@ -16,12 +16,12 @@
           <span class="sm:hidden md:inline text-[#FCB796] font-medium text-lg">Wedding Vista</span>
         <% end %>
         <div class="hidden sm:ml-7 sm:block -mt-2 -mb-[6px]">
-          <div class="flex space-x-4 h-full">
-            <div>
+          <div class="flex h-full">
+            <div class="px-2">
               <a href="#" class="grid place-items-center h-full mt-0.5 border-b-2 border-transparent hover:border-[#FCB796] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Planning tools</a>
             </div>
 
-            <div class="group" data-action="mouseover->navbar#toggleOverlay mouseout->navbar#toggleOverlay">
+            <div class="group px-2" data-action="mouseover->navbar#toggleOverlay mouseout->navbar#toggleOverlay">
               <%= link_to 'Vendors', services_path, class: [ "grid place-items-center h-full mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
                                               (is_active?(path: services_path) ? "!border-[#FCB796] text-[#FCB796] cursor-default" : "hover:border-[#FCB796] hover:text-[#FCB796]")
                                             ] %>
@@ -49,13 +49,34 @@
               <% end %>
             </div>
 
-            <div>
+            <div class="group px-2" data-action="mouseover->navbar#toggleOverlay mouseout->navbar#toggleOverlay">
               <%= link_to 'Forums', forums_path, class: [ "grid place-items-center h-full mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
                                               (is_active?(path: forums_path) ? "!border-[#FCB796] text-[#FCB796] cursor-default" : "hover:border-[#FCB796] hover:text-[#FCB796]")
                                             ] %>
+              <% forum_new_updated = Forum.maximum(:updated_at) %>
+              <% cache forum_new_updated do %>
+                <div class="layoutNavMenuTab app-header-menu-itemDropdown hidden [&_a:hover]:text-[#FCB796] border-t border-[#d9d9d9] z-10 transition-opacity group-hover:opacity-100 group-hover:block">
+                  <div class="layoutNavMenuTab__layout">
+                    <div class="layoutNavMenuTabVenues">
+                      <div class="layoutNavMenuTabVenues__categories">
+                        <div class="layoutNavMenuTabVenuesList layoutNavMenuTabVenuesListBig">
+                          <%= link_to 'Diễn đàn cưới hỏi', forums_path, class: "layoutNavMenuTabVenues__title" %>
+                          <ul class="layoutNavMenuTabVenuesList__content layoutNavMenuTabVenuesList__contentBig">
+                            <% Forum.all.each do |forum| %>
+                              <li class="layoutNavMenuTabVenuesList__item">
+                                <%= link_to forum.title, forum_path(forum) %>
+                              </li>
+                            <% end %>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
             </div>
 
-            <div>
+            <div class="px-2">
               <%= link_to 'Ideas', wedding_ideas_root_path, class: [ "grid place-items-center h-full mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
                                               (is_active?(path: wedding_ideas_root_path) ? "!border-[#FCB796] text-[#FCB796] cursor-default" : "hover:border-[#FCB796] hover:text-[#FCB796]")
                                             ] %>
