@@ -25,8 +25,13 @@
       <%= render "shared/flash" %>
     </header>
 
+    <%= yield(:before_body) if content_for?(:before_body) %>
+
     <div class="container mx-auto max-w-screen-2xl">
       <%= content_for?(:body) ? yield(:body) : yield %>
     </div>
+
+    <%= yield(:after_body) if content_for?(:after_body) %>
+
   </body>
 </html>

@@ -7,5 +7,5 @@ class Discussion < ApplicationRecord
 
   has_rich_text :body
 
-  validates :title, :body, presence: true
+  validates :title, :body, :forum_id, :user_id, presence: true
 end

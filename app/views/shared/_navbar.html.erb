@@ -50,7 +50,9 @@
             </div>
 
             <div>
-              <a href="#" class="grid place-items-center h-full mt-0.5 border-b-2 border-transparent hover:border-[#FCB796] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Forums</a>
+              <%= link_to 'Forums', forums_path, class: [ "grid place-items-center h-full mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
+                                              (is_active?(path: forums_path) ? "!border-[#FCB796] text-[#FCB796] cursor-default" : "hover:border-[#FCB796] hover:text-[#FCB796]")
+                                            ] %>
             </div>
 
             <div>

@@ -1,5 +1,10 @@
-<main class="px-8 mb-4 max-w-screen-2xl mx-auto">
-  <%= link_to "Back to services", services_path %>
+<% breadcrumbs = [
+  {name: "Weddings", path: root_path},
+  {name: "Wedding Vendors", path: services_path},
+  {name: @service.name},
+] %>
 
+<main class="px-8 mb-4 max-w-screen-2xl mx-auto">
+  <%= render 'shared/breadcrumb', breadcrumbs: %>
   <%= render @service %>
 </main>

@@ -1,37 +1,31 @@
-<%= form_with(model: discussion) do |form| %>
-  <% if discussion.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(discussion.errors.count, "error") %> prohibited this discussion from being saved:</h2>
-
-      <ul>
-        <% discussion.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+<%= form_with(model: discussion, class: "border border-gray-300 rounded p-5 flex-1") do |form| %>
+  <div class="space-y-4">
+    <div class="flex flex-col gap-2">
+      <div>
+        <%= form.label :title, class: "font-semibold text-sm" do %>
+          Tiêu đề
+          <span class="text-red-500 font-bold text-sm">*</span>
         <% end %>
-      </ul>
+      </div>
+      <%= form.text_field :title, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                         placeholder: "Đặt tiêu đề cho cuộc thảo luận này" %>
     </div>
-  <% end %>
 
-  <div>
-    <%= form.label :forum_id, style: "display: block" %>
-    <%= form.text_field :forum_id %>
-  </div>
+    <div>
+      <%= form.label :body, style: "display: block" %>
+      <%= form.rich_text_area :body %>
+    </div>
 
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
+    <div>
+      <%= form.label :forum_id, style: "display: block" %>
+      <%= form.collection_select :forum_id, Forum.all, :id, :title, { include_blank: "Chọn chủ đề" },
+                                { class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400" } %>
+    </div>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div>
-    <%= form.label :body, style: "display: block" %>
-    <%= form.rich_text_area :body %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    <div class="flex justify-<%= discussion.new_record? ? "between" : "end" %> items-center gap-4">
+      <%= link_to "Quay lại trang Forums", forums_path, class: "text-sm underline hover:text-indigo-500" if discussion.new_record? %>
+      <%= link_to "Hủy thay đổi", discussion_path(discussion), class: "text-sm underline hover:text-indigo-500" unless discussion.new_record? %>
+      <%= form.submit discussion.new_record? ? "Tạo mới" : "Lưu thay đổi", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
+    </div>
   </div>
 <% end %>
