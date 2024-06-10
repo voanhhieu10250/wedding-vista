@@ -4,10 +4,13 @@ class DiscussionsController < ApplicationController
 
   # GET /discussions or /discussions.json
   def index
+    @forums = Forum.all
+    @discussions = Discussion.with_rich_text_body
+
     @discussions = if params[:sort_by].present? && Discussion::SORTABLE.include?(params[:sort_by])
-                     Discussion.order(params[:sort_by])
+                     @discussions.order(params[:sort_by])
                    else
-                     Discussion.order(id: :desc)
+                     @discussions.order(id: :desc)
                    end
 
     if params[:q].present?

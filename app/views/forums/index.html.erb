@@ -16,11 +16,11 @@
           <p>
             Đặt câu hỏi và nhận câu trả lời với sự hỗ trợ từ các cặp đôi đã cưới khác.
           </p>
-          <%= form_with url: discussions_path, method: :get, data: { controller: 'search' }, class: "w-fit mx-auto flex items-center justify-center relative " do |f| %>
+          <%= form_with url: discussions_path, method: :get, data: { controller: 'search' }, class: "group w-fit mx-auto flex items-center justify-center relative " do |f| %>
             <%= f.search_field :q, data: { action: 'input->search#search', search_target: "search" }, class: "text-black w-80 p-3 rounded-l-lg focus:outline-none peer/search", placeholder: "Search..." %>
             <button type="submit" class="bg-red-300 hover:bg-red-400 text-white p-3 rounded-r-md"> <%= inline_svg_tag "svg/search.svg", size: "24" %> </button>
 
-            <div class="flex peer-placeholder-shown/search:hidden absolute flex-col text-gray-700 bg-white shadow-md border border-gray-300 w-full top-[calc(100%+2px)] left-0 right-0 rounded bg-clip-border z-10">
+            <div class="hidden group-hover:hover:!flex peer-focus/search:flex peer-placeholder-shown/search:hidden absolute flex-col text-gray-700 bg-white shadow-md border border-gray-300 w-full top-[calc(100%+2px)] left-0 right-0 rounded bg-clip-border z-10">
               <nav class="flex w-full flex-col gap-1 p-2 font-sans text-base font-normal text-gray-700">
                 <% @forums.each do |forum| %>
                   <%= link_to forum.title, forum_path(forum), data:{turbo_prefetch: false, search_target: "item", value: forum.title}, class: "flex items-center w-full p-3 leading-tight rounded outline-none text-start hover:bg-gray-100 hover:bg-opacity-80 hover:text-gray-900 focus:bg-gray-100 focus:bg-opacity-80 focus:text-gray-900 active:bg-gray-100 active:bg-opacity-80 active:text-gray-900" %>
@@ -37,14 +37,14 @@
 <section class="bg-white flex flex-col md:flex-row mb-5">
   <div class="h-full w-full flex flex-col md:flex-row gap-5">
     <div class="md:w-2/3 h-full flex flex-col items-center justify-center">
-      <div class="flex flex-col items-center justify-center">
+      <div class="w-full flex flex-col items-center justify-center">
         <div class="flex flex-col w-full gap-6" >
           <div class="flex flex-col">
             <div class="flex flex-col mb-6 md:flex-row justify-between items-center gap-2">
               <h2 class="text-2xl font-bold mb-4">
                 Thảo luận gần đây
               </h2>
-              <%= link_to new_discussion_path, class: "flex gap-1 items-center px-3 py-2 text-white bg-red-300 hover:bg-red-400 rounded-md transform transition-transform duration-200 hover:scale-105" do %>
+              <%= link_to new_discussion_path, class: "flex gap-1 items-center px-3 py-2 text-white bg-red-300 hover:bg-red-400 rounded-md transform transition-transform duration-200" do %>
                 <span>
                   <%= inline_svg_tag "svg/plus.svg", size: "16" %>
                 </span>
@@ -62,18 +62,7 @@
             <div class="flex flex-col overflow-hidden">
 
               <% @discussions.each do |discussion| %>
-                <div class="flex flex-col md:flex-row border-b border-gray-300 justify-between gap-6 items-center p-4">
-                  <div class="rounded-full overflow-hidden w-12 h-12">
-                    <div class="w-full h-full object-cover rounded-full">
-                      <img src="https://w1.pngwing.com/pngs/726/597/png-transparent-graphic-design-icon-customer-service-avatar-icon-design-call-centre-yellow-smile-forehead.png" alt="" class="w-full h-full object-cover rounded-full">
-                    </div>
-                  </div>
-                  <div>
-                    <h1 class="text-lg font-semibold"> Wedding Guest Book </h1>
-                    <span class="text-gray-500" >Traci in Planning, on June 1, 2024 at 11:39 PM</span >
-                    <p class="mt-2"> So my fiance thinks we don't need a wedding guest book. I explained the importance of it. But he still thinks we don't need one. How could I get him on board?  </p>
-                  </div>
-                </div>
+                  <%= render partial: "discussions/discussion_card", locals: { discussion: discussion } %>
               <% end %>
 
             </div>
@@ -92,12 +81,14 @@
       <div class="flex flex-col border border-gray-300 w-full rounded-xl">
         <div class="space-y-2 max-h-full overflow-y-auto p-2">
 
-          <% @forums.each do |forum| %>
-            <div class="bg-gray-100 hover:bg-gray-200 p-4 rounded-md flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <%= inline_svg_tag forum.icon, size: "24" if forum.icon.present? %> <span class="font-medium text-gray-800"><%= forum.title %></span>
+          <% cache [ @forums.map(&:id), @forums.maximum(:updated_at) ] do %>
+            <% @forums.each do |forum| %>
+              <div class="bg-gray-100 hover:bg-gray-200 p-4 rounded-md flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <%= inline_svg_tag forum.icon, size: "24" if forum.icon.present? %> <span class="font-medium text-gray-800"><%= forum.title %></span>
+                </div>
               </div>
-            </div>
+            <% end %>
           <% end %>
 
         </div>

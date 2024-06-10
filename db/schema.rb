@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_09_080134) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_10_043137) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -98,6 +98,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_09_080134) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "views", default: 0
+    t.integer "comments_count", default: 0
     t.index ["forum_id"], name: "index_discussions_on_forum_id"
     t.index ["user_id"], name: "index_discussions_on_user_id"
   end

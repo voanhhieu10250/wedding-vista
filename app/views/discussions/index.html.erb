@@ -1,14 +1,71 @@
-<p style="color: green"><%= notice %></p>
+<%
+page_title = "Thảo luận"
+page_title = "Thảo luận gần đây" if params[:sort_by].nil?
+page_title = "Thảo luận phổ biến" if params[:sort_by] == "views"
+page_title = "Thảo luận về #{params[:q]}" if params[:q].present?
 
-<h1>Discussions</h1>
+breadcrumbs = [
+  {name: "Weddings", path: root_path},
+  {name: "Forums", path: forums_path},
+  {name: page_title},
+] %>
 
-<div id="discussions">
-  <% @discussions.each do |discussion| %>
-    <%= render discussion %>
-    <p>
-      <%= link_to "Show this discussion", forum_discussion_path(discussion.forum, discussion) %>
-    </p>
-  <% end %>
-</div>
+<%= render 'shared/breadcrumb', breadcrumbs: %>
 
-<%= link_to "New discussion", new_discussion_path %>
+<section class="bg-white flex flex-col md:flex-row mb-5">
+  <div class="h-full w-full flex flex-col md:flex-row gap-5">
+    <div class="md:w-2/3 h-full flex flex-col items-center justify-center">
+      <div class="w-full flex flex-col items-center justify-center">
+        <div class="flex flex-col w-full gap-6" >
+          <div class="flex flex-col">
+            <div class="flex flex-col mb-6 md:flex-row justify-between items-center gap-2">
+              <h2 class="text-2xl font-bold">
+                <%= page_title %>
+              </h2>
+            </div>
+
+            <% if @discussions.present? %>
+              <div class="flex flex-col overflow-hidden border-t border-gray-300">
+                <% @discussions.each do |discussion| %>
+                  <%= render partial: "discussion_card", locals: { discussion: discussion } %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="text-center p-4 space-y-2 rounded-lg border border-gray-300">
+                <h2 class="font-semibold text-lg">Không tìm thấy thảo luận nào.</h2>
+                <p class="w-2/3 mx-auto">Bạn có thể tạo một thảo luận mới để nhận được sự giúp đỡ từ cộng đồng bằng cách nhấn vào nút bên dưới.</p>
+                <%= link_to "Hỏi cộng đồng", new_discussion_path, class: "mx-auto w-fit flex gap-1 items-center px-3 py-2 text-white bg-red-300 hover:bg-red-400 rounded-md transform transition-transform duration-200" %>
+              </div>
+            <% end %>
+
+            <div class="mt-2 flex justify-between items-center mx-2" id="pagination">
+              <%== pagy_info(@pagy, item_name: 'bài viết') %>
+              <%== pagy_nav(@pagy) if @discussions.present? %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:w-1/3 flex flex-col items-center gap-2">
+      <div class="flex items-center justify-center">
+        <span class="text-center text-lg font-semibold text-gray-800 ml-2">Chủ đề</span>
+      </div>
+      <div class="flex flex-col border border-gray-300 w-full rounded-xl">
+        <div class="space-y-2 max-h-full overflow-y-auto p-2">
+
+          <% cache [ @forums.map(&:id), @forums.maximum(:updated_at) ] do %>
+            <% @forums.each do |forum| %>
+              <div class="bg-gray-100 hover:bg-gray-200 p-4 rounded-md flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <%= inline_svg_tag forum.icon, size: "24" if forum.icon.present? %> <span class="font-medium text-gray-800"><%= forum.title %></span>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

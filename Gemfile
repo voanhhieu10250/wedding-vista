@@ -88,3 +88,5 @@ gem "solid_cache"
 gem "solid_queue", "~> 0.3.1"
 
 gem "inline_svg", "~> 1.9"
+
+gem "nokogiri", "~> 1.16"
