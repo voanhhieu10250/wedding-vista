@@ -18,7 +18,7 @@
           <span class="text-red-500 font-bold text-sm">*</span>
         <% end %>
       </div>
-      <%= form.rich_text_area :body %>
+      <%= form.rich_text_area :body, class: "comment-content" %>
     </div>
 
     <div class="flex flex-col gap-2 <%= "hidden" unless discussion.new_record? %>">

@@ -1,17 +1,33 @@
-<div id="<%= dom_id comment %>">
-  <p>
-    <strong>Discussion:</strong>
-    <%= comment.discussion_id %>
-  </p>
-
-  <p>
-    <strong>User:</strong>
-    <%= comment.user_id %>
-  </p>
-
-  <p>
-    <strong>Body:</strong>
-    <%= comment.body %>
-  </p>
-
-</div>
+<li class="mb-[25px] flex">
+  <div class="w-[11%]">
+    <div class="relative flex rounded-full w-full aspect-square bg-gray-400 text-sm border border-gray-200">
+      <% if comment.user.avatar.attached? %>
+        <%= image_tag comment.user.avatar.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
+      <% else %>
+        <div class="absolute inset-0 flex items-center justify-center text-white text-lg font-semibold w-full h-full">
+          <%= comment.user.name[0]&.titleize %>
+        </div>
+      <% end %>
+    </div>
+    <div class="text-sm pt-3 text-center break-words text-gray-500">
+      <small>Ngày tham gia</small>
+      <p><%= local_date(comment.user.created_at) %></p>
+    </div>
+  </div>
+  <div class="w-[89%]">
+    <div class="py-5 px-6 ml-6 mb-4 relative rounded-lg border border-gray-300 before:content-[''] before:absolute before:border-[10px] before:border-solid before:border-transparent before:top-[15px] before:left-[-21px] before:border-r-gray-300 after:content-[''] after:absolute after:border-[10px] after:border-solid after:border-transparent after:top-[15px] after:left-[-20px] after:border-r-white">
+      <div class="flex">
+        <div class="flex-1 text-gray-500 text-sm tracking-wider">
+          <p class="font-normal">
+            <span class="text-black font-semibold"><%= comment.user.name %></span> · <%= local_time_ago comment.created_at %>
+          </p>
+        </div>
+      </div>
+      <div class="text-lg pt-3.5 pb-2.5 mt-3.5 break-words leading-[30px] border-t border-gray-300">
+        <div class="comment-content">
+          <%= comment.body %>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

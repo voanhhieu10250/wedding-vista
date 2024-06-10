@@ -22,7 +22,8 @@ class DiscussionsController < ApplicationController
 
   # GET /discussions/1 or /discussions/1.json
   def show
-    @discussion = Discussion.find(params[:id])
+    @forums = Forum.all
+    @discussion = Discussion.includes(:comments).with_rich_text_body_and_embeds.find(params[:id])
     @discussion.increment!(:views)
   end
 

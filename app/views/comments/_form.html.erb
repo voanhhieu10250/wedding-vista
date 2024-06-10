@@ -1,32 +1,26 @@
-<%= form_with(model: comment) do |form| %>
-  <% if comment.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
-
-      <ul>
-        <% comment.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+<%= form_with(model: [ comment.discussion, comment ], class: "flex", id: "new_comment") do |form| %>
+  <div class="w-[11%]">
+    <div class="relative flex rounded-full w-full aspect-square bg-gray-200 text-sm border border-gray-200">
+      <% if user_signed_in? %>
+        <% if current_user.avatar.attached? %>
+          <%= image_tag current_user.avatar.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
+        <% else %>
+          <div class="absolute inset-0 flex items-center justify-center text-white text-lg font-semibold w-full h-full">
+            <%= current_user.name[0]&.titleize %>
+          </div>
         <% end %>
-      </ul>
+      <% else %>
+        <%= image_tag "user-unknown.jpg", class: "w-full h-full object-cover rounded-full" %>
+      <% end %>
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label :discussion_id, style: "display: block" %>
-    <%= form.text_field :discussion_id %>
   </div>
+  <div class="w-[89%]">
+    <div class="py-5 px-6 ml-6 mb-4 relative rounded-lg border border-gray-300 before:content-[''] before:absolute before:border-[10px] before:border-solid before:border-transparent before:top-[15px] before:left-[-21px] before:border-r-gray-300 after:content-[''] after:absolute after:border-[10px] after:border-solid after:border-transparent after:top-[15px] after:left-[-20px] after:border-r-white">
+      <%= form.rich_text_area :body, class: "comment-content" %>
 
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div>
-    <%= form.label :body, style: "display: block" %>
-    <%= form.rich_text_area :body %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+      <div class="flex justify-end mt-3">
+        <%= form.submit comment.new_record? ? "Gửi" : "Lưu thay đổi", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-red-300 py-1.5 px-3 hover:bg-red-400" %>
+      </div>
+    </div>
   </div>
 <% end %>

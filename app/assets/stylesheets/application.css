@@ -33,6 +33,7 @@
   --disabled: #efefef;
 
   font-family: Poppins, var(--sans-font);
+  scroll-behavior: smooth;
 }
 
 /* custom style */

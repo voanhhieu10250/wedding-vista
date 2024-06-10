@@ -1,0 +1,8 @@
+<% unless @comment.errors.any? %>
+  <%= turbo_stream.append "comments_list" do %>
+    <%= render @comment %>
+  <% end %>
+  <%= turbo_stream.replace "new_comment" do %>
+    <%= render 'form', comment: @comment.discussion.comments.build %>
+  <% end %>
+<% end %>

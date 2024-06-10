@@ -1,6 +1,6 @@
 <div class="flex flex-col md:flex-row border-b border-gray-300 justify-between gap-6 items-start p-4">
   <div class="rounded-full overflow-hidden w-1/12">
-    <div class="w-full aspect-square rounded-full border border-gray-200">
+    <div class="relative flex rounded-full w-full aspect-square bg-gray-400 text-sm border border-gray-200">
       <% if discussion.user.avatar.attached? %>
         <%= image_tag discussion.user.avatar&.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
       <% else %>
@@ -22,7 +22,7 @@
       <div class="flex gap-4 text-sm text-gray-500">
         <p class="flex gap-2">
           <span><%= inline_svg_tag "svg/chat-bubble.svg", size: "20" %></span>
-          <span><%= discussion.comments_count %></span>
+          <span><%= discussion.comments_count || 0 %></span>
         </p>
         <p class="flex gap-2">
           <span><%= inline_svg_tag "svg/eye.svg", size: "20" %></span>
@@ -30,8 +30,10 @@
         </p>
       </div>
     </div>
-    <%= link_to forum_discussion_path(discussion.forum, discussion), data: {turbo_prefetch: false}, class: "w-1/4 max-w-[200px] aspect-square rounded overflow-hidden" do %>
-      <%= image_tag discussion.first_body_previewable_attachment_url, class: "w-full h-full object-cover" if discussion.first_body_previewable_attachment_url.present? %>
+    <% if discussion.first_body_previewable_attachment_url.present? %>
+      <%= link_to forum_discussion_path(discussion.forum, discussion), data: {turbo_prefetch: false}, class: "w-1/4 max-w-[200px] aspect-square rounded overflow-hidden" do %>
+        <%= image_tag discussion.first_body_previewable_attachment_url, class: "w-full h-full object-cover" %>
+      <% end %>
     <% end %>
   </div>
 </div>
