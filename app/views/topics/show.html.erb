@@ -1,7 +1,75 @@
-<p style="color: green"><%= notice %></p>
+<% breadcrumbs = [
+  {name: "Weddings", path: root_path},
+  {name: "Wedding ideas", path: wedding_ideas_root_path},
+  {name: @topic.topic_category.name, path: topic_category_path(@topic.topic_category)},
+  {name: @topic.name},
+] %>
 
-<%= render @topic %>
+<%= render 'shared/breadcrumb', breadcrumbs: %>
 
-<div>
-  <%= link_to "Back to topics", topic_category_path(@topic.topic_category) %>
-</div>
+<article class="listing idea">
+  <header class="listingHeading">
+    <h1 class="font-extrabold text-3xl md:text-4xl mb-5"><%= @topic.name %></h1>
+    <p><%= @topic.description %></p>
+    <div class="flex flex-wrap mt-10 mb-6 gap-2 justify-start">
+      <% classes = is_active?(path: topic_category_path(@topic.topic_category)) ? "text-red-300 border-red-300" : "text-gray-700 border-gray-400 hover:border-gray-700" %>
+      <%= link_to topic_category_path(@topic.topic_category), class: "flex gap-1 justify-center items-center py-2.5 px-4 gap-4 rounded-md border #{classes}" do %>
+        <p>All</p>
+        <p><%= @topic.topic_category.topics.sum(:ideas_count) %></p>
+      <% end %>
+
+      <% @topic.topic_category.topics.each do |item| %>
+        <% classes = is_active?(path: topic_category_topic_path(item.topic_category, item)) ? "text-red-300 border-red-300" : "text-gray-700 border-gray-400 hover:border-gray-700" %>
+        <%= link_to topic_category_topic_path(item.topic_category, item), class: "flex gap-1 justify-center items-center py-2.5 px-4 gap-4 rounded-md border #{classes}" do %>
+          <p><%= item.name %></p>
+          <p><%= item.ideas_count %></p>
+        <% end %>
+      <% end %>
+
+    </div>
+  </header>
+
+  <h2 class="listingArticlesTitle text-xl md:text-2xl font-semibold break-words">Bài viết mới nhất</h2>
+
+  <section class="listingArticles">
+    <div id="ideas" class="grid gap-y-6 gap-x-10 mb-8 grid-cols-[repeat(auto-fill,minmax(310px,1fr))]">
+      <%= render @ideas, cached: true %>
+    </div>
+    <%== pagy_nav(@pagy, class: "mb-10") if @ideas.present? %>
+
+    <%= tag.p "Chưa có bài viết nào", class: "text-center text-sm text-gray-500" unless @ideas.present? %>
+  </section>
+
+  <aside class="listingSidebar mb-8">
+    <h2 class="text-lg break-words mb-4">
+      <span class="font-semibold">Danh mục</span>
+    </h2>
+    <div class="border border-gray-100 rounded-lg">
+      <% @categories.each do |category| %>
+        <div data-controller="collapse" data-collapse-open-value="<%= is_active?(path: topic_category_path(category)) %>" class="data-[collapse-open-value=true]:pb-2 border-b border-gray-100 last:border-none">
+          <div class="p-4 flex">
+            <%= link_to topic_category_path(category), class: "flex-1 text-sm font-semibold text-gray-700 hover:text-red-300" do %>
+              <%= category.name %>
+            <% end %>
+            <button class="w-1/5 flex justify-end items-center" data-collapse-target="toggleBtn" data-action="collapse#toggle">
+              <%= inline_svg_tag "svg/arrow-down.svg", size: "20", data: {collapse_target: "closeIcon"} %>
+              <%= inline_svg_tag "svg/arrow-up.svg", size: "20", data: {collapse_target: "openIcon"} %>
+            </button>
+          </div>
+          <div data-collapse-target="content" hidden>
+            <% category.topics.each do |topic| %>
+              <div class="px-4 py-2 flex text-sm text-gray-700">
+                <%= link_to topic_category_topic_path(category, topic), class: "flex-1 hover:text-red-300" do %>
+                  <%= topic.name %>
+                <% end %>
+                <span class="w-1/5 flex justify-end items-center">
+                  <%= topic.ideas_count %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </ul>
+  </aside>
+</article>

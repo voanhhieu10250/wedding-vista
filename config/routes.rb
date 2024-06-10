@@ -63,10 +63,12 @@ Rails.application.routes.draw do
 
   resources :ideas, only: %i[show], path: "/ideas"
 
-  resources :topic_categories, only: %i[show], path: "/wedding-ideas"
-  scope "/wedding-ideas" do
-    resources :topics, only: %i[index show]
+  # Wedding idea topics category details. e.g. /wedding-ideas/1
+  resources :topic_categories, only: %i[show], path: "/wedding-ideas" do
+    resources :topics, only: %i[show]
+  end
 
+  scope "/wedding-ideas" do
     root "ideas#index", as: :wedding_ideas_root
   end
 

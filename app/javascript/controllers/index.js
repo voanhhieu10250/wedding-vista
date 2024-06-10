@@ -7,6 +7,9 @@ import { application } from "./application"
 import CardLinkController from "./card_link_controller"
 application.register("card-link", CardLinkController)
 
+import CollapseController from "./collapse_controller"
+application.register("collapse", CollapseController)
+
 import DropZoneController from "./drop_zone_controller"
 application.register("drop-zone", DropZoneController)
 

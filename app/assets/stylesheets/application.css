@@ -176,12 +176,10 @@
   .idea.listing {
     grid-template-columns: minmax(0, 3fr) 300px;
     grid-column-gap: 3rem;
-    grid-row-gap: 3rem;
     grid-template-areas:
       "listingHeading listingHeading"
-      "listingArticlesTitle listingArticlesTitle"
+      "listingArticlesTitle listingSidebar"
       "listingContent listingSidebar"
-      "articlesMoreIdeas articlesMoreIdeas";
   }
 }
 .listing .listingHeading {
@@ -189,6 +187,12 @@
 }
 .listing .listingArticlesTitle {
   grid-area: listingArticlesTitle;
+}
+.listing .listingArticles {
+  grid-area: listingContent;
+}
+.listing .listingSidebar {
+  grid-area: listingSidebar;
 }
 .articleTile__preTitle {
   font-size: 0.875rem;
