@@ -42,6 +42,10 @@
   background-color: green;
 }
 
+.button_to {
+  display: flex;
+}
+
 [data-controller="dropdown"] {
   @apply inline-block relative;
 }

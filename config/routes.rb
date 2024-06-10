@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   end
 
   resources :discussions, only: %i[index new create] do
-    resources :comments, except: %i[index show new]
+    resources :comments, except: %i[index new]
   end
 
   get "galleries/index"

@@ -1,43 +1,43 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_comment, only: %i[ edit update destroy ]
+  before_action :authenticate_user!, except: %i[ show ]
+  before_action :set_comment, only: %i[ edit update destroy show ]
 
 
-  # GET /comments/1/edit
-  def edit; end
+  def show
+    render :show, layout: false
+  end
 
-  # POST /comments or /comments.json
+  def edit
+    render :edit, layout: false
+  end
+
   def create
-    @comment = Comment.new(comment_params.merge(user: current_user, discussion_id: params[:discussion_id]))
+    @discussion = Discussion.includes(:comments).find(params[:discussion_id])
+    @comment = Comment.new(comment_params.merge(user: current_user, discussion: @discussion))
 
     if @comment.save
       flash.now[:notice] = "Comment was successfully created."
     else
       flash_errors_message @comment, now: true
     end
+
+    @discussion.reload
   end
 
-  # PATCH/PUT /comments/1 or /comments/1.json
   def update
-    respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to comment_url(@comment), notice: "Comment was successfully updated." }
-        format.json { render :show, status: :ok, location: @comment }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+    if @comment.update(comment_params)
+      flash.now[:notice] = "Comment was successfully updated."
+    else
+      flash_errors_message @comment, now: true
     end
+
+    @discussion = @comment.discussion
   end
 
-  # DELETE /comments/1 or /comments/1.json
   def destroy
     @comment.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to comments_url, notice: "Comment was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    @discussion = @comment.discussion
+    flash.now[:notice] = "Comment was successfully destroyed."
   end
 
   private

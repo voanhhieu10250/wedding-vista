@@ -1,11 +1,11 @@
-<%= form_with(model: [ comment.discussion, comment ], class: "flex", id: "new_comment") do |form| %>
+<%= form_with(model: [ comment.discussion, comment ], class: "flex", data: {controller: "form", action: "turbo:submit-end->form#reset"}) do |form| %>
   <div class="w-[11%]">
-    <div class="relative flex rounded-full w-full aspect-square bg-gray-200 text-sm border border-gray-200">
+    <div class="relative flex rounded-full w-full aspect-square bg-gray-400 text-lg border border-gray-200">
       <% if user_signed_in? %>
         <% if current_user.avatar.attached? %>
           <%= image_tag current_user.avatar.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
         <% else %>
-          <div class="absolute inset-0 flex items-center justify-center text-white text-lg font-semibold w-full h-full">
+          <div class="absolute inset-0 flex items-center justify-center text-white text-3xl font-semibold w-full h-full">
             <%= current_user.name[0]&.titleize %>
           </div>
         <% end %>
@@ -18,8 +18,9 @@
     <div class="py-5 px-6 ml-6 mb-4 relative rounded-lg border border-gray-300 before:content-[''] before:absolute before:border-[10px] before:border-solid before:border-transparent before:top-[15px] before:left-[-21px] before:border-r-gray-300 after:content-[''] after:absolute after:border-[10px] after:border-solid after:border-transparent after:top-[15px] after:left-[-20px] after:border-r-white">
       <%= form.rich_text_area :body, class: "comment-content" %>
 
-      <div class="flex justify-end mt-3">
-        <%= form.submit comment.new_record? ? "Gửi" : "Lưu thay đổi", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-red-300 py-1.5 px-3 hover:bg-red-400" %>
+      <div class="flex justify-end items-center gap-4 mt-3">
+        <%= link_to "Hủy thay đổi", discussion_comment_path(comment.discussion, comment), class: "text-sm underline hover:text-indigo-500" unless comment.new_record? %>
+        <%= form.submit comment.new_record? ? "Gửi" : "Lưu thay đổi", data: {turbo_submits_with: "Saving..."}, class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-red-300 py-1.5 px-3 hover:bg-red-400" %>
       </div>
     </div>
   </div>
