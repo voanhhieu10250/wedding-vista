@@ -1,17 +1,28 @@
 <%= form_with(model: forum, class: "border border-gray-300 rounded p-5") do |form| %>
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+  <div class="flex flex-col gap-2">
+    <div>
+      <%= form.label :title, class: "font-semibold text-sm" do %>
+        Tiêu đề
+        <span class="text-red-500 font-bold text-sm">*</span>
+      <% end %>
+    </div>
+    <%= form.text_field :title, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                         placeholder: "Đặt tiêu đề" %>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <div>
+      <%= form.label :description, class: "font-semibold text-sm" do %>
+        Nội dung
+        <span class="text-red-500 font-bold text-sm">*</span>
+      <% end %>
+    </div>
+    <%= form.text_area :description, class: "min-h-40 border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400", placeholder: "Mô tả" %>
   </div>
 
   <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div>
-    <%= form.label :icon, style: "display: block" %>
-    <%= form.text_field :icon %>
+    <%= form.label :image, style: "display: block" %>
+    <%= form.file_field :image, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400" %>
   </div>
 
   <div class="flex justify-<%= forum.new_record? ? "between" : "end" %> items-center gap-4">

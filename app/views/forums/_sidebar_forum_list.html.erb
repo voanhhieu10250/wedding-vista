@@ -1,0 +1,16 @@
+<div class="flex items-center justify-center">
+  <span class="text-center text-lg font-semibold text-gray-800 ml-2">Chủ đề</span>
+</div>
+<div class="flex flex-col border border-gray-300 w-full rounded-xl">
+  <div class="space-y-2 max-h-full overflow-y-auto p-2">
+    <% cache [ forums.map(&:id), forums.maximum(:updated_at) ] do %>
+      <% forums.each do |forum| %>
+        <%= link_to forum_path(forum), class: "bg-gray-100 hover:bg-gray-200 p-4 rounded-md flex items-center justify-between block" do %>
+          <div class="flex items-center gap-2">
+            <%= inline_svg_tag forum.icon, size: "24" if forum.icon.present? %> <span class="font-medium text-gray-800"><%= forum.title %></span>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

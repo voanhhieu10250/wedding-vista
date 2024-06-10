@@ -4,11 +4,15 @@ class ForumsController < ApplicationController
   # GET /forums or /forums.json
   def index
     @forums = Forum.all
-    @discussions = Discussion.with_rich_text_body.order(created_at: :desc).limit(4)
+    @discussions = Discussion.with_rich_text_body.order(id: :desc).limit(4)
   end
 
   # GET /forums/1 or /forums/1.json
   def show
+    @forums = Forum.all
+    @discussions = @forum.discussions.with_rich_text_body.order(id: :desc)
+
+    @pagy, @discussions = pagy(@discussions, item: 10)
   end
 
   # GET /forums/new
@@ -17,55 +21,43 @@ class ForumsController < ApplicationController
   end
 
   # GET /forums/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /forums or /forums.json
   def create
     @forum = Forum.new(forum_params)
 
-    respond_to do |format|
-      if @forum.save
-        format.html { redirect_to forum_url(@forum), notice: "Forum was successfully created." }
-        format.json { render :show, status: :created, location: @forum }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @forum.errors, status: :unprocessable_entity }
-      end
+    if @forum.save
+      redirect_to forum_url(@forum), notice: "Forum was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /forums/1 or /forums/1.json
   def update
-    respond_to do |format|
-      if @forum.update(forum_params)
-        format.html { redirect_to forum_url(@forum), notice: "Forum was successfully updated." }
-        format.json { render :show, status: :ok, location: @forum }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @forum.errors, status: :unprocessable_entity }
-      end
+    if @forum.update(forum_params)
+      redirect_to forum_url(@forum), notice: "Forum was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   # DELETE /forums/1 or /forums/1.json
   def destroy
     @forum.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to forums_url, notice: "Forum was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to forums_url, notice: "Forum was successfully destroyed."
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_forum
-      @forum = Forum.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def forum_params
-      params.require(:forum).permit(:title, :description, :users_count, :discussions_count)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_forum
+    @forum = Forum.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def forum_params
+    params.require(:forum).permit(:title, :description, :image)
+  end
 end
