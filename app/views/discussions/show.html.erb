@@ -67,6 +67,7 @@
         <%= render partial: 'comments/comments_list', locals: { discussion: @discussion, cur_user: current_user } %>
 
         <%# form for creating comment go here %>
+        <div id="new_comment"></div>
         <%= render partial: 'comments/form', locals: {comment: @discussion.comments.build} %>
       </div>
     </div>

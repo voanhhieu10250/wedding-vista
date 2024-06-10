@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :forums do
+  resources :forums, only: %i[index show] do
     resources :discussions
   end
 
@@ -71,10 +71,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :topic_categories
-    resources :topics
+    resources :topic_categories # Wedding idea topics categories
+    resources :topics # Wedding idea topics
     resources :ideas
-    resources :categories
+    resources :categories # Services categories
+    resources :forums
 
     root "pages#index"
   end

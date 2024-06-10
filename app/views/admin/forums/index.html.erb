@@ -1,0 +1,88 @@
+<% breadcrumbs = [
+  {name: "Weddings", path: root_path},
+  {name: "Forums"},
+] %>
+
+<%= render 'shared/breadcrumb', breadcrumbs: %>
+
+<%= content_for :before_body do %>
+  <section class="mb-8">
+    <div class="relative w-full h-80 -top-4 bg-cover bg-center bg-black bg-opacity-50 bg-blend-overlay" style="background-image: url('<%= asset_path "venues.png" %>')">
+      <div class="absolute inset-0 bg-opacity-50 flex items-center justify-center">
+        <div class="text-center text-white space-y-3">
+          <h1 class="text-4xl bg-transparent font-semibold">
+            Diễn đàn cưới hỏi
+          </h1>
+          <p>
+            Đặt câu hỏi và nhận câu trả lời với sự hỗ trợ từ các cặp đôi đã cưới khác.
+          </p>
+          <%= form_with url: discussions_path, method: :get, data: { controller: 'search' }, class: "group w-fit mx-auto flex items-center justify-center relative " do |f| %>
+            <%= f.search_field :q, data: { action: 'input->search#search', search_target: "search" }, class: "text-black w-80 p-3 rounded-l-lg focus:outline-none peer/search", placeholder: "Search..." %>
+            <button type="submit" class="bg-red-300 hover:bg-red-400 text-white p-3 rounded-r-md"> <%= inline_svg_tag "svg/search.svg", size: "24" %> </button>
+
+            <div class="hidden group-hover:hover:!flex peer-focus/search:flex peer-placeholder-shown/search:hidden absolute flex-col text-gray-700 bg-white shadow-md border border-gray-300 w-full top-[calc(100%+2px)] left-0 right-0 rounded bg-clip-border z-10">
+              <nav class="flex w-full flex-col gap-1 p-2 font-sans text-base font-normal text-gray-700">
+                <% @forums.each do |forum| %>
+                  <%= link_to forum.title, forum_path(forum), data:{turbo_prefetch: false, search_target: "item", value: forum.title}, class: "flex items-center w-full p-3 leading-tight rounded outline-none text-start hover:bg-gray-100 hover:bg-opacity-80 hover:text-gray-900 focus:bg-gray-100 focus:bg-opacity-80 focus:text-gray-900 active:bg-gray-100 active:bg-opacity-80 active:text-gray-900" %>
+                <% end %>
+              </nav>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<section class="bg-white flex flex-col md:flex-row mb-5">
+  <div class="h-full w-full flex flex-col md:flex-row gap-5">
+    <div class="md:w-2/3 h-full flex flex-col items-center justify-center">
+      <div class="w-full flex flex-col items-center justify-center">
+        <div class="flex flex-col w-full gap-6" >
+          <div class="flex flex-col">
+            <div class="flex flex-col mb-6 md:flex-row justify-between items-center gap-2">
+              <h2 class="text-2xl font-bold mb-4">
+                Thảo luận gần đây
+              </h2>
+              <%= link_to new_discussion_path, class: "flex gap-1 items-center px-3 py-2 text-white bg-red-300 hover:bg-red-400 rounded-md transform transition-transform duration-200" do %>
+                <span>
+                  <%= inline_svg_tag "svg/plus.svg", size: "16" %>
+                </span>
+                <span> Tạo thảo luận mới </span>
+              <% end %>
+            </div>
+
+            <div class="bg-white border-y border-gray-300 py-2 my-2">
+              <div class="flex flex-col md:flex-row justify-center items-center sm:m6 mx-2">
+                <%= link_to 'Mới nhất', discussions_path, class: "rounded-md py-2 border border-gray-300 text-center transform transition-transform duration-200 mx-2 px-2 space-x-1 bg-white" %>
+                <%= link_to 'Phổ biến', discussions_path(sort_by: :views), class: "rounded-md py-2 border border-gray-300 text-center transform transition-transform duration-200 mx-2 px-2 space-x-1 bg-white" %>
+              </div>
+            </div>
+
+            <% if @discussions.present? %>
+              <div class="flex flex-col overflow-hidden">
+                <% @discussions.each do |discussion| %>
+                  <%= render partial: "discussions/discussion_card", locals: { discussion: discussion } %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="text-center p-4 space-y-2 rounded-lg border border-gray-300">
+                <h2 class="font-semibold text-lg">Không tìm thấy thảo luận nào.</h2>
+                <p class="w-2/3 mx-auto">Bạn có thể tạo một thảo luận mới để nhận được sự giúp đỡ từ cộng đồng bằng cách nhấn vào nút bên dưới.</p>
+                <%= link_to "Hỏi cộng đồng", new_discussion_path, class: "mx-auto w-fit flex gap-1 items-center px-3 py-2 text-white bg-red-300 hover:bg-red-400 rounded-md transform transition-transform duration-200" %>
+              </div>
+            <% end %>
+
+            <div class="flex justify-end mt-3">
+              <%= link_to 'Xem toàn bộ', discussions_path, class: "rounded-md py-2 border border-gray-300 text-center transform transition-transform duration-200 mx-2 px-2 space-x-1 bg-white" if @discussions.present? %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:w-1/3 flex flex-col items-center gap-2">
+      <%= render partial: 'sidebar_forum_list', locals: {forums: @forums} %>
+    </div>
+  </div>
+</section>
