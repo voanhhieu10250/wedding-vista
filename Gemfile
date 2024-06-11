@@ -90,3 +90,4 @@ gem "solid_queue", "~> 0.3.1"
 gem "inline_svg", "~> 1.9"
 
 gem "nokogiri", "~> 1.16"
+gem "aws-sdk-s3", require: false
