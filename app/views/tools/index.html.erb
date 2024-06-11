@@ -1,0 +1,265 @@
+<%= content_for :before_body do %>
+  <%= render 'navbar' %>
+<% end %>
+
+<section class="flex flex-col md:flex-row m-7 items-center justify-center">
+  <div class="bg-white rounded-lg m-3 shadow border border-gray-100 p-6">
+    <div class="flex flex-col gap-4">
+      <h2 class="text-xl font-bold">Find your wedding venue</h2>
+      <span class="text-sm">Here are a few gems we recommend for you</span>
+      <div class="relative grid grid-cols-1 md:grid-cols-5 gap-2">
+
+        <% @services.each do |service| %>
+          <%= link_to service_path(service), class: "rounded-lg overflow-hidden shadow-md hover:shadow-lg" do %>
+            <% if service.first_image_thumb_of_first_gallery.present? %>
+              <%= image_tag service.first_image_thumb_of_first_gallery(:medium), class: "w-full aspect-[5/3] object-cover" %>
+            <% end %>
+            <div class="p-4">
+              <h3 class="text-sm font-semibold line-clamp-2 break-words mb-2.5"><%= service.name %></h3>
+              <p class="text-sm text-gray-600"><%= "#{ service.first_or_main_address&.district }, #{ service.first_or_main_address&.province }" if service.first_or_main_address.present? %></p>
+              <div class="flex gap-1 items-center" aria-hidden="true">
+                <%= inline_svg_tag "svg/star.svg", size: "16", class: "text-yellow-400" %>
+                <span class="text-sm"><%= service.average_rating.to_f.round(1) %></span>
+                <span class="text-gray-500 text-xs">(<%= service.reviews_count %>)</span>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+
+      </div>
+      <div class="w-full flex justify-end items-center">
+        <button class="bg-red-300 shadow-3xl text-white px-3 py-2 rounded-md transform transition-transform duration-200 hover:bg-red-400">
+          Search for venues</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-red-200 flex flex-col md:flex-row mx-9 ">
+  <div class="h-full w-full flex flex-col md:flex-row">
+    <div class="md:w-2/3 h-full bg-white flex flex-col tems-center justify-center">
+
+      <!-- checklist -->
+      <div class=" flex flex-col items-center justify-center m-5">
+        <div class="flex   flex-col bg-white  w-full gap-6 rounded-3xl m-3 shadow-md py-6 px-10">
+          <div class="flex flex-col  ">
+            <div class=" flex flex-col mb-6 md:flex-row justify-between item-center">
+              <h2 class="text-2xl font-bold mb-4 ml-5">Upcoming tasks</h2>
+              <span>0 OF 81 COMPLETED</span>
+            </div>
+            <div class="flex flex-col bg-gray-100 border-2 rounded-2xl overflow-hidden">
+              <div class="flex items-center  border-2 py-2">
+                <div class="ml-8 w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+                  <i class="fa fa-bullhorn text-gray-500"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold">Announce your engagement</h3>
+                  <p class="text-gray-600">Engagement</p>
+                </div>
+              </div>
+              <div class="flex items-center  border-2 py-2">
+                <div class="ml-8 w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+                  <i class="fa fa-calendar text-gray-500"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold">Plan your engagement party</h3>
+                  <p class="text-gray-600">Engagement</p>
+                </div>
+              </div>
+              <div class="flex items-center  border-2 py-2">
+                <div class="ml-8 w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+                  <i class="fa fa-heart text-gray-500"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold">Share your love for WeddingWire</h3>
+                  <p class="text-gray-600">Other</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class=" w-full flex text-center justify-end items-center">
+          <a class="md:w-1/3 text-blue-500    hover:text-pink-500 shadow-3xl  px-4 py-2 rounded-md mt-6 w-full transform transition-transform duration-200 hover:scale-105">
+            81 pending tasks ->
+          </a>
+        </div>
+      </div>
+
+      <!-- forum -->
+      <div class="w-full flex items-center justify-center">
+        <div class="bg-white rounded-3xl m-3 shadow-md p-6">
+          <div class="flex flex-col">
+            <h2 class="text-2xl font-bold mb-4 ml-5">Forums</h2>
+            <span class="text-lg mb-4 ml-5">Recent discussions<a role="button" href="/tools/Forums.html"
+                class="ml-2 text-blue-500 text-sm">View more...</a></span>
+            <div class="rounded-xl  w-full shadow-md  mx-1 flex justify-between items-center">
+              <div class="flex items-center rounded-lg shadow-md p-4 w-full">
+                <div class="dash-community-new-avatar">
+                  <div class="avatar">
+                    <div class="avatar-alias size-avatar-large">
+                      <svg class="avatar-generic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" preserveAspectRatio="xMidYMin slice">
+                        <circle fill="#C097A0" cx="100" cy="100" r="100"></circle>
+                        <text transform="translate(100,130)" y="0">
+                          <tspan font-size="90" fill="rgba(0,0,0,0.3)" text-anchor="middle">T</tspan>
+                        </text>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <form action="/" method="post" class="flex flex-row justify-between items-center ml-4 w-full">
+                  <input type="text" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" name="message" placeholder="Questions? Start a new discussion!">
+                  <input class="ml-4 px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors duration-300" type="submit" value="Post">
+                </form>
+              </div>
+            </div>
+            <!-- items blog here below -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <div class="bg-white rounded-lg shadow-md my-6 mx-2 text-center py-6">
+                <div class="flex flex-col items-center mb-4">
+                  <div class="rounded-full overflow-hidden w-12 h-12">
+                    <div class="w-full h-full object-cover rounded-full">
+                      <img src="https://w1.pngwing.com/pngs/726/597/png-transparent-graphic-design-icon-customer-service-avatar-icon-design-call-centre-yellow-smile-forehead.png" alt="bg-red-200" class="w-full h-full object-cover rounded-full">
+
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <h2 class="text-lg font-semibold mx-1">Help pick my dress!!!</h2>
+                    <p class="text-gray-600">Hunter or Lily!?</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4 mx-2">
+                  Any opinions from other brides would be much appreciated! These are two dresses, one with the model online and the...
+                </p>
+                <div class="flex justify-center w-full">
+                  <button class="mt-4 bg-red-200 border-1  border-gray-500 shadow-lg text-white hover:text-white hover:bg-red-300 px-4 py-2 rounded-md hover:border-none transform transition-transform duration-200 hover:scale-105">
+                    View discussion
+                  </button>
+                </div>
+              </div>
+              <div class="bg-white rounded-lg shadow-md my-6 mx-2 text-center py-6">
+                <div class="flex flex-col items-center mb-4">
+                  <div class="rounded-full overflow-hidden w-12 h-12">
+                    <div class="w-full h-full object-cover rounded-full">
+                      <img src="https://w1.pngwing.com/pngs/726/597/png-transparent-graphic-design-icon-customer-service-avatar-icon-design-call-centre-yellow-smile-forehead.png" alt="bg-red-200" class="w-full h-full object-cover rounded-full">
+
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <h2 class="text-lg font-semibold mx-1">Help pick my dress!!!</h2>
+                    <p class="text-gray-600">Hunter or Lily!?</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4 mx-2">
+                  Any opinions from other brides would be much appreciated! These are two dresses, one with the model online and the...
+                </p>
+                <div class="flex justify-center w-full">
+                  <button class="mt-4 bg-red-200 border-1 border-gray-500 shadow-lg text-white hover:text-white hover:bg-red-300 px-4 py-2 rounded-md hover:border-none transform transition-transform duration-200 hover:scale-105">
+                    View discussion
+                  </button>
+                </div>
+              </div>
+              <div class="bg-white rounded-lg shadow-md my-6 mx-2 text-center py-6">
+                <div class="flex flex-col items-center mb-4">
+                  <div class="rounded-full overflow-hidden w-12 h-12">
+                    <div class="w-full h-full object-cover rounded-full">
+                      <img src="https://w1.pngwing.com/pngs/726/597/png-transparent-graphic-design-icon-customer-service-avatar-icon-design-call-centre-yellow-smile-forehead.png" alt="bg-red-200" class="w-full h-full object-cover rounded-full">
+
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <h2 class="text-lg font-semibold mx-1">Help pick my dress!!!</h2>
+                    <p class="text-gray-600">Hunter or Lily!?</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4 mx-2">
+                  Any opinions from other brides would be much appreciated! These are two dresses, one with the model online and the...
+                </p>
+                <div class="flex justify-center w-full">
+                  <button class="mt-4 bg-red-200 border-1 border-gray-500 shadow-lg text-white hover:text-white hover:bg-red-300 px-4 py-2 rounded-md hover:border-none transform transition-transform duration-200 hover:scale-105">
+                    View discussion
+                  </button>
+                </div>
+              </div>
+              <div class="bg-white rounded-lg shadow-md my-6 mx-2 text-center py-6">
+                <div class="flex flex-col items-center mb-4">
+                  <div class="rounded-full overflow-hidden w-12 h-12">
+                    <div class="w-full h-full object-cover rounded-full">
+                      <img src="https://w1.pngwing.com/pngs/726/597/png-transparent-graphic-design-icon-customer-service-avatar-icon-design-call-centre-yellow-smile-forehead.png" alt="bg-red-200" class="w-full h-full object-cover rounded-full">
+
+                    </div>
+                  </div>
+                  <div class="ml-4">
+                    <h2 class="text-lg font-semibold mx-1">Help pick my dress!!!</h2>
+                    <p class="text-gray-600">Hunter or Lily!?</p>
+                  </div>
+                </div>
+                <p class="text-gray-700 mb-4 mx-2">
+                  Any opinions from other brides would be much appreciated! These are two dresses, one with the model online and the...
+                </p>
+                <div class="flex justify-center w-full">
+                  <button class="mt-4 bg-red-200 border-1 border-gray-500 shadow-lg text-white hover:text-white hover:bg-red-300 px-4 py-2 rounded-md hover:border-none transform transition-transform duration-200 hover:scale-105">
+                    View discussion
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- forums  above below is sidebar right-->
+      </div>
+    </div>
+
+    <div class="md:w-1/3  flex flex-col items-center bg-white">
+      <div class="w-full h-13 bg-red-50 rounded-2xl my-10 mt-3">
+        <!-- budget -->
+        <div class="w-full flex items-center justify-center ">
+          <div class="bg-white rounded-2xl mx-6 my-4 shadow-md p-6">
+            <div class="flex flex-col items-center text-center">
+              <div class="flex flex-row gap-12 my-3">
+                <div class="w:1/2">
+                  <i class="fa fa-balance-scale text-gray-500 text-6xl mb-4"></i>
+                  <h2 class="text-2xl text-gray-500 font-semibold mb-1">Estimate cost</h2>
+                  <span class="text-lg font-bold  text-gray-600 mb-6">$<span>3,200,000</span></span>
+                </div>
+                <div class="w-1/2">
+                  <i class="fa fa-credit-card-alt text-gray-500 text-6xl mb-4"></i>
+                  <h2 class="text-2xl text-gray-500 mb-1 font-semibold">Final cost</h2>
+                  <span class="text-lg font-bold  text-green-600 mb-6">0$</span>
+                </div>
+
+              </div>
+              <a href="/tools/MyBudget.html" class="mt-4 bg-red-300 border-1 border-gray-500 text-white hover:text-white px-4 py-2 rounded-md hover:border-none transform transition-transform duration-200 hover:bg-red-400">
+                Manage Expense
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full flex items-center justify-center ">
+          <div class="bg-white rounded-2xl mx-6 my-4 shadow-md p-6">
+            <div class="flex flex-col">
+              <h2 class="text-xl font-bold mb-4 ml-5">
+                Trở thành đối tác cung cấp dịch vụ
+              </h2>
+              <span class=" mb-4 ml-5">
+                Đăng ký ngay để trở thành đối tác cung cấp dịch vụ của chúng tôi
+              </span>
+              <div class="w-full gap-2 items-center">
+                <div class="text-center rounded-xl overflow-hidden shadow-md mt-4 mb-2 mx-1">
+                  <img src="https://cdn.naturettl.com/wp-content/uploads/2017/04/22013824/become-professional-wildlife-photographer-1200x900-cropped.jpg" alt="Venue Image" class="w-full h-48 object-cover">
+                </div>
+              </div>
+              <div class="w-full flex justify-center items-center">
+                <button class="bg-red-300 shadow-3xl text-white px-4 py-2 rounded-md mt-6 transform transition-transform duration-200 hover:bg-red-400">
+                  Đăng ký ngay
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

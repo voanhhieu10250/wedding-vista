@@ -1,0 +1,41 @@
+<%= form_with(model: [ discussion.forum, discussion ], class: "border border-gray-300 rounded p-5 max-w-[720px]") do |form| %>
+  <div class="space-y-4">
+    <div class="flex flex-col gap-2">
+      <div>
+        <%= form.label :title, class: "font-semibold text-sm" do %>
+          Tiêu đề
+          <span class="text-red-500 font-bold text-sm">*</span>
+        <% end %>
+      </div>
+      <%= form.text_field :title, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                         placeholder: "Đặt tiêu đề cho cuộc thảo luận này" %>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <div>
+        <%= form.label :body, class: "font-semibold text-sm" do %>
+          Nội dung
+          <span class="text-red-500 font-bold text-sm">*</span>
+        <% end %>
+      </div>
+      <%= form.rich_text_area :body, class: "comment-content" %>
+    </div>
+
+    <div class="flex flex-col gap-2 <%= "hidden" unless discussion.new_record? %>">
+      <div>
+        <%= form.label :forum_id, class: "font-semibold text-sm" do %>
+          Chủ đề
+          <span class="text-red-500 font-bold text-sm">*</span>
+        <% end %>
+      </div>
+      <%= form.collection_select :forum_id, Forum.all, :id, :title, { include_blank: "Chọn chủ đề" },
+                                { class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400" } %>
+    </div>
+
+    <div class="flex justify-<%= discussion.new_record? ? "between" : "end" %> items-center gap-4">
+      <%= link_to "Quay lại trang thảo luận", discussions_path, class: "text-sm underline hover:text-indigo-500" if discussion.new_record? %>
+      <%= link_to "Hủy thay đổi", forum_discussion_path(discussion.forum, discussion), class: "text-sm underline hover:text-indigo-500" unless discussion.new_record? %>
+      <%= form.submit discussion.new_record? ? "Tạo mới" : "Lưu thay đổi", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
+    </div>
+  </div>
+<% end %>

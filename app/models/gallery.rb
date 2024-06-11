@@ -1,7 +1,7 @@
 class Gallery < ApplicationRecord
   include Attachments
 
-  belongs_to :service
+  belongs_to :service, touch: true
   has_many_attached :items do |attachable|
     if attachable.present?
       attachable.variant :thumb, resize_to_limit: [128, 128], preprocessed: true
@@ -18,5 +18,9 @@ class Gallery < ApplicationRecord
   def reset_attachment_counter
     attachment_count = ActiveStorage::Attachment.where(record_type: "Gallery", record_id: id).count
     update_column(:attachments_count, attachment_count)
+  end
+
+  def first_four_items
+    items.limit(4)
   end
 end

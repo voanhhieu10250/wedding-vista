@@ -7,6 +7,7 @@ class Service < ApplicationRecord
   has_many :galleries, dependent: :destroy
   has_many :common_questions, dependent: :destroy
   has_many :addresses, dependent: :destroy, inverse_of: :service
+  has_many :reviews, dependent: :destroy
   accepts_nested_attributes_for :addresses, reject_if: :all_blank, allow_destroy: true
 
   validates :name, :description, :category_id, presence: true
@@ -84,5 +85,9 @@ class Service < ApplicationRecord
 
   def addresses_sorted_by_main_first
     addresses.sort_by { |address| address == main_address ? 0 : 1 }
+  end
+
+  def average_rating
+    reviews.average(:rating).to_f.round(1)
   end
 end

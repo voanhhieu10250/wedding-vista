@@ -1,10 +1,13 @@
 class Idea < ApplicationRecord
   belongs_to :vendor, optional: true
-  belongs_to :topic, optional: true
+  belongs_to :topic, optional: true, counter_cache: true
 
   has_rich_text :content
   has_one_attached :main_image do |attachable|
-    attachable.variant :thumbnail, resize_to_limit: [604, 427], preprocessed: true if attachable.present?
+    if attachable.present?
+      attachable.variant :thumbnail, resize_to_limit: [604, 427], preprocessed: true
+      attachable.variant :small, resize_to_limit: [128, 128], preprocessed: true
+    end
   end
 
   validates :main_image, content_type: %i[image/png image/jpg image/jpeg image/webp],

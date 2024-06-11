@@ -25,6 +25,16 @@ document.addEventListener("turbo:frame-missing", (event) => {
     event.detail.visit(event.detail.response.url, { action: "replace" });
 });
 
+document.addEventListener("turbo:load", (event) => {
+  const timeZoneFields = document.querySelectorAll(
+    'input[name="time_zone"], input[name$="[time_zone]"]'
+  );
+
+  timeZoneFields.forEach((field) => {
+    field.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  });
+});
+
 const allowedImageTypes = [
   "image/png",
   "image/jpg",
@@ -44,11 +54,26 @@ document.addEventListener("trix-file-accept", (event) => {
     alert("Upload file size must be less than 10MB");
   }
 });
-
-document.addEventListener("turbo:load", (event) => {
-  const timeZoneFields = document.querySelectorAll('input[name="time_zone"], input[name$="[time_zone]"]');
-
-  timeZoneFields.forEach((field) => {
-    field.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  });
+document.addEventListener("trix-before-initialize", (e) => {
+  Trix.config.blockAttributes.default.tagName = "p";
+  // Fix trix bug:
+  // When press Enter it creates a new paragraph tag instead of inserting a <br> tag inside the current paragraph tag.
+  Trix.config.blockAttributes.default.breakOnReturn = true;
+  Trix.models.Block.prototype.breaksOnReturn = function () {
+    const attr = this.getLastAttribute();
+    const config = Trix.config.blockAttributes[attr ? attr : "default"];
+    return config ? config.breakOnReturn : false;
+  };
+  Trix.models.LineBreakInsertion.prototype.shouldInsertBlockBreak =
+    function () {
+      if (
+        this.block.hasAttributes() &&
+        this.block.isListItem() &&
+        !this.block.isEmpty()
+      ) {
+        return this.startLocation.offset > 0;
+      } else {
+        return !this.shouldBreakFormattedBlock() ? this.breaksOnReturn : false;
+      }
+    };
 });

@@ -6,4 +6,7 @@ const application = Application.start()
 application.debug = false
 window.Stimulus   = application
 
+import AutoSubmit from '@stimulus-components/auto-submit'
+application.register('auto-submit', AutoSubmit)
+
 export { application }

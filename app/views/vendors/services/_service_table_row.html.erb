@@ -1,87 +1,79 @@
-<tr id="<%= dom_id service %>" class="hover:bg-gray-100 odd:bg-white even:bg-gray-50 text-[#333c48]">
-  <td class="px-2.5 pl-[18px] font-semibold text-sm leading-7 border-[#e2e7ee] border-b">
-    <%= link_to vendor_service_path(service), class: "min-w-full line-clamp-2 break-all hover:underline hover:text-indigo-500" do %>
-      <%= service.name %>
-    <% end %>
-  </td>
-  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-7 border-[#e2e7ee] border-b">
-    <p class="min-w-full line-clamp-2 break-all">
-      <%= service.category&.name %>
-    </p>
-  </td>
-  <td style="border-left: 1px dashed #d5dce6;" class="py-1 px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
-    <% if service.first_image_thumb_of_first_gallery.present? %>
-      <%= image_tag service.first_image_thumb_of_first_gallery %>
-    <% else %>
-      <p class="flex gap-2 items-center">
-        <span class="text-gray-500">
-          <%= inline_svg_tag "svg/image.svg", size: "24" %>
-        </span>
-        <span>Chưa có ảnh</span>
+<% cache [ service, service.highest_active_boosting_level ] do %>
+  <tr id="<%= dom_id service %>" class="hover:bg-gray-100 odd:bg-white even:bg-gray-50 text-[#333c48]">
+    <td class="px-2.5 pl-[18px] font-semibold text-sm leading-7 border-[#e2e7ee] border-b">
+      <%= link_to vendor_service_path(service), class: "w-60 min-w-full line-clamp-2 break-words hover:underline hover:text-indigo-500" do %>
+        <%= service.name %>
+      <% end %>
+    </td>
+    <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-7 border-[#e2e7ee] border-b">
+      <p class="min-w-full line-clamp-2 break-words">
+        <%= service.category&.name %>
       </p>
-    <% end %>
-  </td>
-  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-7 border-[#e2e7ee] border-b">
-    <div class="w-60 min-w-full line-clamp-2">
-      <%= simple_format service.description %>
-    </div>
-  </td>
-  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
-    <div class="w-40">
-      <%= number_to_currency service.pricing, unit: "đ", precision: 0, format: "%n %u" %>
-    </div>
-  </td>
-  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
-    <div class="w-28">
-      <span class="inline-block whitespace-nowrap px-2 py-0.5 text-xs text-center font-bold rounded-full <%= service.published? ? "text-green-400 bg-green-100" : "text-red-400 bg-red-100" %>">
-        <%= service.published? ? "Công khai" : "Ẩn" %>
-      </span>
-    </div>
-  </td>
-  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm whitespace-nowrap leading-10 border-[#e2e7ee] border-b overflow-visible">
-    <div class="flex flex-row gap-1 w-28">
-      <div class="relative flex justify-center items-center">
-        <% if service.published? %>
-          <%= link_to unpublish_vendor_service_path(service), data: { turbo_method: :post, turbo_confirm: "Bạn có chắc muốn ẩn dịch vụ này?" }, class: "peer text-base text-gray-500 hover:text-indigo-500" do %>
-            <%= inline_svg_tag "svg/lock-keyhole.svg", size: "18" %>
-          <% end %>
-          <span class="peer-hover:visible peer-hover:opacity-100 invisible opacity-0 absolute bottom-full left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-sm rounded whitespace-nowrap z-10 transition-opacity duration-200 ease-in-out">
-            Ẩn dịch vụ
-          </span>
+    </td>
+    <td style="border-left: 1px dashed #d5dce6;" class="py-1 px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
+      <div class="relative">
+        <% if service.first_image_thumb_of_first_gallery.present? %>
+          <%= image_tag service.first_image_thumb_of_first_gallery %>
         <% else %>
-          <%= link_to publish_vendor_service_path(service), data: { turbo_method: :post, turbo_confirm: "Bạn có chắc muốn công khai dịch vụ này?" }, class: "peer text-base text-gray-500 hover:text-indigo-500" do %>
-            <%= inline_svg_tag "svg/lock-keyhole-open.svg", size: "18" %>
+          <p class="flex gap-2 items-center">
+            <span class="text-gray-500">
+              <%= inline_svg_tag "svg/image.svg", size: "24" %>
+            </span>
+            <span>Chưa có ảnh</span>
+          </p>
+        <% end %>
+
+        <div class="card-label-img label--v<%= service.highest_active_boosting_level %>"></div>
+      </div>
+    </td>
+    <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-7 border-[#e2e7ee] border-b">
+      <div class="w-60 min-w-full line-clamp-2">
+        <%= simple_format service.description %>
+      </div>
+    </td>
+    <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
+      <div class="w-40">
+        <%= number_to_currency service.pricing, unit: "đ", precision: 0, format: "%n %u" %>
+      </div>
+    </td>
+    <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
+      <div class="w-28" id="<%= dom_id service, "status" %>">
+        <span class="inline-block whitespace-nowrap px-2 py-0.5 text-xs text-center font-bold rounded-full <%= service.published? ? "text-green-400 bg-green-100" : "text-red-400 bg-red-100" %>">
+          <%= service.published? ? "Công khai" : "Ẩn" %>
+        </span>
+      </div>
+    </td>
+    <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm whitespace-nowrap leading-10 border-[#e2e7ee] border-b overflow-visible">
+      <div class="flex flex-row gap-1 w-28">
+        <div class="relative flex justify-center items-center" id="<%= dom_id service, "toggle-publish" %>">
+          <%= render 'toggle_publish_link', service: %>
+        </div>
+
+        <div class="relative flex justify-center items-center">
+          <%= link_to vendor_service_path(service), class: "peer text-base text-gray-500 hover:text-indigo-500" do %>
+            <%= inline_svg_tag "svg/eye.svg", size: "18" %>
           <% end %>
           <span class="peer-hover:visible peer-hover:opacity-100 invisible opacity-0 absolute bottom-full left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-sm rounded whitespace-nowrap z-10 transition-opacity duration-200 ease-in-out">
-            Công khai dịch vụ
+            Xem chi tiết
           </span>
-        <% end %>
+        </div>
+        <div class="relative flex justify-center items-center">
+          <%= link_to edit_vendor_service_path(service), class: "peer text-base text-gray-500 hover:text-indigo-500" do %>
+            <%= inline_svg_tag "svg/settings.svg", size: "18" %>
+          <% end %>
+          <span class="peer-hover:visible peer-hover:opacity-100 invisible opacity-0 absolute bottom-full left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-sm rounded whitespace-nowrap z-10 transition-opacity duration-200 ease-in-out">
+            Chỉnh sửa
+          </span>
+        </div>
+        <div class="relative flex justify-center items-center">
+          <%= button_to vendor_service_path(service), method: :delete, data: {turbo_confirm: "Bạn có chắc muốn xóa dịch vụ này?"}, form_class: "peer text-base text-gray-500 hover:text-indigo-500 flex justify-center items-center" do %>
+            <%= inline_svg_tag "svg/trash-2.svg", size: "18" %>
+          <% end %>
+          <span class="peer-hover:visible peer-hover:opacity-100 invisible opacity-0 absolute bottom-full left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-sm rounded whitespace-nowrap z-10 transition-opacity duration-200 ease-in-out">
+            Xóa
+          </span>
+        </div>
       </div>
-
-      <div class="relative flex justify-center items-center">
-        <%= link_to vendor_service_path(service), class: "peer text-base text-gray-500 hover:text-indigo-500" do %>
-          <%= inline_svg_tag "svg/eye.svg", size: "18" %>
-        <% end %>
-        <span class="peer-hover:visible peer-hover:opacity-100 invisible opacity-0 absolute bottom-full left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-sm rounded whitespace-nowrap z-10 transition-opacity duration-200 ease-in-out">
-          Xem chi tiết
-        </span>
-      </div>
-      <div class="relative flex justify-center items-center">
-        <%= link_to edit_vendor_service_path(service), class: "peer text-base text-gray-500 hover:text-indigo-500" do %>
-          <%= inline_svg_tag "svg/settings.svg", size: "18" %>
-        <% end %>
-        <span class="peer-hover:visible peer-hover:opacity-100 invisible opacity-0 absolute bottom-full left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-sm rounded whitespace-nowrap z-10 transition-opacity duration-200 ease-in-out">
-          Chỉnh sửa
-        </span>
-      </div>
-      <div class="relative flex justify-center items-center">
-        <%= button_to vendor_service_path(service), method: :delete, data: {turbo_confirm: "Bạn có chắc muốn xóa dịch vụ này?"}, form_class: "peer text-base text-gray-500 hover:text-indigo-500 flex justify-center items-center" do %>
-          <%= inline_svg_tag "svg/trash-2.svg", size: "18" %>
-        <% end %>
-        <span class="peer-hover:visible peer-hover:opacity-100 invisible opacity-0 absolute bottom-full left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-sm rounded whitespace-nowrap z-10 transition-opacity duration-200 ease-in-out">
-          Xóa
-        </span>
-      </div>
-    </div>
-  </td>
-</tr>
+    </td>
+  </tr>
+<% end %>

@@ -1,40 +1,29 @@
-<div>
-  <%= form_with(model: [ :vendor, service, address ], data: {controller: "goong-map"}) do |form| %>
-    <% if address.errors.any? %>
-      <div style="color: red">
-        <h2><%= pluralize(address.errors.count, "error") %> prohibited this address from being saved:</h2>
+<%= form_with(model: [ :vendor, address.service, address ],
+              data: {controller: "goong-map", action: "turbo:submit-end->goong-map#reset"},
+              html: {class: "space-y-4"}) do |form| %>
+  <%= form.hidden_field :full_address, data: {"goong-map-target": "fullAddress"} %>
+  <%= form.hidden_field :district, "data-goong-map-target": "district" %>
+  <%= form.hidden_field :province, data: {"goong-map-target": "province"} %>
+  <%= form.hidden_field :longitude, data: {"goong-map-target": "longitude"} %>
+  <%= form.hidden_field :latitude, data: {"goong-map-target": "latitude"} %>
 
-        <ul>
-          <% address.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+  <div class="flex flex-col gap-2">
+    <%= form.label address.full_address? ? "Địa chỉ mới": "Địa chỉ", class: "font-semibold text-sm" %>
+    <div id="<%= dom_id address, "geocoder" %>" data-goong-map-target="geocoder"></div>
+  </div>
 
-    <%# form.hidden_field :service_id, value: service.id %>
-    <%= form.hidden_field :full_address, data: {"goong-map-target": "fullAddress"} %>
-    <%= form.hidden_field :district, "data-goong-map-target": "district" %>
-    <%= form.hidden_field :province, data: {"goong-map-target": "province"} %>
-    <%= form.hidden_field :longitude, data: {"goong-map-target": "longitude"} %>
-    <%= form.hidden_field :latitude, data: {"goong-map-target": "latitude"} %>
-
-    <div class="flex flex-col gap-2">
-      <%= form.label address.full_address? ? "Địa chỉ mới": "Địa chỉ", class: "font-semibold text-sm" %>
-      <div id="geocoder"></div>
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <%= form.label :phone, class: "font-semibold text-sm" %>
-      <%= form.text_field :phone, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+  <div class="flex flex-col gap-2">
+    <%= form.label :phone, class: "font-semibold text-sm" %>
+    <%= form.text_field :phone, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
                                   placeholder: "Số điện thoại liên lạc" %>
-    </div>
+  </div>
 
-    <div>
-      <%= form.submit %>
-    </div>
-  <% end %>
-</div>
+  <div class="flex justify-<%= address.new_record? ? "between" : "end" %> items-center gap-4">
+    <%= link_to "Quay lại trang chi tiết dịch vụ", vendor_service_path(address.service), class: "text-sm underline hover:text-indigo-500" if address.new_record? %>
+    <%= link_to "Hủy thay đổi", vendor_service_address_path(address.service, address), class: "text-sm underline hover:text-indigo-500" unless address.new_record? %>
+    <%= form.submit address.new_record? ? "Thêm" : "Lưu thay đổi", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
+  </div>
+<% end %>
 
 <%# <div data-controller="goong-map"> %>
 <%#   <div data-goong-map-target="map"></div> %>

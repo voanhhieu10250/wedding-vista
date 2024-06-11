@@ -1,0 +1,34 @@
+<div class="flex justify-center md:pt-6">
+  <div class="w-full md:max-w-5xl flex flex-col gap-4 mb-6">
+    <div class="flex items-center justify-between">
+      <h2 class="text-2xl font-semibold">Các bộ sưu tập hiện có</h2>
+
+      <%= link_to "Quay lại chi tiết dịch vụ", service_path(params[:service_id]), class: "justify-end flex hover:underline hover:text-indigo-500 text-sm" %>
+    </div>
+
+    <% @galleries.each do |gallery| %>
+      <div class="p-6 bg-white rounded shadow border border-gray-100">
+        <div class="space-y-4">
+          <h3 class="text-xl font-semibold hover:text-indigo-500">
+            <%= link_to service_gallery_path(params[:service_id], gallery) do %>
+              <%= gallery.name %>
+            <% end %>
+          </h3>
+          <% if gallery.items.present? %>
+            <div class="grid grid-cols-4 gap-2">
+              <% gallery.first_four_items.each do |item| %>
+                <div class="col-span-1">
+                  <%= image_tag item.variant(:medium), class: "w-full h-full object-cover rounded-md" %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="italic">There are no items in this gallery</p>
+          <% end %>
+          <%= link_to "Xem toàn bộ ảnh (#{gallery.attachments_count})", service_gallery_path(params[:service_id], gallery), class: "justify-end flex hover:underline hover:text-indigo-500 text-sm" %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>

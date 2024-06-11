@@ -33,12 +33,17 @@
   --disabled: #efefef;
 
   font-family: Poppins, var(--sans-font);
+  scroll-behavior: smooth;
 }
 
 /* custom style */
 .turbo-progress-bar {
   height: 5px;
   background-color: green;
+}
+
+.button_to {
+  display: flex;
 }
 
 [data-controller="dropdown"] {
@@ -171,12 +176,10 @@
   .idea.listing {
     grid-template-columns: minmax(0, 3fr) 300px;
     grid-column-gap: 3rem;
-    grid-row-gap: 3rem;
     grid-template-areas:
       "listingHeading listingHeading"
-      "listingArticlesTitle listingArticlesTitle"
+      "listingArticlesTitle listingSidebar"
       "listingContent listingSidebar"
-      "articlesMoreIdeas articlesMoreIdeas";
   }
 }
 .listing .listingHeading {
@@ -184,6 +187,12 @@
 }
 .listing .listingArticlesTitle {
   grid-area: listingArticlesTitle;
+}
+.listing .listingArticles {
+  grid-area: listingContent;
+}
+.listing .listingSidebar {
+  grid-area: listingSidebar;
 }
 .articleTile__preTitle {
   font-size: 0.875rem;
@@ -1600,7 +1609,7 @@ a {
   .listingHeading {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-areas: "title" "searcher";
+    grid-template-areas: "title" "description" "searcher";
     grid-gap: 1rem;
     padding: 0.5rem 0 1.5rem;
     position: relative;
@@ -1613,7 +1622,9 @@ a {
   .listingHeading__searcher {
     grid-area: searcher;
   }
-
+  .listingHeading__description {
+    grid-area: description;
+  }
   .listingHeading__title {
     grid-area: title;
     font-size: 1.875rem;
@@ -1693,7 +1704,7 @@ a {
   @media (min-width: 1024px) {
     .listingHeading {
       grid-template-rows: auto auto;
-      grid-template-areas: "title" "searcher";
+      grid-template-areas: "title" "description" "searcher";
     }
 
     .listingHeading__searcher {
@@ -6743,25 +6754,24 @@ a {
     background: rgba(0, 0, 0, 0.8) !important;
     padding: 8px 12px !important;
   }
-  .card-label-img {
-    position: absolute;
-    background-repeat: no-repeat;
-    top: 4px;
-    left: -4px;
-    height: 24px;
-    width: 30px;
-  }
-  .label--v1 {
-    width: 58px;
-  }
-  .label--v2 {
-    width: 66px;
-  }
-  .label--v3 {
-    width: 100px;
-  }
 }
-
+.card-label-img {
+  position: absolute;
+  background-repeat: no-repeat;
+  top: 4px;
+  left: -4px;
+  height: 24px;
+  width: 30px;
+}
+.label--v1 {
+  width: 58px;
+}
+.label--v2 {
+  width: 66px;
+}
+.label--v3 {
+  width: 100px;
+}
 .layoutNavMenuTab {
   display: none;
   opacity: 0;
@@ -6810,4 +6820,16 @@ a {
   a {
     padding: 0.5rem 1rem 0.5rem 0;
   }
+}
+.storefrontReviewsTileContent__title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.125rem;
+  line-height: 1.6875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  word-break: break-word;
 }

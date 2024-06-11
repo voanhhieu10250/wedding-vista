@@ -27,7 +27,7 @@
       }
     </style>
     <header class="listingHeading app-heading">
-      <h1 class="listingHeading__title"><%= @category.name %></h1>
+      <h1 class="listingHeading__title">Dịch vụ <%= @category.name.downcase %></h1>
       <div class="listingHeading__searcher app-searcher-tracking">
         <%= form_with url: services_path, method: :get, html: {class: "searcherOpenModal app-searcher-modal suggestCategory", role: "search"} do %>
           <input type="hidden" name="pricing_from" data-services-search-target="pricingFrom">
@@ -42,7 +42,7 @@
               <input type="text" class="searcherOpenModal__input" placeholder="Dịch vụ cần tìm" data-services-search-target="search">
             </div>
             <div class="searcherOpenModal__location app-searcher-location-input">
-              <input type="text" class="searcherOpenModal__input" placeholder="Khu vực" data-services-search-target="location">
+              <input type="text" class="searcherOpenModal__input" placeholder="Thành phố" data-services-search-target="location">
             </div>
           </div>
         <% end %>
@@ -65,7 +65,7 @@
             <span class="searcher__locationFixedText">
               <%= inline_svg_tag "svg/map-pin.svg", size: "18" %>
             </span>
-            <input class="searcher__input app-searcher-location-input app-searcher-location-input-tracking" type="text" placeholder="Khu vực" aria-label="Location" autocomplete="off" data-services-search-target="location">
+            <input class="searcher__input app-searcher-location-input app-searcher-location-input-tracking" type="text" placeholder="Thành phố" aria-label="Location" autocomplete="off" data-services-search-target="location">
             <span class="searcher__locationReset app-searcher-reset-location">
               <i class="svgIcon app-svg-async svgIcon__close searcher__locationResetIcon"   ><svg viewBox="0 0 26 26"><path d="M12.983 10.862L23.405.439l2.122 2.122-10.423 10.422 10.423 10.422-2.122 2.122-10.422-10.423L2.561 25.527.439 23.405l10.423-10.422L.439 2.561 2.561.439l10.422 10.423z" fill-rule="nonzero"></path></svg></i>
             </span>
@@ -193,7 +193,8 @@
                         <div class="flex gap-1 items-center mb-2">
                           <div class="flex gap-1 items-center" aria-hidden="true">
                             <%= inline_svg_tag "svg/star.svg", size: "16", class: "text-yellow-400" %>
-                            <span class="text-sm"><%= 4.to_f.round(1) %></span>
+                            <span class="text-sm"><%= service.average_rating.to_f.round(1) %></span>
+                            <span class="text-gray-500 text-xs">(<%= service.reviews_count %>) · </span>
                           </div>
                           <div class="re__card-location">
                             <span><%= "#{ service.first_or_main_address&.district }, #{ service.first_or_main_address&.province }" if service.first_or_main_address.present? %></span>

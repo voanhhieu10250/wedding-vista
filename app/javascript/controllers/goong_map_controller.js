@@ -110,4 +110,9 @@ export default class extends Controller {
     if (this.hasLatitudeTarget) this.latitudeTarget.value = "";
     if (this.hasLongitudeTarget) this.longitudeTarget.value = "";
   }
+
+  reset() {
+    this.geocoder.clear();
+    this.element.reset();
+  }
 }

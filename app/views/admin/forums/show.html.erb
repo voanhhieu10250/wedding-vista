@@ -1,0 +1,65 @@
+<% breadcrumbs = [
+  {name: "Weddings", path: root_path},
+  {name: "Forums", path: forums_path},
+  {name: @forum.title},
+] %>
+
+<%= render 'shared/breadcrumb', breadcrumbs: %>
+
+<section class="bg-white flex flex-col md:flex-row mb-5">
+  <div class="h-full w-full flex flex-col md:flex-row gap-5">
+    <div class="md:w-2/3 h-full flex flex-col items-center justify-center">
+      <div class="w-full mb-6 rounded-lg border border-gray-300 bg-white overflow-hidden">
+        <% heading_bg = @forum.image.attached? ? url_for(@forum.image.variant(:header_bg)) : "com-heading.jpg" %>
+        <div class="text-white pt-[70px] px-5 pb-[15px] bg-cover bg-gray-900"
+             style="background-image: url(<%= asset_path heading_bg %>)">
+          <h1 class="py-[5px] font-extrabold text-2xl"><%= @forum.title %></h1>
+        </div>
+        <div class="p-5 text-gray-500 flex flex-wrap">
+          <div class="w-3/4">
+            <p class="text-sm"><%= @forum.description %></p>
+          </div>
+          <div class="w-1/4 pt-[5px] text-right">
+            <div class="font-medium ml-2.5">
+              <%= @forum.discussions_count || 0 %>
+              <br>
+              Thảo luận
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col w-full gap-6">
+        <div class="flex flex-col">
+          <div class="flex flex-col mb-6 md:flex-row justify-between items-center gap-2">
+            <h2 class="text-2xl font-bold">
+              Thảo luận
+            </h2>
+          </div>
+
+          <% if @discussions.present? %>
+            <div class="flex flex-col overflow-hidden border-t border-gray-300">
+              <% @discussions.each do |discussion| %>
+                <%= render partial: "discussions/discussion_card", locals: { discussion: discussion } %>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center p-4 space-y-2 rounded-lg border border-gray-300">
+              <h2 class="font-semibold text-lg">Không tìm thấy thảo luận nào.</h2>
+              <p class="w-2/3 mx-auto">Bạn có thể tạo một thảo luận mới để nhận được sự giúp đỡ từ cộng đồng bằng cách nhấn vào nút bên dưới.</p>
+              <%= link_to "Hỏi cộng đồng", new_discussion_path, class: "mx-auto w-fit flex gap-1 items-center px-3 py-2 text-white bg-red-300 hover:bg-red-400 rounded-md transform transition-transform duration-200" %>
+            </div>
+          <% end %>
+
+          <div class="mt-2 flex justify-between items-center mx-2" id="pagination">
+            <%== pagy_info(@pagy, item_name: 'bài viết') %>
+            <%== pagy_nav(@pagy) if @discussions.present? %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:w-1/3 flex flex-col items-center gap-2">
+      <%= render partial: 'forums/sidebar_forum_list', locals: {forums: @forums} %>
+    </div>
+  </div>
+</section>

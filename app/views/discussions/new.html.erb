@@ -1,0 +1,57 @@
+<% breadcrumbs = [
+  {name: "Weddings", path: root_path},
+  {name: "Forums", path: forums_path},
+  {name: "New Discussion"},
+] %>
+
+<%= render 'shared/breadcrumb', breadcrumbs: %>
+
+<h1 class="text-2xl font-semibold mb-2">Tạo thảo luận mới</h1>
+
+<div class="flex flex-col md:flex-row gap-10 justify-stretch items-start">
+  <%= render "form", discussion: @discussion %>
+
+  <div class="bg-white p-6 rounded-md w-full md:w-80 border border-gray-300">
+    <h2 class="text-lg font-bold mb-4">QUY TẮC THẢO LUẬN</h2>
+    <p class="text-sm mb-4">Hãy tử tế, ủng hộ và tôn trọng những thành viên khác trong cộng đồng</p>
+    <hr class="my-4">
+    <ul class="text-sm mb-6 space-y-2">
+      <li class="flex items-start gap-2">
+        <div class="w-5">
+          <%= inline_svg_tag "svg/heart-solid.svg", size: "20", class: "text-red-200" %>
+        </div>
+        <span>
+          Đặt tiêu đề rõ ràng và mô tả cho cuộc thảo luận của bạn
+        </span>
+      </li>
+      <li class="flex items-start gap-2">
+        <div class="w-5">
+          <%= inline_svg_tag "svg/heart-solid.svg", size: "20", class: "text-red-200" %>
+        </div>
+        <span>
+          Không được đăng nội dung quảng cáo hoặc thương mại
+        </span>
+      </li>
+      <li class="flex items-start gap-2">
+        <div class="w-5">
+          <%= inline_svg_tag "svg/heart-solid.svg", size: "20", class: "text-red-200" %>
+        </div>
+        <span>
+          Nội dung xúc phạm và chửi thề bị cấm
+        </span>
+      </li>
+      <li class="flex items-start gap-2">
+        <div class="w-5">
+          <%= inline_svg_tag "svg/heart-solid.svg", size: "20", class: "text-red-200" %>
+        </div>
+        <span>
+          Tập trung vào chủ đề đám cưới
+        </span>
+      </li>
+    </ul>
+    <div class="bg-gray-100 p-4 text-center">
+      <p class="text-sm mb-2">Vui lòng dành một phút để xem lại các nguyên tắc cộng đồng của chúng tôi</p>
+      <button class="text-sm font-semibold text-gray-700 py-2 px-4">Xem Nguyên tắc</button>
+    </div>
+  </div>
+</div>

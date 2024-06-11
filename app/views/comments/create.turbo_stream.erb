@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "comments" do %>
+  <%= render partial: 'comments_list', locals: { discussion: @discussion, cur_user: current_user } %>
+<% end %>

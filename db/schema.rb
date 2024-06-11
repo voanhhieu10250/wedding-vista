@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_07_105146) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_10_210446) do
   create_table "action_text_rich_texts", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", size: :long
@@ -71,6 +71,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_07_105146) do
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
+  create_table "comments", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "discussion_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "parent_comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discussion_id"], name: "index_comments_on_discussion_id"
+    t.index ["parent_comment_id"], name: "index_comments_on_parent_comment_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "common_questions", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "question"
     t.text "answer"
@@ -78,6 +89,28 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_07_105146) do
     t.datetime "updated_at", null: false
     t.bigint "service_id", null: false
     t.index ["service_id"], name: "index_common_questions_on_service_id"
+  end
+
+  create_table "discussions", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "forum_id", null: false
+    t.bigint "user_id", null: false
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "views", default: 0
+    t.integer "comments_count", default: 0
+    t.index ["forum_id"], name: "index_discussions_on_forum_id"
+    t.index ["user_id"], name: "index_discussions_on_user_id"
+  end
+
+  create_table "forums", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "users_count"
+    t.integer "discussions_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "icon"
   end
 
   create_table "galleries", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
@@ -120,6 +153,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_07_105146) do
     t.index ["status"], name: "index_priority_boostings_on_status"
   end
 
+  create_table "reviews", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "service_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "rating"
+    t.string "title"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_id"], name: "index_reviews_on_service_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "services", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -131,10 +176,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_07_105146) do
     t.boolean "published", default: false
     t.string "website"
     t.bigint "main_address_id"
+    t.integer "reviews_count", default: 0
     t.index ["category_id"], name: "index_services_on_category_id"
     t.index ["main_address_id"], name: "index_services_on_main_address_id"
     t.index ["name"], name: "index_services_on_name"
     t.index ["vendor_id"], name: "index_services_on_vendor_id"
+  end
+
+  create_table "solid_cache_entries", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
+    t.binary "key", limit: 1024, null: false
+    t.binary "value", size: :long, null: false
+    t.datetime "created_at", null: false
+    t.bigint "key_hash", null: false
+    t.integer "byte_size", null: false
+    t.index ["byte_size"], name: "index_solid_cache_entries_on_byte_size"
+    t.index ["key_hash", "byte_size"], name: "index_solid_cache_entries_on_key_hash_and_byte_size"
+    t.index ["key_hash"], name: "index_solid_cache_entries_on_key_hash", unique: true
   end
 
   create_table "solid_queue_blocked_executions", charset: "utf8mb3", collation: "utf8mb3_general_ci", force: :cascade do |t|
@@ -262,6 +319,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_07_105146) do
     t.bigint "topic_category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "ideas_count", default: 0
     t.index ["topic_category_id"], name: "index_topics_on_topic_category_id"
   end
 
@@ -312,11 +370,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_07_105146) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "addresses", "services"
+  add_foreign_key "comments", "comments", column: "parent_comment_id"
+  add_foreign_key "comments", "discussions"
+  add_foreign_key "comments", "users"
   add_foreign_key "common_questions", "services"
+  add_foreign_key "discussions", "forums"
+  add_foreign_key "discussions", "users"
   add_foreign_key "galleries", "services"
   add_foreign_key "ideas", "topics"
   add_foreign_key "ideas", "vendors"
   add_foreign_key "priority_boostings", "services"
+  add_foreign_key "reviews", "services"
+  add_foreign_key "reviews", "users"
   add_foreign_key "services", "addresses", column: "main_address_id"
   add_foreign_key "services", "categories"
   add_foreign_key "services", "vendors"

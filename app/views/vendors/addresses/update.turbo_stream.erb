@@ -1,0 +1,5 @@
+<% unless @address.errors.any? %>
+  <%= turbo_stream.replace dom_id @address, "detail" do %>
+    <%= render @address %>
+  <% end %>
+<% end %>

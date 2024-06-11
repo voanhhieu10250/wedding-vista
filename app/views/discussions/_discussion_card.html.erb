@@ -1,0 +1,39 @@
+<div class="flex flex-col md:flex-row border-b border-gray-300 justify-between gap-6 items-start p-4">
+  <div class="rounded-full overflow-hidden w-1/12">
+    <div class="relative flex rounded-full w-full aspect-square bg-gray-400 text-sm border border-gray-200">
+      <% if discussion.user.avatar.attached? %>
+        <%= image_tag discussion.user.avatar&.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
+      <% else %>
+        <div class="absolute inset-0 flex items-center justify-center text-white text-3xl font-semibold w-full h-full">
+          <%= discussion.user.name[0]&.titleize %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="w-11/12 text-sm flex gap-5">
+    <div class="w-3/4">
+      <h1 class="text-lg font-semibold hover:text-red-400 mb-1">
+        <%= link_to discussion.title, forum_discussion_path(discussion.forum, discussion) %>
+      </h1>
+      <span class="text-gray-500">
+        <strong><%= discussion.user.name.titleize %></strong>, <%= local_time discussion.created_at %>
+      </span>
+      <%= link_to discussion.plain_text_body, forum_discussion_path(discussion.forum, discussion), data: {turbo_prefetch: false}, class: "mt-2 mb-6 line-clamp-3" %>
+      <div class="flex gap-4 text-sm text-gray-500">
+        <p class="flex gap-2">
+          <span><%= inline_svg_tag "svg/chat-bubble.svg", size: "20" %></span>
+          <span><%= discussion.comments_count || 0 %></span>
+        </p>
+        <p class="flex gap-2">
+          <span><%= inline_svg_tag "svg/eye.svg", size: "20" %></span>
+          <span><%= discussion.views %></span>
+        </p>
+      </div>
+    </div>
+    <% if discussion.first_body_previewable_attachment_url.present? %>
+      <%= link_to forum_discussion_path(discussion.forum, discussion), data: {turbo_prefetch: false}, class: "w-1/4 max-w-[200px] aspect-square rounded overflow-hidden" do %>
+        <%= image_tag discussion.first_body_previewable_attachment_url, class: "w-full h-full object-cover" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

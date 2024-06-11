@@ -1,0 +1,18 @@
+<div id="comments">
+  <div class="flex flex-col pt-[5px] pb-[15px] md:flex-row justify-between items-center gap-2 border-b border-gray-300">
+    <h2 class="text-2xl font-semibold" id="comments_count">
+      <%= discussion.comments_count || 0 %> Bình luận
+    </h2>
+  </div>
+  <div class="mt-[-10px] flex">
+    <% if discussion.comments.present? %>
+      <div class="text-gray-500 bg-white mb-[-12px] pr-[5px] text-sm">
+        Hoạt động mới nhất là của <%= discussion.comments.last.user.name %>, vào ngày <%= local_time discussion.comments.last.created_at, '%B %e, %Y lúc %l:%M%P' %>
+      </div>
+    <% end %>
+  </div>
+  <%# comment list go here %>
+  <div class="py-[30px]" id="comments_list">
+    <%= render discussion.comments.with_rich_text_body_and_embeds, cur_user: %>
+  </div>
+</div>

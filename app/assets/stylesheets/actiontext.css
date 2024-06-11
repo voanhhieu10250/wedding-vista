@@ -4,15 +4,22 @@
  * images in galleries will be squished by the max-width: 33%; rule.
 */
 .trix-content .attachment-gallery > action-text-attachment,
-.trix-content .attachment-gallery > .attachment {
+.trix-content .attachment-gallery > .attachment,
+trix-editor .attachment-gallery > action-text-attachment,
+trix-editor .attachment-gallery > .attachment {
   flex: 1 0 33%;
   padding: 0 0.5em;
   max-width: 33%;
 }
 
 .trix-content .attachment-gallery.attachment-gallery--2 > action-text-attachment,
-.trix-content .attachment-gallery.attachment-gallery--2 > .attachment, .trix-content .attachment-gallery.attachment-gallery--4 > action-text-attachment,
-.trix-content .attachment-gallery.attachment-gallery--4 > .attachment {
+.trix-content .attachment-gallery.attachment-gallery--2 > .attachment,
+.trix-content .attachment-gallery.attachment-gallery--4 > action-text-attachment,
+.trix-content .attachment-gallery.attachment-gallery--4 > .attachment,
+trix-editor .attachment-gallery.attachment-gallery--2 > action-text-attachment,
+trix-editor .attachment-gallery.attachment-gallery--2 > .attachment,
+trix-editor .attachment-gallery.attachment-gallery--4 > action-text-attachment,
+trix-editor .attachment-gallery.attachment-gallery--4 > .attachment {
   flex-basis: 50%;
   max-width: 50%;
 }
@@ -20,4 +27,95 @@
 .trix-content action-text-attachment .attachment {
   padding: 0 !important;
   max-width: 100% !important;
+}
+
+trix-editor .attachment-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.trix-content.trix-content {
+  p {
+    @apply text-base mb-[19px];
+  }
+
+  h1 {
+    @apply font-semibold text-xl mb-[19px];
+  }
+
+  ul {
+    @apply list-disc mb-[19px];
+  }
+
+  ol {
+    @apply list-decimal mb-[19px];
+  }
+
+  li {
+    @apply ml-8 mt-2;
+  }
+
+  figure {
+    @apply flex flex-col items-center mx-auto;
+
+    &.attachment--file figcaption {
+      @apply mt-0;
+    }
+  }
+
+  figcaption {
+    @apply text-sm text-gray-500 tracking-[-.15px] mt-2 px-[15%] text-center;
+  }
+
+  blockquote:not(figure > blockquote) {
+    @apply border-l-4 border-gray-400 pl-5 my-5 ml-0;
+  }
+
+  pre {
+    @apply bg-gray-100 p-4 mb-6 rounded-md;
+  }
+
+  del {
+    @apply line-through decoration-2;
+  }
+
+  img {
+    @apply rounded;
+  }
+}
+.comment-content .trix-content,
+.comment-content {
+  h1 {
+    @apply mb-3;
+  }
+  p,
+  ul,
+  ol {
+    @apply mb-2;
+  }
+
+  li {
+    @apply ml-5 mt-1;
+  }
+
+  figure {
+    @apply flex flex-col items-center mx-auto;
+
+    &.attachment--file figcaption {
+      @apply mt-0;
+    }
+  }
+
+  figcaption {
+    @apply text-sm text-gray-500 tracking-[-.15px] mt-1 px-[10%] text-center;
+  }
+
+  blockquote:not(figure > blockquote) {
+    @apply border-l-4 border-gray-400 pl-2 my-2 ml-0;
+  }
+
+  pre {
+    @apply bg-gray-100 p-2 mb-3 rounded-md;
+  }
 }

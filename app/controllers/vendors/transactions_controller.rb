@@ -13,7 +13,7 @@ class Vendors::TransactionsController < Vendors::BaseController
   end
 
   def index
-    @transactions = current_vendor.transactions
+    @pagy, @transactions = pagy(current_vendor.transactions.order(id: :desc), item: 10)
   end
 
   def show
@@ -44,7 +44,7 @@ class Vendors::TransactionsController < Vendors::BaseController
       @redirect_url = response[:checkoutUrl]
     else
       flash_errors_message(@transaction, now: true)
-      # redirect_to new_vendor_transaction_path
+      # redirect_to new_vendor_transaction_url
     end
   end
 
@@ -57,7 +57,7 @@ class Vendors::TransactionsController < Vendors::BaseController
       flash.now[:success] = "Payment was cancelled"
     end
 
-    redirect_to vendor_transaction_path(@transaction)
+    redirect_to vendor_transactions_url
   end
 
   def success_callback

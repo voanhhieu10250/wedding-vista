@@ -1,10 +1,32 @@
-<p style="color: green"><%= notice %></p>
+<div class="flex justify-center md:pt-6" data-controller="gallery-detail">
+  <div class="w-full md:max-w-5xl flex flex-col gap-4 mb-6">
+    <div class="flex gap-2 justify-end">
+      <%= link_to "Back to galleries", vendor_service_galleries_path %> |
+      <%= link_to "Edit this gallery", edit_vendor_service_gallery_path(params[:service_id], @gallery) %> |
+      <%= button_to "Destroy this gallery", vendor_service_gallery_path(params[:service_id], @gallery), method: :delete %>
+    </div>
 
-<%= render @gallery %>
+    <div class="p-6 bg-white rounded shadow">
+      <div class="space-y-4">
+        <h3 class="text-xl font-semibold">
+          <%= @gallery.name %>
+        </h3>
+        <% if @gallery.items.present? %>
+          <div class="grid grid-cols-4 gap-2">
+            <% @gallery.items.each do |item| %>
+              <div class="col-span-1" data-action="click->gallery-detail#open" data-item-id="<%= item.id %>">
+                <%= image_tag item.variant(:medium), class: "w-full h-full object-cover rounded-md" %>
+              </div>
+              <div class="fixed inset-0 z-50 bg-black bg-opacity-50 overflow-y-auto overflow-x-hidden sm:justify-end hidden" aria-modal="true" data-gallery-detail-target="modal" data-item-id="<%= item.id %>" data-action="click->gallery-detail#outside">
+                <%= image_tag item, class: "zoom-in bg-white shadow-md min-h-[100px] rounded-md mx-auto my-8 max-w-screen-xl" %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="italic">There are no items in this gallery</p>
+        <% end %>
+      </div>
+    </div>
 
-<div>
-  <%= link_to "Edit this gallery", edit_vendor_service_gallery_path(params[:service_id], @gallery) %> |
-  <%= link_to "Back to galleries", vendor_service_galleries_path %>
-
-  <%= button_to "Destroy this gallery", vendor_service_gallery_path(params[:service_id], @gallery), method: :delete %>
+  </div>
 </div>

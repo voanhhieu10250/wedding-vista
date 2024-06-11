@@ -1,3 +1,15 @@
+<% rating_value = case service.average_rating
+                  when 0..1.9
+                    "Tạm được"
+                  when 2..2.9
+                    "Bình thường"
+                  when 3..3.9
+                    "Khá tốt"
+                  when 4..4.9
+                  "Rất tốt"
+                  else
+                    "Tuyệt vời"
+                  end %>
 <article class="storefront" data-controller="service-details">
   <aside class="storefrontHeadingWrap">
     <header class="storefrontHeading storefrontHeading--fixed app-storefront-sticky-heading storefrontHeading--fadein">
@@ -11,17 +23,27 @@
         <div class="storefrontHeadingReviews">
           <a class="storefrontHeading__item app-heading-quick-link app-heading-global-tracking" href="#reviews">
             <span class="storefrontHeadingReviews__stars">
-              <% 5.times do %>
-                <%= inline_svg_tag "svg/star.svg", size: "24", class: "text-yellow-400" %>
+              <% if service.reviews_count.zero? %>
+                <%= inline_svg_tag "svg/star-outline.svg", size: "24" %>
+                <span class="storefrontHeadingReviews__starsValue" aria-hidden="true">
+                  Chưa có đánh giá
+                </span>
+              <% else %>
+                <% service.average_rating.round.times do %>
+                  <%= inline_svg_tag "svg/star.svg", size: "24", class: "text-yellow-400" %>
+                <% end %>
+                <% (5 - service.average_rating.round).times do %>
+                  <%= inline_svg_tag "svg/star.svg", size: "24", class: "text-gray-300" %>
+                <% end %>
+                <span class="storefrontHeadingReviews__starsValue" aria-hidden="true">
+                  <%= "#{service.average_rating} #{rating_value}" %>
+                </span>
               <% end %>
-              <span class="storefrontHeadingReviews__starsValue" aria-hidden="true">
-                5.0 Tuyệt vời
-              </span>
             </span>
           </a>
           <a class="storefrontHeading__item app-heading-quick-link app-heading-global-tracking" href="#reviews">
             <span class="storefrontHeadingReviews__count">
-              11 đánh giá
+              <%= service.reviews_count %> đánh giá
             </span>
           </a>
         </div>
@@ -33,7 +55,7 @@
                 <%= service.first_or_main_address&.province %>, <%= service.first_or_main_address&.district %>
               </a>
             <% else %>
-              <%= link_to 'Chưa có địa chỉ (Bấm để cập nhật)', new_vendor_service_address_path(service), class: "app-heading-quick-link" %>
+              <%= link_to 'Chưa có địa chỉ (Bấm để cập nhật)', vendor_service_addresses_path(service), class: "app-heading-quick-link" %>
             <% end %>
           </div>
         </div>
@@ -151,6 +173,9 @@
       </section>
       <div class="storefrontMultiGallery__button">
         <%= link_to vendor_service_galleries_path(service), class: "button app-gallery-slider-fullscreen-open app-gallery-fullscreen-open" do %>
+          Chỉnh sửa bộ sưu tập
+        <% end %>
+        <%= link_to vendor_service_galleries_path(service), class: "button app-gallery-slider-fullscreen-open app-gallery-fullscreen-open" do %>
           Xem ảnh <span><%= service.total_items_count %></span>
         <% end %>
       </div>
@@ -197,62 +222,22 @@
     <section class="storefrontFaqs app-faqs-toggle app-section-highlighter-item <%= "all" if service.common_questions.size <= 4 %>" data-service-details-target="faqs">
       <h2 id="faqs" class="storefrontFaqs__title" tabindex="-1">Các câu hỏi thường gặp</h2>
       <div class="storefrontFaqs__container">
-        <div class="storefrontFaqs__item">
-          <h3 class="storefrontFaqs__itemTitle">What is the starting price for your wedding photography services?</h3>
-          <div class="storefrontFaqs__itemContent">
-            <div class="storefrontFaqs__itemBlock">
-              $3,000
+        <% if service.common_questions.present? %>
+          <% service.common_questions.each do |item| %>
+            <div class="storefrontFaqs__item">
+              <h3 class="storefrontFaqs__itemTitle"><%= item.question %></h3>
+              <div class="storefrontFaqs__itemContent">
+                <div class="storefrontFaqs__itemBlock">
+                  <%= item.answer %>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="storefrontFaqs__item">
-          <h3 class="storefrontFaqs__itemTitle">What is the price of your most popular wedding package?</h3>
-          <div class="storefrontFaqs__itemContent">
-            <div class="storefrontFaqs__itemBlock">
-              $3,500
-            </div>
-          </div>
-        </div>
-        <div class="storefrontFaqs__item">
-          <h3 class="storefrontFaqs__itemTitle">What primary photographic style do you identify with?</h3>
-          <div class="storefrontFaqs__itemContent">
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              Vintage
-            </div>
-          </div>
-        </div>
-        <div class="storefrontFaqs__item">
-          <h3 class="storefrontFaqs__itemTitle">What photography services do you offer?</h3>
-          <div class="storefrontFaqs__itemContent">
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              Additional Hours
-            </div>
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              Engagement Shoot
-            </div>
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              High-Res Images
-            </div>
-            <div class="storefrontFaqs__itemList">
-              <span class="svgIcon text-[#48964d]">
-                <%= inline_svg_tag "svg/check.svg", size: "16" %>
-              </span>
-              Wedding Portraits
-            </div>
-          </div>
-        </div>
+          <% end %>
+        <% else %>
+          <p class="italic text-sm">Chưa có câu hỏi nào</p>
+        <% end %>
+        <br>
+        <%= link_to 'Thêm/Chỉnh sửa câu hỏi', vendor_service_questions_path(service), class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
       </div>
       <button type="button" data-action="service-details#openAllFAQs" class="storefrontFaqs__button button button--tertiary app-faqs-toggle-action">View more FAQs</button>
     </section>
@@ -268,77 +253,70 @@
             <div class="storefrontReviewsSummaryCTA__scoreValue">
               <div class="storefrontReviewsSummaryCTA__heading">
                 <div class="storefrontReviewsSummaryCTA__label" aria-hidden="true">
-                  <span>5.0</span> Fantastic
+                  <% if service.reviews_count.zero? %>
+                    <span>Chưa có đánh giá</span>
+                  <% else %>
+                    <span><%= service.average_rating %></span> <%= rating_value %>
+                  <% end %>
                 </div>
                 <div class="storefrontReviewsSummaryCTA__stars">
-                  <% 5.times do %>
-                    <%= inline_svg_tag "svg/star.svg", size: "24", class: "text-yellow-400" %>
+                  <% unless service.reviews_count.zero? %>
+                    <% service.average_rating.round.times do %>
+                      <%= inline_svg_tag "svg/star.svg", size: "24", class: "text-yellow-400" %>
+                    <% end %>
+                    <% (5 - service.average_rating.round).times do %>
+                      <%= inline_svg_tag "svg/star.svg", size: "24", class: "text-gray-300" %>
+                    <% end %>
                   <% end %>
                 </div>
               </div>
               <div class="storefrontReviewsSummaryCTA__starsText">
-                11 Đánh giá
+                <%= service.reviews_count %> Đánh giá
               </div>
             </div>
           </div>
           <div class="storefrontReviewsSummaryCTA__button">
-            <a class="app-storefront-add-review-cta button button--primary storefrontReviewsHeader__button" rel="nofollow" href="">
+            <span class="app-storefront-add-review-cta button button--primary storefrontReviewsHeader__button">
               Viết đánh giá
-            </a>
+            </span>
           </div>
         </div>
       </div>
 
       <ul class="app-infinite-scroll-content app-reviews-list">
-        <li class="storefrontReviewsTileSubpage  app-reviews-tile-rating-toggle" data-already-initialized="true">
-          <div class="storefrontReviewsTileSubpage__avatar">
-            <%= render "shared/text_avatar", text: "M" %>
-          </div>
-          <div class="storefrontReviewsTileInfo">
-            Maria F.        <span class="storefrontReviewsTileInfo__date">Sent on 06/01/2024</span>
-          </div>
-          <div class="storefrontReviewsTileSubpage__ratingAction app-reviews-tile-rating-toggle-action">
-            <%= render "shared/rating_stars", rating: 5 %>
-          </div>
-          <div class="storefrontReviewsTileContent">
-            <p class="storefrontReviewsTileContent__title">Claire is the best!! </p>
-            <div class="storefrontReviewsTileContent__description app-reviews-tile-read-more">
-              Claire was so fun to work with! She made sure we were comfortable and took beautiful photos ❤️❤️❤️
+        <% service.reviews.order(id: :desc).each_with_index do |review, idx| %>
+          <li class="<%= "!hidden" if idx > 1 %> storefrontReviewsTileSubpage  app-reviews-tile-rating-toggle" data-service-details-target="review">
+            <div class="storefrontReviewsTileSubpage__avatar">
+              <% if review.user.avatar.attached? %>
+                <%= image_tag review.user.avatar.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
+              <% else %>
+                <%= render "shared/text_avatar", text: review.user.name.chr.upcase %>
+              <% end %>
             </div>
-            <div class="app-full-description hidden">
-              Claire was so fun to work with! She made sure we were comfortable and took beautiful photos ❤️❤️❤️
+            <div class="storefrontReviewsTileInfo">
+              <%= review.user.name %>        <span class="storefrontReviewsTileInfo__date">- <%= local_date(review.created_at) %></span>
             </div>
-          </div>
-        </li>
-
-        <li class="storefrontReviewsTileSubpage  app-reviews-tile-rating-toggle" data-already-initialized="true">
-          <div class="storefrontReviewsTileSubpage__avatar">
-            <%= render "shared/text_avatar", text: "E", bg_color: "#C7C9C0" %>
-          </div>
-          <div class="storefrontReviewsTileInfo">
-            Erin V.        <span class="storefrontReviewsTileInfo__date">Sent on 05/29/2024</span>
-          </div>
-          <div class="storefrontReviewsTileSubpage__ratingAction app-reviews-tile-rating-toggle-action">
-            <%= render "shared/rating_stars", rating: 5 %>
-          </div>
-          <div class="storefrontReviewsTileContent">
-            <p class="storefrontReviewsTileContent__title">I love Claire!! She’s amazing!</p>
-            <div class="storefrontReviewsTileContent__description app-reviews-tile-read-more" data-already-initialized="true">
-              Claire is so creative and really loves what she does! She has such an open mind making models feel comfortable and allows them to share their own ideas to create! Claire is so kind and easy going and directs poses and prompts with purpose and passion. Me and Claire did a studio session with 1 hour and she gets it when it’s go time!! We seriously had so much fun. We had lots of laughs, she loves life, she’s a party!!
+            <div class="storefrontReviewsTileSubpage__ratingAction app-reviews-tile-rating-toggle-action">
+              <%= render "shared/rating_stars", rating: review.rating %>
             </div>
-            <div class="app-full-description hidden">
-              Claire is so creative and really loves what she does! She has such an open mind making models feel comfortable and allows them to share their own ideas to create! Claire is so kind and easy going and directs poses and prompts with purpose and passion. Me and Claire did a studio session with 1 hour and she gets it when it’s go time!! We seriously had so much fun. We had lots of laughs, she loves life, she’s a party!!
+            <div class="storefrontReviewsTileContent">
+              <p class="storefrontReviewsTileContent__title"><%= review.title %></p>
+              <div class="storefrontReviewsTileContent__description app-reviews-tile-read-more">
+                <%= simple_format review.body %>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
+        <% end %>
       </ul>
 
-      <div class="flex justify-center storefrontReviewsList">
-        <a class="button button--tertiary storefrontReviewsListFooter__more app-storefront-all-reviews-link" data-vendorid="2184871" href="" title="See all reviews">
-          Tất cả đánh giá
-          <%= inline_svg_tag "svg/right-arrow.svg", size: "20" %>
-        </a>
-      </div>
+      <% if service.reviews_count > 2 %>
+        <div class="flex justify-center storefrontReviewsList">
+          <button class="button button--tertiary storefrontReviewsListFooter__more app-storefront-all-reviews-link" data-action="service-details#openAllReviews" title="See all reviews">
+            Tất cả đánh giá
+            <%= inline_svg_tag "svg/right-arrow.svg", size: "20" %>
+          </button>
+        </div>
+      <% end %>
 
       <div class="sectionLeadTile sectionLeadTile--primary sectionLeadTile--reviews app-default-simple-lead-secondary-cta " data-vendor-id="2184871" data-cta-section="END_REVIEWS" data-tracking-section="profile_cta_reviews" data-frm-insert="" data-frm-insert-json="{&quot;desktop&quot;:105,&quot;mobile&quot;:106}" data-lead-form-with-services="1" role="button" tabindex="0">
         <div class="sectionLeadTile__iconContainer">
@@ -355,37 +333,44 @@
 
     <section class="storefrontMap app-section-highlighter-item">
       <h2 id="map" class="storefrontMap__title" tabindex="-1">Địa chỉ</h2>
-
-      <div class="app-storefront-addresses storefrontAddresses">
-        <% service.addresses_sorted_by_main_first.each_with_index do |address, idx| %>
-          <div class="app-storefront-item-active storefrontAddresses__itemActive ">
-            <% if idx == 0 %>
-              <div class="app-storefront-map storefrontAddresses__map">
-                <div class="aspect-[2/1] rounded-md overflow-hidden">
-                  <div data-controller="goong-non-interactive-map" class="h-full w-full"
+      <% if service.addresses.present? %>
+        <div class="app-storefront-addresses storefrontAddresses">
+          <% service.addresses_sorted_by_main_first.each_with_index do |address, idx| %>
+            <div class="app-storefront-item-active storefrontAddresses__itemActive ">
+              <% if idx == 0 %>
+                <div class="app-storefront-map storefrontAddresses__map">
+                  <div class="aspect-[2/1] rounded-md overflow-hidden">
+                    <div data-controller="goong-non-interactive-map" class="h-full w-full"
                         data-goong-non-interactive-map-lat-value="<%= address.latitude %>"
                         data-goong-non-interactive-map-lng-value="<%= address.longitude %>">
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+              <div class="storefrontAddresses__infoActive">
+                <%= inline_svg_tag "svg/map-pin.svg", class: "text-[#FCB796] storefrontAddresses__icon" %>
+                <div class="app-storefront-header storefrontAddresses__header">
+                  <%= address.full_address %>
+                </div>
+                <div class="app-storefront-content storefrontAddresses__content">
+                  <div class="storefrontAddresses__phone">
+                    <span class="app-phone-replace" data-vendorid="2184871">
+                      <%= address.phone %>
+                    </span>
                   </div>
                 </div>
               </div>
-            <% end %>
-            <div class="storefrontAddresses__infoActive">
-              <%= inline_svg_tag "svg/map-pin.svg", class: "text-[#FCB796] storefrontAddresses__icon" %>
-              <div class="app-storefront-header storefrontAddresses__header">
-                <%= address.full_address %>
-              </div>
-              <div class="app-storefront-content storefrontAddresses__content">
-                <div class="storefrontAddresses__phone">
-                  <span class="app-phone-replace" data-vendorid="2184871">
-                    <%= address.phone %>
-                  </span>
-                </div>
-              </div>
             </div>
-          </div>
-        <% end %>
+          <% end %>
 
-      </div>
+        </div>
+      <% else %>
+        <div class="storefrontMap__noAddress">
+          <p class="italic text-sm">Chưa có địa chỉ</p>
+        </div>
+      <% end %>
+      <br>
+      <%= link_to 'Thêm địa chỉ', vendor_service_addresses_path(service), class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
     </section>
   </div>
 </article>

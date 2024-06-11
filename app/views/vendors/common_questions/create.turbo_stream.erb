@@ -1,0 +1,5 @@
+<% unless @common_question.errors.any? %>
+  <%= turbo_stream.prepend "common_questions" do %>
+    <%= render @common_question %>
+  <% end %>
+<% end %>

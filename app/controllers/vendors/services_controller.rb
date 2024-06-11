@@ -1,6 +1,6 @@
 module Vendors
   class ServicesController < Vendors::BaseController
-    before_action :set_service_with_main_address, only: %i[ show edit ]
+    before_action :set_service_with_references, only: %i[ show edit ]
     before_action :set_service, only: %i[ update destroy publish unpublish ]
     before_action :set_pagy_services, only: %i[ index search ]
 
@@ -35,7 +35,7 @@ module Vendors
     def update
       if @service.update(service_params)
         flash[:notice] = "Dịch vụ đã được cập nhật."
-        redirect_to vendor_service_path(@service)
+        redirect_to vendor_service_url(@service)
       else
         flash_errors_message(@service)
         render :edit, status: :unprocessable_entity
@@ -45,7 +45,7 @@ module Vendors
     def destroy
       @service.destroy
       flash[:notice] = "Xoá dịch vụ thành công."
-      redirect_to vendor_services_path
+      redirect_to vendor_services_url
     end
 
     def publish
@@ -83,8 +83,11 @@ module Vendors
     end
 
     # Use callbacks to share common setup or constraints between actions.
-    def set_service_with_main_address
-      @service = current_vendor.services.includes(:category, :main_address, :common_questions).find(params[:id])
+    def set_service_with_references
+      @service = current_vendor.services.includes(:category,
+                                                  :main_address,
+                                                  :common_questions,
+                                                  :reviews).find(params[:id])
     end
 
     def set_service
@@ -99,7 +102,7 @@ module Vendors
         services = services.where("services.name LIKE ?", "%#{params[:search]}%")
       end
 
-      @pagy, @services = pagy_countless services, item: 10
+      @pagy, @services = pagy services, item: 10
     end
   end
 end

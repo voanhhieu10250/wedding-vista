@@ -41,11 +41,13 @@
   </header>
 </article>
 
-<div>
-  <% if idea.main_image.attached? %>
-    <div class="relative flex rounded justify-center mb-6 overflow-hidden">
-      <%= image_tag idea.main_image, class: "w-full max-w-full h-auto" %>
-    </div>
-  <% end %>
-  <%= idea.content %>
-</div>
+<% cache idea do %>
+  <div>
+    <% if idea.main_image.attached? %>
+      <div class="relative flex rounded justify-center mb-6 overflow-hidden">
+        <%= image_tag idea.main_image, class: "w-full max-w-full h-auto" %>
+      </div>
+    <% end %>
+    <%= idea.content %>
+  </div>
+<% end %>

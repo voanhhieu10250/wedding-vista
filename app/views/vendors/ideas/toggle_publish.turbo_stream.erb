@@ -1,3 +1,9 @@
-<%= turbo_stream.update "toggle_publish" do %>
+<%= turbo_stream.update dom_id(@idea, "toggle_publish") do %>
   <%= render 'toggle_publish_link', idea: @idea %>
+<% end %>
+
+<%= turbo_stream.update dom_id(@idea, "status") do %>
+  <span class="inline-block whitespace-nowrap px-2 py-0.5 text-xs text-center font-bold rounded-full <%= @idea.published? ? "text-green-400 bg-green-100" : "text-red-400 bg-red-100" %>">
+    <%= @idea.published? ? "Công khai" : "Ẩn" %>
+  </span>
 <% end %>

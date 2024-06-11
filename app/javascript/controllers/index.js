@@ -7,6 +7,9 @@ import { application } from "./application"
 import CardLinkController from "./card_link_controller"
 application.register("card-link", CardLinkController)
 
+import CollapseController from "./collapse_controller"
+application.register("collapse", CollapseController)
+
 import DropZoneController from "./drop_zone_controller"
 application.register("drop-zone", DropZoneController)
 
@@ -21,6 +24,9 @@ application.register("form-changed-check", FormChangedCheckController)
 
 import FormController from "./form_controller"
 application.register("form", FormController)
+
+import GalleryDetailController from "./gallery_detail_controller"
+application.register("gallery-detail", GalleryDetailController)
 
 import GoongMapController from "./goong_map_controller"
 application.register("goong-map", GoongMapController)
@@ -42,6 +48,9 @@ application.register("price", PriceController)
 
 import RedirectController from "./redirect_controller"
 application.register("redirect", RedirectController)
+
+import SearchController from "./search_controller"
+application.register("search", SearchController)
 
 import ServiceDetailsController from "./service_details_controller"
 application.register("service-details", ServiceDetailsController)

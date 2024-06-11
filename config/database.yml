@@ -5,28 +5,27 @@
 #   gem "sqlite3"
 #
 default: &default
-  adapter: sqlite3
+  database: <%= ENV['DB_NAME'] %>
+  adapter: mysql2
+  username: <%= ENV['DB_ROOT_USERNAME'] %>
+  password: <%= ENV['DB_ROOT_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
+  encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
 development:
-  database: wedding_vista_development
-  adapter: mysql2
-  username: root
-  password: <%= ENV['DB_ROOT_PASSWORD'] %>
-  host: 172.19.224.1
-  port: 3307
-  encoding: utf8
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  <<: *default
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
   database: storage/test.sqlite3
 
 production:
   <<: *default
-  database: storage/production.sqlite3

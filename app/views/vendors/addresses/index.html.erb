@@ -1,14 +1,22 @@
-<%= turbo_frame_tag "service_addresses_frame" do %>
-  <h1>Addresses</h1>
+<div class="flex justify-center md:pt-6">
+  <div class="w-full md:w-[696px] flex flex-col gap-4 mb-6">
+    <div class="p-6 bg-white rounded shadow">
+      <div class="space-y-4">
+        <h3 class="text-2xl font-semibold">Thêm địa chỉ mới</h3>
 
-  <div id="addresses">
-    <% @addresses.each do |address| %>
-      <%= render address %>
-      <p>
-        <%= link_to "Show this address", vendor_service_address_path(params[:service_id], address) %>
-      </p>
-    <% end %>
+        <%= render "form", address: Address.new(service_id: @service.id) %>
+      </div>
+    </div>
+
+    <div class="p-6 bg-white rounded shadow">
+      <h3 class="text-2xl font-semibold mb-4">Địa chỉ hiện có</h3>
+
+      <%= turbo_frame_tag "service_addresses_frame" do %>
+
+        <div id="addresses" class="flex flex-col gap-5">
+          <%= render @addresses %>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <%= link_to "New address", new_vendor_service_address_path(params[:service_id]) %>
-<% end %>
+</div>

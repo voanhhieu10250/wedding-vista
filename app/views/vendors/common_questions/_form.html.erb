@@ -1,30 +1,30 @@
-<%= form_with(scope: :common_question, url: path, method: method,
-              data:{"turbo-frame": turbo_frame_target,
-                    controller: "form",
-                    action: "turbo:submit-end->form#reset"}) do |form| %>
-  <% if question.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(question.errors.count, "error") %> prohibited this common_question from being saved:</h2>
-
-      <ul>
-        <% question.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<%= form_with(scope: :common_question, url: path, method:,
+              data:{ controller: "form", action: "turbo:submit-end->form#reset"},
+              html: {class: "space-y-4"}) do |form| %>
+  <div class="flex flex-col gap-2">
+    <div>
+      <%= form.label :question, class: "font-semibold text-sm" do %>
+        Câu hỏi
+        <span class="text-red-500 font-bold text-sm">*</span>
+      <% end %>
     </div>
-  <% end %>
-
-  <div>
-    <%= form.label :question, style: "display: block" %>
-    <%= form.text_field :question %>
+    <%= form.text_field :question, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                         placeholder: "Câu hỏi thường gặp" %>
   </div>
 
-  <div>
-    <%= form.label :answer, style: "display: block" %>
-    <%= form.text_area :answer %>
+  <div class="flex flex-col gap-2">
+    <div>
+      <%= form.label :answer, class: "font-semibold text-sm" do %>
+        Câu trả lời
+      <% end %>
+    </div>
+    <%= form.text_area :answer, class: "min-h-20 border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                        placeholder: "Mô tả về dịch vụ" %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="flex justify-<%= question.new_record? ? "between" : "end" %> items-center gap-4">
+    <%= link_to "Quay lại trang chi tiết dịch vụ", vendor_service_path(@service), class: "text-sm underline hover:text-indigo-500" if question.new_record? %>
+    <%= link_to "Hủy thay đổi", vendor_service_question_path(question.service, question), class: "text-sm underline hover:text-indigo-500" unless question.new_record? %>
+    <%= form.submit question.new_record? ? "Thêm" : "Lưu thay đổi", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
   </div>
 <% end %>

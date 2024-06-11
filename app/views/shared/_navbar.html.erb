@@ -16,12 +16,14 @@
           <span class="sm:hidden md:inline text-[#FCB796] font-medium text-lg">Wedding Vista</span>
         <% end %>
         <div class="hidden sm:ml-7 sm:block -mt-2 -mb-[6px]">
-          <div class="flex space-x-4 h-full">
-            <div>
-              <a href="#" class="grid place-items-center h-full mt-0.5 border-b-2 border-transparent hover:border-[#FCB796] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Planning tools</a>
+          <div class="flex h-full">
+            <div class="px-2">
+              <%= link_to 'Planning tools', tools_root_path, class: [ "grid place-items-center h-full mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
+                                              (is_active?(path: tools_root_path) ? "!border-[#FCB796] text-[#FCB796] cursor-default" : "hover:border-[#FCB796] hover:text-[#FCB796]")
+                                            ] %>
             </div>
 
-            <div class="group" data-action="mouseover->navbar#toggleOverlay mouseout->navbar#toggleOverlay">
+            <div class="group px-2" data-action="mouseover->navbar#toggleOverlay mouseout->navbar#toggleOverlay">
               <%= link_to 'Vendors', services_path, class: [ "grid place-items-center h-full mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
                                               (is_active?(path: services_path) ? "!border-[#FCB796] text-[#FCB796] cursor-default" : "hover:border-[#FCB796] hover:text-[#FCB796]")
                                             ] %>
@@ -49,11 +51,34 @@
               <% end %>
             </div>
 
-            <div>
-              <a href="#" class="grid place-items-center h-full mt-0.5 border-b-2 border-transparent hover:border-[#FCB796] hover:text-[#FCB796] px-3 py-2 text-sm font-medium">Forums</a>
+            <div class="group px-2" data-action="mouseover->navbar#toggleOverlay mouseout->navbar#toggleOverlay">
+              <%= link_to 'Forums', forums_path, class: [ "grid place-items-center h-full mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
+                                              (is_active?(path: forums_path) ? "!border-[#FCB796] text-[#FCB796] cursor-default" : "hover:border-[#FCB796] hover:text-[#FCB796]")
+                                            ] %>
+              <% forum_new_updated = Forum.maximum(:updated_at) %>
+              <% cache forum_new_updated do %>
+                <div class="layoutNavMenuTab app-header-menu-itemDropdown hidden [&_a:hover]:text-[#FCB796] border-t border-[#d9d9d9] z-10 transition-opacity group-hover:opacity-100 group-hover:block">
+                  <div class="layoutNavMenuTab__layout">
+                    <div class="layoutNavMenuTabVenues">
+                      <div class="layoutNavMenuTabVenues__categories">
+                        <div class="layoutNavMenuTabVenuesList layoutNavMenuTabVenuesListBig">
+                          <%= link_to 'Diễn đàn cưới hỏi', forums_path, class: "layoutNavMenuTabVenues__title" %>
+                          <ul class="layoutNavMenuTabVenuesList__content layoutNavMenuTabVenuesList__contentBig">
+                            <% Forum.all.each do |forum| %>
+                              <li class="layoutNavMenuTabVenuesList__item">
+                                <%= link_to forum.title, forum_path(forum) %>
+                              </li>
+                            <% end %>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
             </div>
 
-            <div>
+            <div class="px-2">
               <%= link_to 'Ideas', wedding_ideas_root_path, class: [ "grid place-items-center h-full mt-0.5 border-b-2 border-transparent px-3 py-2 text-sm font-medium",
                                               (is_active?(path: wedding_ideas_root_path) ? "!border-[#FCB796] text-[#FCB796] cursor-default" : "hover:border-[#FCB796] hover:text-[#FCB796]")
                                             ] %>
@@ -75,7 +100,13 @@
             <summary role="button">
               <div class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                 <span class="sr-only">Open user menu</span>
-                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                <div class="h-8 w-8">
+                  <% if user_signed_in? && current_user.avatar.attached? %>
+                    <%= image_tag current_user.avatar.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
+                  <% else %>
+                    <%= render "shared/text_avatar", text: current_user.name.chr.upcase %>
+                  <% end %>
+                </div>
               </div>
             </summary>
 
@@ -112,12 +143,18 @@
       <%= link_to 'Home', root_path, class: [ "text-gray-700 block rounded-md px-3 py-2 text-base font-medium",
                                               (is_active?(path: root_path) ? "bg-[#F4B99B]/30" : "hover:bg-[#F4B99B]/30")
                                             ] %>
-      <a href="#" class="text-gray-700 hover:bg-[#F4B99B]/30 block rounded px-3 py-2 text-base font-medium">Planning tools</a>
+      <%= link_to "Planning tools", tools_root_path,
+                          class: [ "text-gray-700 block rounded-md px-3 py-2 text-base font-medium",
+                            (is_active?(path: tools_root_path) ? "bg-[#F4B99B]/30" : "hover:bg-[#F4B99B]/30")
+                          ] %>
       <%= link_to "Vendors", services_path,
                           class: [ "text-gray-700 block rounded-md px-3 py-2 text-base font-medium",
                             (is_active?(path: services_path) ? "bg-[#F4B99B]/30" : "hover:bg-[#F4B99B]/30")
                           ] %>
-      <a href="#" class="text-gray-700 hover:bg-[#F4B99B]/30 block rounded px-3 py-2 text-base font-medium">Forums</a>
+      <%= link_to "Forums", forums_path,
+                          class: [ "text-gray-700 block rounded-md px-3 py-2 text-base font-medium",
+                            (is_active?(path: forums_path) ? "bg-[#F4B99B]/30" : "hover:bg-[#F4B99B]/30")
+                          ] %>
       <%= link_to "Ideas", wedding_ideas_root_path,
                           class: [ "text-gray-700 block rounded-md px-3 py-2 text-base font-medium",
                             (is_active?(path: wedding_ideas_root_path) ? "bg-[#F4B99B]/30" : "hover:bg-[#F4B99B]/30")

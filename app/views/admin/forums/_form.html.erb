@@ -1,0 +1,40 @@
+<%= form_with(model: forum, class: "border border-gray-300 rounded p-5") do |form| %>
+  <div class="flex flex-col gap-2">
+    <div>
+      <%= form.label :title, class: "font-semibold text-sm" do %>
+        Tiêu đề
+        <span class="text-red-500 font-bold text-sm">*</span>
+      <% end %>
+    </div>
+    <%= form.text_field :title, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                         placeholder: "Đặt tiêu đề" %>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <div>
+      <%= form.label :description, class: "font-semibold text-sm" do %>
+        Nội dung
+        <span class="text-red-500 font-bold text-sm">*</span>
+      <% end %>
+    </div>
+    <%= form.text_area :description, class: "min-h-40 border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400", placeholder: "Mô tả" %>
+  </div>
+
+  <div data-controller="image-file-preview" class="flex flex-col gap-2">
+    <%= form.label :image, class: "font-semibold text-sm" %>
+    <%= form.file_field :image, accept: "image/png,image/jpg,image/jpeg,image/webp" ,
+                        class: "w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500",
+                        data: { "image-file-preview-target": :input } %>
+    <div class="my-2">
+      <img alt="preview" data-image-file-preview-target="preview"
+                        data-has-image="<%= forum.image.attached? %>"
+                        src="<%= url_for(forum.image) unless !forum.image.attached? %>">
+    </div>
+  </div>
+
+  <div class="flex justify-<%= forum.new_record? ? "between" : "end" %> items-center gap-4">
+    <%= link_to "Quay lại trang Forums", forums_path, class: "text-sm underline hover:text-indigo-500" if forum.new_record? %>
+    <%= link_to "Hủy thay đổi", forum_path(forum), class: "text-sm underline hover:text-indigo-500" unless forum.new_record? %>
+    <%= form.submit forum.new_record? ? "Tạo mới" : "Lưu thay đổi", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
+  </div>
+<% end %>

@@ -1,23 +1,80 @@
-<div id="<%= dom_id idea %>">
-
-  <% if idea.main_image.attached? %>
-    <div class="relative rounded-lg overflow-hidden aspect-[3/2] w-full">
-      <%= image_tag idea.main_image.variant(:thumbnail), class: "w-full h-full object-cover transition duration-500 hover:[transform:translate3d(0,-2px,0)_scale3d(1.1,1.1,1.1)]" %>
-    </div>
-  <% end %>
-
-  <div>
-    <div class="articleTile__preTitle">
-      <%= idea.topic&.name&.upcase %>
-    </div>
-    <div class="articleTile__title">
+<tr id="<%= dom_id idea %>" class="hover:bg-gray-100 odd:bg-white even:bg-gray-50 text-[#333c48]">
+  <td class="px-2.5 pl-[18px] font-semibold text-sm leading-7 border-[#e2e7ee] border-b">
+    <%= link_to vendor_idea_path(idea), class: "w-60 min-w-full line-clamp-2 break-words hover:underline hover:text-indigo-500" do %>
       <%= idea.title %>
+    <% end %>
+  </td>
+  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-7 border-[#e2e7ee] border-b">
+    <p class="min-w-full line-clamp-2 break-words">
+      <%= idea.topic&.name %>
+    </p>
+  </td>
+  <td style="border-left: 1px dashed #d5dce6;" class="py-1 px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
+    <% if idea.main_image.attached? %>
+      <%= image_tag idea.main_image.variant(:small) %>
+    <% else %>
+      <p class="flex gap-2 items-center">
+        <span class="text-gray-500">
+          <%= inline_svg_tag "svg/image.svg", size: "24" %>
+        </span>
+        <span>Chưa có ảnh</span>
+      </p>
+    <% end %>
+  </td>
+  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-7 border-[#e2e7ee] border-b">
+    <div class="w-60 min-w-full line-clamp-2">
+      <%= simple_format idea.description %>
     </div>
-    <div class="mt-2 text-base text-gray-600">
-      <%= idea.description %>
+  </td>
+  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-7 border-[#e2e7ee] border-b">
+    <div class="w-28">
+      <%= local_date(idea.created_at, '%B %e, %Y') %>
     </div>
-    <div class="articleTile__footer">
-      By <%= current_vendor.name %>, updated on <%= local_date(idea.updated_at, '%B %e, %Y') %>
+  </td>
+  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
+    <div class="w-28">
+      <span class="inline-block whitespace-nowrap px-2 py-0.5 text-xs text-center font-bold rounded-full <%= idea.is_paid? ? "text-green-400 bg-green-100" : "text-red-400 bg-red-100" %>">
+        <%= idea.is_paid? ? "Đã thanh toán" : "Chưa thanh toán" %>
+      </span>
     </div>
-  </div>
-</div>
+  </td>
+  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm leading-10 border-[#e2e7ee] border-b">
+    <div class="w-28" id="<%= dom_id idea, "status" %>">
+      <span class="inline-block whitespace-nowrap px-2 py-0.5 text-xs text-center font-bold rounded-full <%= idea.published? ? "text-green-400 bg-green-100" : "text-red-400 bg-red-100" %>">
+        <%= idea.published? ? "Công khai" : "Ẩn" %>
+      </span>
+    </div>
+  </td>
+  <td style="border-left: 1px dashed #d5dce6;" class="px-2.5 text-sm whitespace-nowrap leading-10 border-[#e2e7ee] border-b overflow-visible">
+    <div class="flex flex-row gap-1 w-28">
+      <div class="relative flex justify-center items-center" id="<%= dom_id idea, "toggle_publish" %>">
+        <%= render 'toggle_publish_link', idea: %>
+      </div>
+
+      <div class="relative flex justify-center items-center">
+        <%= link_to vendor_idea_path(idea), class: "peer text-base text-gray-500 hover:text-indigo-500" do %>
+          <%= inline_svg_tag "svg/eye.svg", size: "18" %>
+        <% end %>
+        <span class="peer-hover:visible peer-hover:opacity-100 invisible opacity-0 absolute bottom-full left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-sm rounded whitespace-nowrap z-10 transition-opacity duration-200 ease-in-out">
+          Xem chi tiết
+        </span>
+      </div>
+      <div class="relative flex justify-center items-center">
+        <%= link_to edit_vendor_idea_path(idea), class: "peer text-base text-gray-500 hover:text-indigo-500" do %>
+          <%= inline_svg_tag "svg/settings.svg", size: "18" %>
+        <% end %>
+        <span class="peer-hover:visible peer-hover:opacity-100 invisible opacity-0 absolute bottom-full left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-sm rounded whitespace-nowrap z-10 transition-opacity duration-200 ease-in-out">
+          Chỉnh sửa
+        </span>
+      </div>
+      <div class="relative flex justify-center items-center">
+        <%= button_to vendor_idea_path(idea), method: :delete, data: {turbo_confirm: "Bạn có chắc muốn xóa dịch vụ này?"}, form_class: "peer text-base text-gray-500 hover:text-indigo-500 flex justify-center items-center" do %>
+          <%= inline_svg_tag "svg/trash-2.svg", size: "18" %>
+        <% end %>
+        <span class="peer-hover:visible peer-hover:opacity-100 invisible opacity-0 absolute bottom-full left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-sm rounded whitespace-nowrap z-10 transition-opacity duration-200 ease-in-out">
+          Xóa
+        </span>
+      </div>
+    </div>
+  </td>
+</tr>

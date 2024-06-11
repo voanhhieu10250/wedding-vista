@@ -1,6 +1,26 @@
 Rails.application.routes.draw do
+  get "tools/checklist"
+  get "tools/budget"
+  get "tools/vendors"
+  get "tools", to: "tools#index", as: :tools_root
+
+
+  resources :forums, only: %i[index show] do
+    resources :discussions
+  end
+
+  resources :discussions, only: %i[index new create] do
+    resources :comments, except: %i[index new]
+  end
+
+  get "galleries/index"
+  get "galleries/show"
+
   resources :categories, only: %i[show]
-  resources :services, only: %i[index show]
+  resources :services, only: %i[index show] do
+    resources :reviews, only: %i[create]
+    resources :galleries, only: %i[index show]
+  end
 
   devise_for :users,
              path: "/",
@@ -19,13 +39,12 @@ Rails.application.routes.draw do
         post :publish
         post :unpublish
       end
-      resources :addresses
+      resources :addresses, except: %i[new]
       resources :galleries
-      resources :common_questions, as: :questions, path: :questions
-      resources :boostings
+      resources :common_questions, as: :questions, path: :questions, except: %i[new]
+      resources :boostings, except: %i[show]
     end
     post "services/search", to: "services#search"
-
 
     resources :topic_categories, only: %i[index show]
     resources :topics, only: %i[index show]
@@ -48,19 +67,23 @@ Rails.application.routes.draw do
     root "services#index"
   end
 
-  resources :topic_categories, only: %i[show], path: "/wedding-ideas"
   resources :ideas, only: %i[show], path: "/ideas"
-  scope "/wedding-ideas" do
-    resources :topics, only: %i[index show]
 
+  # Wedding idea topics category details. e.g. /wedding-ideas/1
+  resources :topic_categories, only: %i[show], path: "/wedding-ideas" do
+    resources :topics, only: %i[show]
+  end
+
+  scope "/wedding-ideas" do
     root "ideas#index", as: :wedding_ideas_root
   end
 
   namespace :admin do
-    resources :topic_categories
-    resources :topics
+    resources :topic_categories # Wedding idea topics categories
+    resources :topics # Wedding idea topics
     resources :ideas
-    resources :categories
+    resources :categories # Services categories
+    resources :forums
 
     root "pages#index"
   end

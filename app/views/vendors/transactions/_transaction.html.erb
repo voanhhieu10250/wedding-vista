@@ -6,7 +6,7 @@
 
   <p>
     <strong>Amount:</strong>
-    <%= transaction.amount %>
+    <%= number_to_currency transaction.amount, unit: "đ", precision: 0, format: "%n %u" %>
   </p>
 
   <p>

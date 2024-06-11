@@ -1,0 +1,11 @@
+<% breadcrumbs = [
+  {name: "Weddings", path: root_path},
+  {name: "Forums", path: forums_path},
+  {name: "New Forum"},
+] %>
+
+<%= render 'shared/breadcrumb', breadcrumbs: %>
+
+<h1 class="text-2xl font-semibold mb-2">Tạo Forum mới</h1>
+
+<%= render "form", forum: @forum %>

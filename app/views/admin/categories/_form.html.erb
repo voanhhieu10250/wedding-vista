@@ -11,14 +11,27 @@
     </div>
   <% end %>
 
-  <div class="flex items-start flex-col justify-start">
-    <%= form.label :name, class: "text-sm text-gray-700 mr-2" %>
-    <%= form.text_field :name, class: "w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+  <div class="flex flex-col gap-2">
+    <div>
+      <%= form.label :name, class: "font-semibold text-sm" do %>
+        Tên danh mục
+        <span class="text-red-500 font-bold text-sm">*</span>
+      <% end %>
+    </div>
+    <%= form.text_field :name, class: "border border-gray-300 rounded py-1.5 px-3.5 text-sm outline-none focus:border-gray-500 hover:border-gray-400",
+                         placeholder: "Đặt tiêu đề" %>
   </div>
 
-  <div class="flex items-start flex-col justify-start">
-    <%= form.label :image, class: "text-sm text-gray-700 mr-2" %>
-    <%= form.file_field :image, accept: "image/png,image/jpg,image/jpeg", class: "w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500" %>
+  <div data-controller="image-file-preview" class="flex flex-col gap-2">
+    <%= form.label :image, class: "font-semibold text-sm" %>
+    <%= form.file_field :image, accept: "image/png,image/jpg,image/jpeg,image/webp" ,
+                        class: "w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500",
+                        data: { "image-file-preview-target": :input } %>
+    <div class="my-2">
+      <img alt="preview" data-image-file-preview-target="preview"
+                        data-has-image="<%= category.image.attached? %>"
+                        src="<%= url_for(category.image) unless !category.image.attached? %>">
+    </div>
   </div>
 
   <div>
