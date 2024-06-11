@@ -6,8 +6,8 @@
 
 <article class="listing">
   <header class="listingHeading">
-    <h1 class="font-extrabold text-3xl md:text-4xl mb-5">Wedding ideas</h1>
-    <p>Planning a wedding is a truly magical experience. We’re offering our expertise to help make the planning process fun and stress-free for you from beginning to end. From decor inspiration to vow help, we’ve covered it all in our articles.</p>
+    <h1 class="font-extrabold text-3xl md:text-4xl mb-5">Ý tưởng cho đám cưới</h1>
+    <p>Lên kế hoạch cho một đám cưới thực sự là một việc rất khó. Chúng tôi cung cấp chuyên môn của mình để giúp quá trình lên kế hoạch trở nên thú vị và không căng thẳng cho bạn từ đầu đến cuối. Từ cảm hứng trang trí đến các lời thề, chúng tôi đề cập đến tất cả trong các bài viết của mình.</p>
     <div class="flex flex-wrap mt-8 gap-y-4 justify-between">
       <% cache [ @topic_categories.map(&:id), @topic_categories.maximum(:updated_at) ] do %>
         <% @topic_categories.each do |item| %>
@@ -27,7 +27,7 @@
     </div>
   </header>
 
-  <h2 class="listingArticlesTitle text-xl md:text-2xl font-semibold break-words">Recently added</h2>
+  <h2 class="listingArticlesTitle text-xl md:text-2xl font-semibold break-words">Các bài viết mới nhất</h2>
 
   <section class="listingArticles">
     <div id="ideas" class="grid gap-y-6 gap-x-10 mb-8 grid-cols-[repeat(auto-fill,minmax(310px,1fr))]">

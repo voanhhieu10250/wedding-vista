@@ -1,16 +1,26 @@
-<div class="flex justify-center md:pt-6">
+<div class="flex justify-center md:pt-6 mb-4">
   <div class="w-full md:w-[948px] flex flex-col gap-4">
-    <div class="p-6 bg-white rounded">
-      <%= render @idea %>
-    </div>
+    <div class="flex items-end justify-between gap-y-2">
+      <div class="flex gap-2 justify-center items-center">
+        <% if @idea.published? %>
+          <%= link_to unpublish_vendor_idea_path(@idea), data: { turbo_method: :post, turbo_confirm: "Bạn có chắc muốn ẩn dịch vụ này?" }, class: "peer text-base text-gray-500 hover:text-indigo-500 flex gap-1 justify-center items-center py-2.5 px-4 rounded-md border text-gray-700 border-gray-400 hover:border-gray-700" do %>
+            <%= inline_svg_tag "svg/lock-keyhole.svg", size: "18" %>
+          <% end %>
+          <span class="peer-hover:visible peer-hover:opacity-100 invisible opacity-0 absolute bottom-full left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-sm rounded whitespace-nowrap z-10 transition-opacity duration-200 ease-in-out">
+            Ẩn dịch vụ
+          </span>
+        <% else %>
+          <%= link_to publish_vendor_idea_path(@idea), data: { turbo_method: :post, turbo_confirm: "Bạn có chắc muốn công khai dịch vụ này?" }, class: "peer text-base text-gray-500 hover:text-indigo-500 flex gap-1 justify-center items-center py-2.5 px-4 rounded-md border text-gray-700 border-gray-400 hover:border-gray-700" do %>
+            <%= inline_svg_tag "svg/lock-keyhole-open.svg", size: "18" %>
+          <% end %>
+          <span class="peer-hover:visible peer-hover:opacity-100 invisible opacity-0 absolute bottom-full left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black text-white text-sm rounded whitespace-nowrap z-10 transition-opacity duration-200 ease-in-out">
+            Công khai dịch vụ
+          </span>
+        <% end %>
 
-    <div class="flex flex-col items-end gap-y-2">
-      <div id="toggle_publish">
-        <%= render 'toggle_publish_link', idea: @idea %>
-      </div>
-
-      <div id="pay_button">
-        <%= render 'pay_button', idea: @idea %>
+        <div id="pay_button">
+          <%= render 'pay_button', idea: @idea %>
+        </div>
       </div>
 
       <div>
@@ -20,5 +30,10 @@
         <%= button_to "Destroy this idea", vendor_idea_path(@idea), method: :delete, data:{turbo_confirm: "Bạn có chắc muốn xóa tin này?"} %>
       </div>
     </div>
+
+    <div class="p-6 bg-white rounded">
+      <%= render @idea %>
+    </div>
+
   </div>
 </div>

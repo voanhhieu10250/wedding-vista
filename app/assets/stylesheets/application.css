@@ -1609,7 +1609,7 @@ a {
   .listingHeading {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-areas: "title" "searcher";
+    grid-template-areas: "title" "description" "searcher";
     grid-gap: 1rem;
     padding: 0.5rem 0 1.5rem;
     position: relative;
@@ -1622,7 +1622,9 @@ a {
   .listingHeading__searcher {
     grid-area: searcher;
   }
-
+  .listingHeading__description {
+    grid-area: description;
+  }
   .listingHeading__title {
     grid-area: title;
     font-size: 1.875rem;
@@ -1702,7 +1704,7 @@ a {
   @media (min-width: 1024px) {
     .listingHeading {
       grid-template-rows: auto auto;
-      grid-template-areas: "title" "searcher";
+      grid-template-areas: "title" "description" "searcher";
     }
 
     .listingHeading__searcher {

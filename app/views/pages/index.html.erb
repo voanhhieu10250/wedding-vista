@@ -1,21 +1,182 @@
-<h1>Home page</h1>
+<div class='temp_home' data-controller="services-search"
+      data-services-search-search-value="<%= params[:search] %>"
+      data-services-search-location-value="<%= params[:location] %>">
 
-<% if current_user %>
-  <h2>Admin: <%= admin? %></h2>
+  <article class="listing app-listing">
+    <style>
+      .listingHeading:before {
+        background-image: url(<%= asset_path "svg/heading-mask-diagonal.svg" %>), url(<%= asset_path "bg_wedding_vendors.jpg" %>);
+      }
+    </style>
+    <header class="listingHeading app-heading">
+      <h1 class="listingHeading__title">Lên kế hoạch đám cưới</h1>
+      <p class="listingHeading__description my-4 max-w-[480px]">Tìm kiếm trên 250 đối tác cung cấp dịch vụ trên khắp cả nước với các bài đánh giá, giá cả tính sẵn có và hơn thế nữa</p>
+      <div class="listingHeading__searcher app-searcher-tracking">
+        <%= form_with url: services_path, method: :get, html: {class: "searcherOpenModal app-searcher-modal suggestCategory", role: "search"} do %>
+          <input type="hidden" name="search" data-services-search-target="search">
+          <input type="hidden" name="province" data-services-search-target="location">
+          <i class="svgIcon app-svg-async svgIcon__search searcherOpenModal__icon ml-4">
+            <%= inline_svg_tag "svg/search.svg", size: "16" %>
+          </i>
+          <div class="searcherOpenModal__inputsContainer app-searcher-inputs-container">
+            <div class="searcherOpenModal__category app-filter-searcher-input">
+              <input type="text" class="searcherOpenModal__input" placeholder="Dịch vụ cần tìm" data-services-search-target="search">
+            </div>
+            <div class="searcherOpenModal__location app-searcher-location-input">
+              <input type="text" class="searcherOpenModal__input" placeholder="Thành phố" data-services-search-target="location">
+            </div>
+          </div>
+        <% end %>
+        <%= form_with url: services_path, method: :get, html: {class: "searcher app-searcher suggestCategory", role: "search"} do %>
+          <input type="hidden" name="search" data-services-search-target="search">
+          <input type="hidden" name="province" data-services-search-target="location">
+          <div class="searcher__category app-filter-searcher-field ">
+            <i class="svgIcon app-svg-async svgIcon__search searcher__categoryIcon">
+              <%= inline_svg_tag "svg/search.svg", size: "18" %>
+            </i>
+            <input class="searcher__input app-filter-searcher-input app-searcher-category-input-tracking" type="text" aria-label="Search for vendors" placeholder="Dịch vụ cần tìm" autocomplete="off" data-services-search-target="search">
+            <span class="searcher__categoryReset app-searcher-reset-category">
+              <i class="svgIcon app-svg-async svgIcon__close searcher__categoryResetIcon"   ><svg viewBox="0 0 26 26"><path d="M12.983 10.862L23.405.439l2.122 2.122-10.423 10.422 10.423 10.422-2.122 2.122-10.422-10.423L2.561 25.527.439 23.405l10.423-10.422L.439 2.561 2.561.439l10.422 10.423z" fill-rule="nonzero"></path></svg></i>
+            </span>
+            <div class="searcher__placeholder app-filter-searcher-list"></div>
+          </div>
+          <div class="searcher__location">
+            <span class="searcher__locationFixedText">
+              <%= inline_svg_tag "svg/map-pin.svg", size: "18" %>
+            </span>
+            <input class="searcher__input app-searcher-location-input app-searcher-location-input-tracking" type="text" placeholder="Thành phố" aria-label="Location" autocomplete="off" data-services-search-target="location">
+            <span class="searcher__locationReset app-searcher-reset-location">
+              <i class="svgIcon app-svg-async svgIcon__close searcher__locationResetIcon"   ><svg viewBox="0 0 26 26"><path d="M12.983 10.862L23.405.439l2.122 2.122-10.423 10.422 10.423 10.422-2.122 2.122-10.422-10.423L2.561 25.527.439 23.405l10.423-10.422L.439 2.561 2.561.439l10.422 10.423z" fill-rule="nonzero"></path></svg></i>
+            </span>
+            <span class="searcher__locationReset app-searcher-reset-location">
+              <i class="svgIcon app-svg-async svgIcon__close searcher__locationResetIcon"   ><svg viewBox="0 0 26 26"><path d="M12.983 10.862L23.405.439l2.122 2.122-10.423 10.422 10.423 10.422-2.122 2.122-10.422-10.423L2.561 25.527.439 23.405l10.423-10.422L.439 2.561 2.561.439l10.422 10.423z" fill-rule="nonzero"></path></svg></i>
+            </span>
+          </div>
+          <button type="submit" class="searcher__submit app-searcher-submit-tracking" data-services-search-target="submit">
+            Search
+          </button>
+        <% end %>
+      </div>
+    </header>
+  </article>
+</div>
+
+<% category_new_updated = Category.maximum(:updated_at) %>
+<% cache category_new_updated do %>
+  <div class="pt-10 pb-8 space-y-6">
+    <div>
+      <h2 class="text-2xl font-bold text-gray-900">Tìm dịch vụ bạn cần</h2>
+      <p class="mt-2 text-gray-600">Kết nối với các chuyên gia tổ chức đám cưới dày dạn kinh nghiệm.</p>
+    </div>
+    <div class="relative">
+      <div class="scrollSnap__container gap-6">
+        <% @categories.first(4).each_with_index do |category, idx| %>
+          <div class="scrollSnap__item w-[calc(25%+2px-1.5rem)]">
+            <div class="h-full border border-gray-300 rounded p-4 bg-white hover:shadow-md">
+              <div class="rounded overflow-hidden mb-4 w-[268px] h-[107px]">
+                <% img = category.image.attached? ? url_for(category.image.variant(:header_bg)) : "bg_wedding_vendors.jpg" %>
+                <%= image_tag img, class: "w-full h-full object-cover" %>
+              </div>
+              <div class="text-center">
+                <h3 class="text-lg font-semibold">
+                  <%= category.name %>
+                </h3>
+                <p class="line-clamp-3 text-sm mt-2 text-gray-500">
+                  <%= case idx
+                    when 0
+                      "Khám phá và tham quan những địa điểm tổ chức tiệc cưới được đánh giá cao"
+                    when 1
+                      "Xem thợ chụp ảnh và tác phẩm của họ để tìm ra người có thể ghi lại những khoảnh khắc của bạn."
+                    when 2
+                      "Tìm những đầu bếp, nhân viên pha chế và người phục vụ giàu kinh nghiệm"
+                    when 3
+                      "Khám phá các cửa hàng thời trang gần bạn."
+                    end %>
+                </p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="flex flex-wrap mt-10 mb-6 gap-3 justify-start">
+      <% @categories.drop(4).each do |category| %>
+        <%= link_to category.name, category_path(category), class: "flex gap-1 justify-center items-center py-2.5 px-4 gap-4 rounded-md border text-gray-700 border-gray-300 hover:border-gray-500" %>
+      <% end %>
+    </div>
+  </div>
 <% end %>
 
-<br/>
+<div class="pt-10 pb-8">
+  <div>
+    <h2 class="text-2xl font-bold text-gray-900">Ý tưởng và mẹo</h2>
+    <p class="mt-2 text-gray-600">Lấy cảm hứng từ những xu hướng mới và lời khuyên từ các chuyên gia đám cưới của chúng tôi.</p>
 
-<% if current_user %>
-  <%= link_to 'Logout', destroy_user_session_path, data: {
-    turbo_method: :delete
-  } %>
-<% elsif current_vendor %>
-  <%= link_to 'Logout', destroy_vendor_session_path, data: {
-    turbo_method: :delete
-  } %>
-<% else %>
-  <%= link_to 'Login', new_user_session_path %>
-  <%= link_to 'Register', new_user_registration_path %>
-  <%= link_to "Are you a Vendor?", new_vendor_session_path %>
-<% end %>
+    <div class="flex flex-wrap mt-8 gap-y-4 justify-between">
+      <% cache [ @topic_categories.map(&:id), @topic_categories.maximum(:updated_at) ] do %>
+        <% @topic_categories.each do |item| %>
+          <%= link_to topic_category_path(item), class: "flex-1 block px-1 text-sm hover:text-[#FCB796] cursor-pointer text-center w-[15%]" do %>
+            <div class="max-w-[100px] max-h-[100px] rounded-full mb-2 mx-auto overflow-hidden">
+              <%= image_tag item.image.variant(:thumb), class: "w-full h-full object-cover" if item.image.attached? %>
+            </div>
+            <div>
+              <p><%= item.name %></p>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="relative mt-7 mb-6">
+    <div class="scrollSnap__container gap-6">
+      <% @ideas.each do |idea| %>
+        <div class="scrollSnap__item w-[calc(25%+2px-1.5rem)]">
+          <%= link_to idea_path(idea), class: "h-full block", data: {turbo_prefetch: false} do %>
+            <div id="<%= dom_id idea %>">
+              <% if idea.main_image.attached? %>
+                <div class="relative rounded-lg overflow-hidden aspect-[3/2] w-full">
+                  <%= image_tag idea.main_image.variant(:thumbnail), class: "w-full h-full object-cover transition duration-500 hover:[transform:translate3d(0,-2px,0)_scale3d(1.1,1.1,1.1)]" %>
+                </div>
+              <% end %>
+              <div>
+                <div class="articleTile__preTitle">
+                  <%= idea.topic&.name&.upcase %>
+                </div>
+                <div class="text-lg font-medium hover:text-red-400 transition-colors">
+                  <%= idea.title %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="text-center">
+    <%= link_to "Xem tất cả", wedding_ideas_root_path, class: "py-2.5 px-4 gap-4 rounded-md border text-gray-700 border-gray-300 hover:border-gray-500" %>
+  </div>
+</div>
+
+<%# forums %>
+<div class="">
+  <h2 class="text-2xl font-bold text-gray-900">Forums</h2>
+  <p class="mt-2 text-gray-600">Ask questions and get answers with support from other engaged couples.</p>
+
+  <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+    <div class="bg-white  shadow-md overflow-hidden  hover:shadow-2xl transition-transform transform hover:scale-105 rounded-2xl  duration-300 ">
+      <div class="px-6 py-4">
+        <h3 class="text-lg font-medium text-gray-900">{forum.title}</h3>
+        <p class="mt-2 text-gray-600">{forum.description}</p>
+      </div>
+      <div class="px-6 py-4 bg-gray-100 flex items-center">
+        <img class="w-8 h-8 rounded-full mr-3" src="" />
+        <div>
+          <p class="text-sm font-medium text-gray-900">{forum.author}</p>
+          <p class="text-sm text-gray-600">{forum.date}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

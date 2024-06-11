@@ -1,14 +1,14 @@
 <div class="flex justify-center">
   <div class="w-full md:w-[948px] flex flex-col gap-4">
     <h1 class="text-2xl font-semibold">Editing idea</h1>
+    <div>
+      <%= link_to "Public preview", vendor_idea_path(@idea) %> |
+      <%= link_to "Back to ideas", vendor_ideas_path %>
+    </div>
     <div class="p-6 bg-white rounded">
 
       <%= render "form", idea: @idea, topic_categories: @topic_categories %>
 
-    </div>
-    <div>
-      <%= link_to "Public preview", vendor_idea_path(@idea) %> |
-      <%= link_to "Back to ideas", vendor_ideas_path %>
     </div>
   </div>
 </div>
