@@ -7,9 +7,8 @@
 /.bundle
 
 # Ignore all environment files (except templates).
-/.env*
-!/.env*.erb
-!/.env.production
+# /.env*
+# !/.env*.erb
 
 # Ignore all default key files.
 /config/master.key
