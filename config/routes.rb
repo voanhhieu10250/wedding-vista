@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get "tools/checklist"
+  get "tools/budget"
+  get "tools/vendors"
+  get "tools", to: "tools#index", as: :tools_root
+
+
   resources :forums, only: %i[index show] do
     resources :discussions
   end

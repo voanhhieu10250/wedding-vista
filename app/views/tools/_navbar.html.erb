@@ -1,0 +1,37 @@
+<section class="shadow-md relative -top-4">
+  <!-- here the tools bar -->
+  <ul class="flex flex-rows items-center justify-center max-w-3xl mx-auto pt-4 gap-2">
+    <li class="h-full flex-1 pb-3 <%= is_active?(path: tools_root_path) && "border-b-[3px] border-[#FCB796]" %>">
+      <%= link_to tools_root_path, class: "flex flex-col items-center justify-between gap-2" do %>
+        <%= inline_svg_tag "svg/wedding-rings.svg", size: "32" %>
+        <p class="text-center hover:text-[#FCB796]">
+          Đám cưới của tôi
+        </p>
+      <% end %>
+    </li>
+    <li class="h-full flex-1 pb-3 <%= is_active?(path: tools_checklist_path) && "border-b-[3px] border-[#FCB796]" %>">
+      <%= link_to tools_checklist_path, class: "flex flex-col items-center justify-between gap-2" do %>
+        <%= inline_svg_tag "svg/checklist.svg", size: "32" %>
+        <p class="text-center hover:text-[#FCB796]">
+          Danh sách công việc
+        </p>
+      <% end %>
+    </li>
+    <li class="h-full flex-1 pb-3 <%= is_active?(path: tools_vendors_path) && "border-b-[3px] border-[#FCB796]" %>">
+      <%= link_to tools_vendors_path, class: "flex flex-col items-center justify-between gap-2" do %>
+        <%= inline_svg_tag "svg/vendor-manager.svg", size: "32" %>
+        <p class="text-center hover:text-[#FCB796]">
+          Nhà cung cấp
+        </p>
+      <% end %>
+    </li>
+    <li class="h-full flex-1 pb-3 <%= is_active?(path: tools_budget_path) && "border-b-[3px] border-[#FCB796]" %>">
+      <%= link_to tools_budget_path, class: "flex flex-col items-center justify-between gap-2" do %>
+        <%= inline_svg_tag "svg/budget.svg", size: "32" %>
+        <p class="text-center hover:text-[#FCB796]">
+          Nhà cung cấp
+        </p>
+      <% end %>
+    </li>
+  </ul>
+</section>

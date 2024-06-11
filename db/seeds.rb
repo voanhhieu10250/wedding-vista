@@ -66,3 +66,48 @@
 ].each do |f|
   Forum.find_or_create_by!(f)
 end
+
+[
+  {
+    name: "Planning Basics",
+    description: "While your engagement is sure to be a fun and exciting time, there’s some work involved, too. We’re here to help make the wedding planning process as stress-free as possible, and provide loads of helpful advice. Whether you’re setting your budget, choosing a venue, or learning about the latest wedding trends, you’ll find everything you need to know about wedding planning right here."
+  },
+  {
+    name: "Wedding Ceremony",
+    description: "The wedding ceremony is your big moment, and deserves just as much careful attention as the rest of your celebration. After all, saying “I do” is what makes you married! From writing your vows to choosing the perfect officiant, we’ve got the advice and insight you need to make your ceremony truly memorable."
+  },
+  {
+    name: "Wedding Reception",
+    description: "Let’s get the party started! It’s time to celebrate with the people you love most, and we’re here to help you choose the best venue, pick a perfect menu, and fine-tune the timeline so your wedding reception is totally seamless – and totally unforgettable. Raise a glass to the newlyweds!"
+  },
+  {
+    name: "Wedding Services",
+    description: "Your wedding vendors are the creative partners who bring all of those carefully planned details to life. Here’s how to find the best vendors for your wedding style and budget, and to make the most of their all-important services so your wedding day is an absolute dream."
+  },
+  {
+    name: "Wedding Fashion",
+    description: "Look like a million bucks on your big day with the newest collections from top wedding dress designers, the latest trends in suits and tuxedos, the most stylish accessories, and bridesmaids’ looks your ladies will love. Don’t be surprised if the aisle feels more like a runway on your wedding day!"
+  },
+  {
+    name: "Hair & Makeup",
+    description: "Be the best version of yourself on your wedding day. From hair and makeup inspiration and tips to get you and your wedding party totally glam, to health and fitness routines that will have you looking and feeling totally incredible, we’ve got the best insight for all shapes, sizes, and styles."
+  },
+  {
+    name: "Destination Weddings",
+    description: "Get out of town! If you’re hosting a destination wedding, whether it’s 100 or 1,000 miles from home, there are a lot of details to keep track of. From budgeting properly to keeping your guests informed to choosing the perfect dress for your venue, we’re here to help you through the journey so you can enjoy the destination."
+  },
+  {
+    name: "Married Life",
+    description: "Your wedding may be over, but your lives together are just beginning. Your married friends are right - things will feel different when you wake up for the first time as a married couple. It’s an exciting time, and we’re here to help make this new phase in your life a fantastic one with tips, tricks, and advice to set you up for success."
+  },
+  {
+    name: "Events & Parties",
+    description: "Your wedding day is the main event, but don't forget the build-up! There are a number of pre- and post-wedding parties that need your attention, from organizing the engagement party to planning the perfect bachelorette bash. Whatever soirée you’ve got on the calendar, we’ve got your back."
+  },
+  {
+    name: "Family & Friends",
+    description: "There’s nothing like that feeling of having everyone you love in one place to celebrate such a happy occasion. Here’s everything you need to know about the people who make your wedding day special, from your bridesmaids and groomsmen to the family and friends who will be surrounding the altar and filling the dance floor."
+  }
+].each do |f|
+  TopicCategory.find_or_create_by!(f)
+end

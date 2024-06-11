@@ -7,7 +7,7 @@ class TopicCategory < ApplicationRecord
   end
 
   validates :image, content_type: %i[image/png image/jpg image/jpeg], size: { less_than: 500.kilobytes }
-  validates :name, :description, :image, presence: true
+  validates :name, :description, presence: true
 
   # Topic.find_each {|t| Topic.reset_counters(t.id, :ideas)}
 end

@@ -193,7 +193,8 @@
                         <div class="flex gap-1 items-center mb-2">
                           <div class="flex gap-1 items-center" aria-hidden="true">
                             <%= inline_svg_tag "svg/star.svg", size: "16", class: "text-yellow-400" %>
-                            <span class="text-sm"><%= 4.to_f.round(1) %></span>
+                            <span class="text-sm"><%= service.average_rating.to_f.round(1) %></span>
+                            <span class="text-gray-500 text-xs">(<%= service.reviews_count %>) · </span>
                           </div>
                           <div class="re__card-location">
                             <span><%= "#{ service.first_or_main_address&.district }, #{ service.first_or_main_address&.province }" if service.first_or_main_address.present? %></span>
