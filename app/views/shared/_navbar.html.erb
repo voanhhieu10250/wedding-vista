@@ -6,8 +6,8 @@
         <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-[#F4B99B]/20 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false"
                 data-action="click->navbar#toggleMobileMenu">
           <span class="sr-only">Open main menu</span>
-          <%= inline_svg_tag "svg/bugger-btn-closed", size: "24", class: "block", data: { navbar_target: "closedIcon"} %>
-          <%= inline_svg_tag "svg/bugger-btn-opened", size: "24", class: "hidden", data: { navbar_target: "openedIcon"} %>
+          <%= inline_svg_tag "svg/bugger-btn-closed.svg", size: "24", class: "block", data: { navbar_target: "closedIcon"} %>
+          <%= inline_svg_tag "svg/bugger-btn-opened.svg", size: "24", class: "hidden", data: { navbar_target: "openedIcon"} %>
         </button>
       </div>
       <div class="h-[inherit] flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
@@ -116,7 +116,7 @@
                 <a href="#" class="block mx-1 px-3 py-2 text-sm text-gray-700 rounded-sm hover:bg-[#F4B99B]/20" role="menuitem" tabindex="-1">Your Profile</a>
                 <a href="#" class="block mx-1 px-3 py-2 text-sm text-gray-700 rounded-sm hover:bg-[#F4B99B]/20" role="menuitem" tabindex="-1">Settings</a>
                 <%= link_to 'Logout', destroy_user_session_path,
-                                        data: { turbo_method: :delete },
+                                        data: { turbo_method: :delete, turbo_prefetch: false},
                                         class: "block mx-1 px-3 py-2 text-sm text-gray-700 rounded-sm hover:bg-[#F4B99B]/20",
                                         role: :menuitem,
                                         tabindex: "-1" %>

@@ -14,8 +14,8 @@
         <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-200 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false"
                 data-action="click->navbar#toggleMobileMenu">
           <span class="sr-only">Open main menu</span>
-          <%= inline_svg_tag "svg/bugger-btn-closed", size: "24", class: "block", data: { navbar_target: "closedIcon"} %>
-          <%= inline_svg_tag "svg/bugger-btn-opened", size: "24", class: "hidden", data: { navbar_target: "openedIcon"} %>
+          <%= inline_svg_tag "svg/bugger-btn-closed.svg", size: "24", class: "block", data: { navbar_target: "closedIcon"} %>
+          <%= inline_svg_tag "svg/bugger-btn-opened.svg", size: "24", class: "hidden", data: { navbar_target: "openedIcon"} %>
         </button>
       </div>
 
@@ -51,7 +51,7 @@
 
           <div role="menu" aria-orientation="vertical" tabindex="-1" data-dropdown-target="menu">
             <%= link_to 'Logout', destroy_vendor_session_path,
-                                    data: { turbo_method: :delete },
+                                    data: { turbo_method: :delete, turbo_prefetch: false},
                                     class: "block px-4 py-2 text-sm text-gray-700",
                                     role: :menuitem,
                                     tabindex: "-1" %>
