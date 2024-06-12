@@ -1,6 +1,4 @@
 import { Controller } from "@hotwired/stimulus";
-import goongjs from '@goongmaps/goong-js';
-import GoongGeocoder from '@goongmaps/goong-geocoder'
 import { GOONG_MAP_ACCESS_TOKEN, GOONG_MAP_API_ACCESS_TOKEN } from "env";
 
 // Connects to data-controller="goong-map"
@@ -17,7 +15,7 @@ export default class extends Controller {
   ];
 
   initialize() {
-    goongjs.accessToken = GOONG_MAP_ACCESS_TOKEN;
+    window.goongjs.accessToken = GOONG_MAP_ACCESS_TOKEN;
     this.apiAccessToken = GOONG_MAP_API_ACCESS_TOKEN;
   }
 
@@ -34,7 +32,7 @@ export default class extends Controller {
   }
 
   #prepareMap() {
-    this.map = new goongjs.Map({
+    this.map = new window.goongjs.Map({
       container: this.mapTarget,
       style: "https://tiles.goong.io/assets/goong_map_web.json", // stylesheet location
       center: [106.70105355500004, 10.776553100000058], // starting position [lng, lat]
@@ -42,11 +40,11 @@ export default class extends Controller {
     });
 
     // Add zoom and rotation controls to the map.
-    this.map.addControl(new goongjs.NavigationControl());
+    this.map.addControl(new window.goongjs.NavigationControl());
   }
 
   #prepareGeocoder(geocoderElId) {
-    this.geocoder = new GoongGeocoder({
+    this.geocoder = new window.GoongGeocoder({
       accessToken: this.apiAccessToken,
       placeholder: "Nhập địa chỉ cần tìm kiếm...",
     });
@@ -81,7 +79,7 @@ export default class extends Controller {
   }
 
   #addMarker(lng, lat) {
-    this.currentMarker = new goongjs.Marker()
+    this.currentMarker = new window.goongjs.Marker()
       .setLngLat([lng, lat])
       .addTo(this.map);
 
