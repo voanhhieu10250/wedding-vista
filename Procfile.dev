@@ -1,4 +1,3 @@
 web: env RUBY_DEBUG_OPEN=true bin/rails server
 js: yarn build --watch
-ngrok: ngrok http --domain=diverse-lobster-close.ngrok-free.app 3000
 solid_queue: bundle exec rake solid_queue:start
