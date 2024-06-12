@@ -1,4 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
+import goongjs from '@goongmaps/goong-js';
+import GoongGeocoder from '@goongmaps/goong-geocoder'
 import { GOONG_MAP_ACCESS_TOKEN, GOONG_MAP_API_ACCESS_TOKEN } from "env";
 
 // Connects to data-controller="goong-map"

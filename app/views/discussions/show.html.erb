@@ -18,7 +18,7 @@
               <% if @discussion.user.avatar.attached? %>
                 <%= image_tag @discussion.user.avatar.variant(:thumb), class: "w-full h-full object-cover rounded-full" %>
               <% else %>
-                <div class="absolute inset-0 flex items-center justify-center text-white text-lg font-semibold w-full h-full">
+                <div class="absolute inset-0 flex items-center justify-center text-white text-3xl font-semibold w-full h-full">
                   <%= @discussion.user.name[0]&.titleize %>
                 </div>
               <% end %>
@@ -46,7 +46,7 @@
                   </p>
                 </div>
                 <div class="flex-1 text-right flex gap-2 items-center justify-end">
-                  <%= link_to "Chỉnh sửa", edit_forum_discussion_path(@discussion.forum, @discussion), class: "block rounded-md py-2 border border-gray-300 text-center transform transition-transform duration-200 mx-2 px-2 space-x-1 bg-white hover:border-[#FCB796]" %>
+                  <%= link_to "Chỉnh sửa", edit_forum_discussion_path(@discussion.forum, @discussion), class: "block rounded-md py-2 border border-gray-300 text-center transform transition-transform duration-200 mx-2 px-2 space-x-1 bg-white hover:border-[#FCB796]" if user_signed_in? && current_user == @discussion.user %>
                   <a href="#new_comment" class="block items-center px-3 py-2 text-white bg-red-300 hover:bg-red-400 rounded-md transform transition-transform duration-200">
                     Bình luận
                   </a>

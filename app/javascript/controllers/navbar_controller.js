@@ -8,7 +8,7 @@ export default class extends Controller {
   static targets = ["mobileMenu", "closedIcon", "openedIcon"];
 
   connect() {
-    this.overlayTarget = document.getElementById("header-overlay");
+    this.overlayEle = document.getElementById("header-overlay");
   }
 
   toggleMobileMenu() {
@@ -28,7 +28,7 @@ export default class extends Controller {
   }
 
   toggleOverlay(event) {
-    this.overlayTarget.classList.toggle("opacity-0");
-    this.overlayTarget.classList.toggle("hidden");
+    this.overlayEle.classList.toggle("opacity-0");
+    this.overlayEle.classList.toggle("hidden");
   }
 }

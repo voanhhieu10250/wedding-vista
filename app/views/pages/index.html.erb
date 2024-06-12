@@ -72,7 +72,7 @@
       <div class="scrollSnap__container gap-6">
         <% @categories.first(4).each_with_index do |category, idx| %>
           <div class="scrollSnap__item w-[calc(25%+2px-1.5rem)]">
-            <div class="h-full border border-gray-300 rounded p-4 bg-white hover:shadow-md">
+            <%= link_to category_path(category), class: "block h-full border border-gray-300 rounded p-4 bg-white hover:shadow-md" do %>
               <div class="rounded overflow-hidden mb-4 w-[268px] h-[107px]">
                 <% img = category.image.attached? ? url_for(category.image.variant(:header_bg)) : "bg_wedding_vendors.jpg" %>
                 <%= image_tag img, class: "w-full h-full object-cover" %>
@@ -94,7 +94,7 @@
                     end %>
                 </p>
               </div>
-            </div>
+            <% end %>
           </div>
         <% end %>
       </div>
