@@ -28,7 +28,7 @@ class Admin::ForumsController < ApplicationController
     @forum = Forum.new(forum_params)
 
     if @forum.save
-      redirect_to forum_url(@forum), notice: "Forum was successfully created."
+      redirect_to admin_forum_url(@forum), notice: "Forum was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -37,7 +37,7 @@ class Admin::ForumsController < ApplicationController
   # PATCH/PUT /forums/1 or /forums/1.json
   def update
     if @forum.update(forum_params)
-      redirect_to forum_url(@forum), notice: "Forum was successfully updated."
+      redirect_to admin_forum_url(@forum), notice: "Forum was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -46,7 +46,7 @@ class Admin::ForumsController < ApplicationController
   # DELETE /forums/1 or /forums/1.json
   def destroy
     @forum.destroy!
-    redirect_to forums_url, notice: "Forum was successfully destroyed."
+    redirect_to admin_forums_url, notice: "Forum was successfully destroyed."
   end
 
   private
