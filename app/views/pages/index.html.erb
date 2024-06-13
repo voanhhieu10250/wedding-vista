@@ -69,11 +69,11 @@
       <p class="mt-2 text-gray-600">Kết nối với các chuyên gia tổ chức đám cưới dày dạn kinh nghiệm.</p>
     </div>
     <div class="relative">
-      <div class="scrollSnap__container gap-6">
+      <div class="scrollSnap__container gap-6 !flex-wrap md:!flex-nowrap">
         <% @categories.first(4).each_with_index do |category, idx| %>
-          <div class="scrollSnap__item w-[calc(25%+2px-1.5rem)]">
+          <div class="scrollSnap__item w-full md:w-[calc(25%+2px-1.5rem)]">
             <%= link_to category_path(category), class: "block h-full border border-gray-300 rounded p-4 bg-white hover:shadow-md" do %>
-              <div class="rounded overflow-hidden mb-4 w-[268px] h-[107px]">
+              <div class="rounded overflow-hidden mb-4 w-full aspect-[2.5/1]">
                 <% img = category.image.attached? ? url_for(category.image.variant(:header_bg)) : "bg_wedding_vendors.jpg" %>
                 <%= image_tag img, class: "w-full h-full object-cover" %>
               </div>
@@ -115,7 +115,7 @@
     <div class="flex flex-wrap mt-8 gap-y-4 justify-between">
       <% cache [ @topic_categories.map(&:id), @topic_categories.maximum(:updated_at) ] do %>
         <% @topic_categories.each do |item| %>
-          <%= link_to topic_category_path(item), class: "flex-1 block px-1 text-sm hover:text-[#FCB796] cursor-pointer text-center w-[15%]" do %>
+          <%= link_to topic_category_path(item), class: "md:flex-1 block px-1 text-sm hover:text-[#FCB796] cursor-pointer text-center w-1/5 md:w-[15%]" do %>
             <div class="max-w-[100px] max-h-[100px] rounded-full mb-2 mx-auto overflow-hidden">
               <%= image_tag item.image.variant(:thumb), class: "w-full h-full object-cover" if item.image.attached? %>
             </div>
@@ -128,9 +128,9 @@
     </div>
   </div>
   <div class="relative mt-7 mb-6">
-    <div class="scrollSnap__container gap-6">
+    <div class="scrollSnap__container gap-6 !flex-wrap md:!flex-nowrap">
       <% @ideas.each do |idea| %>
-        <div class="scrollSnap__item w-[calc(25%+2px-1.5rem)]">
+        <div class="scrollSnap__item w-full md:w-[calc(25%+2px-1.5rem)]">
           <%= link_to idea_path(idea), class: "h-full block", data: {turbo_prefetch: false} do %>
             <div id="<%= dom_id idea %>">
               <% if idea.main_image.attached? %>
@@ -164,9 +164,9 @@
     <p class="mt-2 text-gray-600">Ask questions and get answers with support from other engaged couples.</p>
   </div>
   <div class="relative mt-7 mb-6">
-    <div class="scrollSnap__container gap-6">
+    <div class="scrollSnap__container gap-6 !flex-wrap md:!flex-nowrap">
       <% @discussions.each do |discussion| %>
-        <div class="scrollSnap__item w-[calc(25%+2px-1.5rem)]">
+        <div class="scrollSnap__item w-full md:w-[calc(25%+2px-1.5rem)]">
           <%= link_to forum_discussion_path(discussion.forum, discussion), class: "h-full block", data: {turbo_prefetch: false} do %>
 
             <div class="bg-white">
