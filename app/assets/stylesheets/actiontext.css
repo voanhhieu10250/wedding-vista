@@ -35,7 +35,8 @@ trix-editor .attachment-gallery {
     position: relative;
 }
 
-.trix-content.trix-content {
+.trix-content.trix-content,
+trix-editor.comment-content {
   p {
     @apply text-base mb-[19px];
   }
@@ -85,6 +86,7 @@ trix-editor .attachment-gallery {
   }
 }
 .comment-content .trix-content,
+trix-editor.comment-content,
 .comment-content {
   h1 {
     @apply mb-3;

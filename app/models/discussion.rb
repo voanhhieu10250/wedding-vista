@@ -16,13 +16,16 @@ class Discussion < ApplicationRecord
     doc = Nokogiri::HTML.fragment(body.body.to_html)
 
     # # Remove unwanted elements (like images, figures, etc.)
-    # doc.search("img,figure,action-text-attachment").remove
+    doc.search("pre,blockquote,ul,ol,li").remove
 
     # Find unwanted elements (like images, figures, etc.) and replace them with non-breaking spaces
     doc.search("img,figure,action-text-attachment").each { |node| node.replace(" ") }
 
     # Remove empty <p> tags
     doc.search("p").each { |node| node.remove if node.text.strip.empty? }
+
+    # Add a space at the end of each paragraph, list, and blockquote
+    doc.search("p,h1").each { |node| node.add_child(Nokogiri::XML::Text.new(" ", doc)) }
 
     # Extract and return the plain text
     doc.text
