@@ -28,9 +28,8 @@
     </div>
   </header>
 
-  <h2 class="listingArticlesTitle text-xl md:text-2xl font-semibold break-words">Bài viết mới nhất</h2>
-
   <section class="listingArticles">
+    <h2 class="listingArticlesTitle text-xl md:text-2xl font-semibold break-words mb-4">Bài viết mới nhất</h2>
     <div id="ideas" class="grid gap-y-6 gap-x-10 mb-8 grid-cols-[repeat(auto-fill,minmax(310px,1fr))]">
       <%= render @ideas, cached: true %>
     </div>

@@ -83,7 +83,7 @@
         <%# Nested form %>
 
         <div class="flex justify-end">
-          <%= form.submit "Tạo dịch vụ", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
+          <%= form.submit "Tạo dịch vụ", data: {turbo_submits_with: "Saving..."}, class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
         </div>
 
         <%# This one below is the template for nested form to perform add new record. Don't remove it. %>

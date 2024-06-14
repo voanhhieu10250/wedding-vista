@@ -66,7 +66,7 @@
     <div class="flex justify-<%= gallery.new_record? ? "between" : "end" %> items-center gap-4">
       <%= link_to "Quay lại trang chi tiết dịch vụ", vendor_service_path(gallery.service), class: "text-sm underline hover:text-indigo-500" if gallery.new_record? %>
       <%= link_to "Hủy thay đổi", vendor_service_gallery_path(gallery.service, gallery), class: "text-sm underline hover:text-indigo-500" unless gallery.new_record? %>
-      <%= form.submit gallery.new_record? ? "Tạo bộ sưu tầm" : "Lưu thay đổi", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
+      <%= form.submit gallery.new_record? ? "Tạo bộ sưu tầm" : "Lưu thay đổi", data: {turbo_submits_with: "Saving..."}, class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
     </div>
   <% end %>
 </div>

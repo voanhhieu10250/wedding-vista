@@ -35,6 +35,6 @@
   <div class="flex justify-<%= forum.new_record? ? "between" : "end" %> items-center gap-4">
     <%= link_to "Quay lại trang Forums", forums_path, class: "text-sm underline hover:text-indigo-500" if forum.new_record? %>
     <%= link_to "Hủy thay đổi", forum_path(forum), class: "text-sm underline hover:text-indigo-500" unless forum.new_record? %>
-    <%= form.submit forum.new_record? ? "Tạo mới" : "Lưu thay đổi", class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
+    <%= form.submit forum.new_record? ? "Tạo mới" : "Lưu thay đổi", data: {turbo_submits_with: "Saving..."}, class: "text-sm text-white font-medium flex items-center justify-center gap-2 rounded cursor-pointer whitespace-nowrap tracking-[0.2px] bg-indigo-500 py-1.5 px-3 border border-gray-300 hover:bg-indigo-600" %>
   </div>
 <% end %>

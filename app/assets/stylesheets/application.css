@@ -167,7 +167,6 @@
   grid-row-gap: 1rem;
   grid-template-areas:
     "listingHeading"
-    "listingArticlesTitle"
     "listingContent"
     "listingSidebar"
     "articlesMoreIdeas";
@@ -178,7 +177,6 @@
     grid-column-gap: 3rem;
     grid-template-areas:
       "listingHeading listingHeading"
-      "listingArticlesTitle listingSidebar"
       "listingContent listingSidebar"
   }
 }

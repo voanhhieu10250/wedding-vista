@@ -16,7 +16,7 @@
         <div class="flex justify-between items-center mt-3 gap-4">
           <%= link_to "Back to transactions", vendor_transactions_path, class: "text-sm underline hover:text-indigo-500" %>
 
-          <%= form.submit "Thanh toán", class: "relative rounded cursor-pointer whitespace-nowrap w-auto tracking-[0.2px] bg-[rgb(224,60,49)] px-3 py-1.5 text-white disabled:opacity-40" %>
+          <%= form.submit "Thanh toán", data: {turbo_submits_with: "Saving..."}, class: "relative rounded cursor-pointer whitespace-nowrap w-auto tracking-[0.2px] bg-[rgb(224,60,49)] px-3 py-1.5 text-white disabled:opacity-40" %>
         </div>
       <% end %>
     </div>
