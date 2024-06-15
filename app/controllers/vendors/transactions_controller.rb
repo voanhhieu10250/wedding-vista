@@ -105,7 +105,7 @@ class Vendors::TransactionsController < Vendors::BaseController
 
     unless transaction.paid?
       transaction.paid!
-      current_vendor.increment!(:balance, transaction.amount)
+      transaction.vendor.increment!(:balance, transaction.amount)
     end
 
     render json: { status: "success" }, status: :ok
