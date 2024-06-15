@@ -1,5 +1,8 @@
 require "active_support/core_ext/integer/time"
 
+Rails.application.routes.default_url_options[:host] = ENV.fetch("DEFAULT_HOST", nil)
+Rails.application.routes.default_url_options[:protocol] = "https"
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -99,4 +102,6 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  config.action_mailer.default_url_options = { host: "weddingvista.hieuvo.dev", protocol: "https" }
 end
