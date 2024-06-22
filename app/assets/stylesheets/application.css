@@ -254,9 +254,7 @@
 .articlesArticleHeading__title {
   font-size: 1.625rem;
   line-height: 2.125rem;
-  font-family: ProximaNova Condensed, ProximaNovaCondensed-fallback-Arial,
-    sans-serif;
-  font-weight: 800;
+  font-weight: 700;
   grid-area: title;
   margin-bottom: 1rem;
 }
@@ -1627,9 +1625,7 @@ a {
     grid-area: title;
     font-size: 1.875rem;
     line-height: 2.25rem;
-    font-family: ProximaNova Condensed, ProximaNovaCondensed-fallback-Arial,
-      sans-serif;
-    font-weight: 800;
+    font-weight: 700;
     max-width: 45rem;
   }
 
